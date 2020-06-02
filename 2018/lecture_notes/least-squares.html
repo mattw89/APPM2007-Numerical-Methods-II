@@ -1,0 +1,902 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 6 Least Squares | Numerical Methods II APPM2007</title>
+  <meta name="description" content="Course notes for Numerical Analysis II at the University of the Witwatersrand" />
+  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 6 Least Squares | Numerical Methods II APPM2007" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:image" content="wits_high_def-min.png" />
+  <meta property="og:description" content="Course notes for Numerical Analysis II at the University of the Witwatersrand" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 6 Least Squares | Numerical Methods II APPM2007" />
+  
+  <meta name="twitter:description" content="Course notes for Numerical Analysis II at the University of the Witwatersrand" />
+  <meta name="twitter:image" content="wits_high_def-min.png" />
+
+<meta name="author" content="Dr Matthew Woolway" />
+
+
+<meta name="date" content="2020-01-15" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="interpolation.html"/>
+<link rel="next" href="ordinary-differentiable-equations-odes.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Numerical Analysis II</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Course Outline</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#course-structure-and-details"><i class="fa fa-check"></i>Course Structure and Details</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#course-assessment"><i class="fa fa-check"></i>Course Assessment</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#course-topics"><i class="fa fa-check"></i>Course Topics</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#hardware-requirements"><i class="fa fa-check"></i>Hardware Requirements</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html"><i class="fa fa-check"></i><b>1</b> Numerical Differentiation</a><ul>
+<li class="chapter" data-level="1.1" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#finite-difference-methods"><i class="fa fa-check"></i><b>1.1</b> Finite Difference Methods</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#approximations-to-fprimex"><i class="fa fa-check"></i><b>1.1.1</b> Approximations to <span class="math inline">\(f^\prime(x)\)</span></a></li>
+<li class="chapter" data-level="1.1.2" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#approximations-to-fprimeprimex"><i class="fa fa-check"></i><b>1.1.2</b> Approximations to <span class="math inline">\(f^{\prime\prime}(x)\)</span></a></li>
+<li class="chapter" data-level="1.1.3" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#errors-in-first-and-second-order"><i class="fa fa-check"></i><b>1.1.3</b> Errors in First and Second Order</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#exercises"><i class="fa fa-check"></i><b>1.2</b> Exercises</a></li>
+<li class="chapter" data-level="1.3" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#richardsons-extrapolation"><i class="fa fa-check"></i><b>1.3</b> Richardson’s Extrapolation</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#example-1"><i class="fa fa-check"></i><b>1.3.1</b> Example</a></li>
+<li class="chapter" data-level="1.3.2" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#exercises-1"><i class="fa fa-check"></i><b>1.3.2</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="numerical-integration.html"><a href="numerical-integration.html"><i class="fa fa-check"></i><b>2</b> Numerical Integration</a><ul>
+<li class="chapter" data-level="2.1" data-path="numerical-integration.html"><a href="numerical-integration.html#quadrature-rules"><i class="fa fa-check"></i><b>2.1</b> Quadrature Rules</a></li>
+<li class="chapter" data-level="2.2" data-path="numerical-integration.html"><a href="numerical-integration.html#newton-cotes-quadrature"><i class="fa fa-check"></i><b>2.2</b> Newton-Cotes Quadrature</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="numerical-integration.html"><a href="numerical-integration.html#trapezoidal-rule"><i class="fa fa-check"></i><b>2.2.1</b> Trapezoidal Rule</a></li>
+<li class="chapter" data-level="2.2.2" data-path="numerical-integration.html"><a href="numerical-integration.html#example-2"><i class="fa fa-check"></i><b>2.2.2</b> Example</a></li>
+<li class="chapter" data-level="2.2.3" data-path="numerical-integration.html"><a href="numerical-integration.html#the-midpoint-method"><i class="fa fa-check"></i><b>2.2.3</b> The Midpoint Method</a></li>
+<li class="chapter" data-level="2.2.4" data-path="numerical-integration.html"><a href="numerical-integration.html#simpsons-rule"><i class="fa fa-check"></i><b>2.2.4</b> Simpson’s Rule</a></li>
+<li class="chapter" data-level="2.2.5" data-path="numerical-integration.html"><a href="numerical-integration.html#convergence-rates"><i class="fa fa-check"></i><b>2.2.5</b> Convergence Rates</a></li>
+<li class="chapter" data-level="2.2.6" data-path="numerical-integration.html"><a href="numerical-integration.html#exercises-2"><i class="fa fa-check"></i><b>2.2.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="numerical-integration.html"><a href="numerical-integration.html#romberg-integration"><i class="fa fa-check"></i><b>2.3</b> Romberg Integration</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="numerical-integration.html"><a href="numerical-integration.html#exercises-3"><i class="fa fa-check"></i><b>2.3.1</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="numerical-integration.html"><a href="numerical-integration.html#double-and-triple-integrals"><i class="fa fa-check"></i><b>2.4</b> Double and Triple Integrals</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="numerical-integration.html"><a href="numerical-integration.html#the-midpoint-method-for-double-integrals"><i class="fa fa-check"></i><b>2.4.1</b> The Midpoint Method for Double Integrals</a></li>
+<li class="chapter" data-level="2.4.2" data-path="numerical-integration.html"><a href="numerical-integration.html#the-midpoint-method-for-triple-integrals"><i class="fa fa-check"></i><b>2.4.2</b> The Midpoint Method for Triple Integrals</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html"><i class="fa fa-check"></i><b>3</b> Numerical Solutions to Nonlinear Equations</a><ul>
+<li class="chapter" data-level="3.1" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#nonlinear-equations-in-one-unknown-fx0"><i class="fa fa-check"></i><b>3.1</b> Nonlinear equations in one unknown: <span class="math inline">\(f(x)=0\)</span></a><ul>
+<li class="chapter" data-level="3.1.1" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#interval-methods"><i class="fa fa-check"></i><b>3.1.1</b> Interval Methods</a></li>
+<li class="chapter" data-level="3.1.2" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#bisection-method"><i class="fa fa-check"></i><b>3.1.2</b> Bisection Method</a></li>
+<li class="chapter" data-level="3.1.3" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#false-position-method-or-regula-falsi"><i class="fa fa-check"></i><b>3.1.3</b> False position method or Regula Falsi</a></li>
+<li class="chapter" data-level="3.1.4" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#fixed-point-methods"><i class="fa fa-check"></i><b>3.1.4</b> Fixed Point Methods</a></li>
+<li class="chapter" data-level="3.1.5" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#newtons-method"><i class="fa fa-check"></i><b>3.1.5</b> Newton’s Method</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#newtons-method-for-systems-of-nonlinear-equations"><i class="fa fa-check"></i><b>3.2</b> Newton’s Method for Systems of Nonlinear Equations</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#exercises-4"><i class="fa fa-check"></i><b>3.2.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="eigenvalues-and-eigenvectors.html"><a href="eigenvalues-and-eigenvectors.html"><i class="fa fa-check"></i><b>4</b> Eigenvalues and Eigenvectors</a><ul>
+<li class="chapter" data-level="4.1" data-path="eigenvalues-and-eigenvectors.html"><a href="eigenvalues-and-eigenvectors.html#the-power-method"><i class="fa fa-check"></i><b>4.1</b> The Power Method</a></li>
+<li class="chapter" data-level="4.2" data-path="eigenvalues-and-eigenvectors.html"><a href="eigenvalues-and-eigenvectors.html#the-inverse-power-method"><i class="fa fa-check"></i><b>4.2</b> The Inverse Power Method</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="eigenvalues-and-eigenvectors.html"><a href="eigenvalues-and-eigenvectors.html#exercises-5"><i class="fa fa-check"></i><b>4.2.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="interpolation.html"><a href="interpolation.html"><i class="fa fa-check"></i><b>5</b> Interpolation</a><ul>
+<li class="chapter" data-level="5.1" data-path="interpolation.html"><a href="interpolation.html#weierstrauss-approximation-theorem"><i class="fa fa-check"></i><b>5.1</b> Weierstrauss Approximation Theorem</a></li>
+<li class="chapter" data-level="5.2" data-path="interpolation.html"><a href="interpolation.html#linear-interpolation"><i class="fa fa-check"></i><b>5.2</b> Linear Interpolation</a></li>
+<li class="chapter" data-level="5.3" data-path="interpolation.html"><a href="interpolation.html#quadratic-interpolation"><i class="fa fa-check"></i><b>5.3</b> Quadratic Interpolation</a></li>
+<li class="chapter" data-level="5.4" data-path="interpolation.html"><a href="interpolation.html#lagrange-interpolating-polynomials"><i class="fa fa-check"></i><b>5.4</b> Lagrange Interpolating Polynomials</a></li>
+<li class="chapter" data-level="5.5" data-path="interpolation.html"><a href="interpolation.html#newtons-divided-differences"><i class="fa fa-check"></i><b>5.5</b> Newton’s Divided Differences</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="interpolation.html"><a href="interpolation.html#errors-of-newtons-interpolating-polynomials"><i class="fa fa-check"></i><b>5.5.1</b> Errors of Newton’s interpolating polynomials</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="interpolation.html"><a href="interpolation.html#cubic-splines-interpolation"><i class="fa fa-check"></i><b>5.6</b> Cubic Splines Interpolation</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="interpolation.html"><a href="interpolation.html#runges-phenomenon"><i class="fa fa-check"></i><b>5.6.1</b> Runge’s Phenomenon</a></li>
+<li class="chapter" data-level="5.6.2" data-path="interpolation.html"><a href="interpolation.html#exercises-6"><i class="fa fa-check"></i><b>5.6.2</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="least-squares.html"><a href="least-squares.html"><i class="fa fa-check"></i><b>6</b> Least Squares</a><ul>
+<li class="chapter" data-level="6.1" data-path="least-squares.html"><a href="least-squares.html#linear-least-squares"><i class="fa fa-check"></i><b>6.1</b> Linear Least Squares</a></li>
+<li class="chapter" data-level="6.2" data-path="least-squares.html"><a href="least-squares.html#polynomial-least-squares"><i class="fa fa-check"></i><b>6.2</b> Polynomial Least Squares</a></li>
+<li class="chapter" data-level="6.3" data-path="least-squares.html"><a href="least-squares.html#least-squares-exponential-fit"><i class="fa fa-check"></i><b>6.3</b> Least Squares Exponential Fit</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="least-squares.html"><a href="least-squares.html#exercises-7"><i class="fa fa-check"></i><b>6.3.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html"><i class="fa fa-check"></i><b>7</b> Ordinary Differentiable Equations (ODEs)</a><ul>
+<li class="chapter" data-level="7.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#initial-value-problems"><i class="fa fa-check"></i><b>7.1</b> Initial Value Problems</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#stability-of-odes"><i class="fa fa-check"></i><b>7.1.1</b> Stability of ODEs</a></li>
+<li class="chapter" data-level="7.1.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#unstable-ode"><i class="fa fa-check"></i><b>7.1.2</b> Unstable ODE</a></li>
+<li class="chapter" data-level="7.1.3" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#stable-ode"><i class="fa fa-check"></i><b>7.1.3</b> Stable ODE</a></li>
+<li class="chapter" data-level="7.1.4" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#neutrally-stable-ode"><i class="fa fa-check"></i><b>7.1.4</b> Neutrally Stable ODE</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#eulers-method"><i class="fa fa-check"></i><b>7.2</b> Euler’s Method</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#error-in-eulers-method"><i class="fa fa-check"></i><b>7.2.1</b> Error in Euler’s Method</a></li>
+<li class="chapter" data-level="7.2.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#example-18"><i class="fa fa-check"></i><b>7.2.2</b> Example</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#modified-eulers-method"><i class="fa fa-check"></i><b>7.3</b> Modified Euler’s Method</a></li>
+<li class="chapter" data-level="7.4" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#runge-kutta-methods"><i class="fa fa-check"></i><b>7.4</b> Runge-Kutta Methods</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#second-order-runge-kutta-method"><i class="fa fa-check"></i><b>7.4.1</b> Second Order Runge-Kutta Method</a></li>
+<li class="chapter" data-level="7.4.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#fourth-order-runge-kutta-method"><i class="fa fa-check"></i><b>7.4.2</b> Fourth Order Runge-Kutta Method</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#multistep-methods"><i class="fa fa-check"></i><b>7.5</b> Multistep Methods</a><ul>
+<li class="chapter" data-level="7.5.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#adam-bashforth-moultonmethod"><i class="fa fa-check"></i><b>7.5.1</b> Adam-Bashforth-MoultonMethod</a></li>
+<li class="chapter" data-level="7.5.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#advantages-of-multistep-methods"><i class="fa fa-check"></i><b>7.5.2</b> Advantages of Multistep Methods</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#systems-of-first-order-odes"><i class="fa fa-check"></i><b>7.6</b> Systems of First Order ODEs</a><ul>
+<li class="chapter" data-level="7.6.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#r-k-method-for-systems"><i class="fa fa-check"></i><b>7.6.1</b> R-K Method for Systems</a></li>
+</ul></li>
+<li class="chapter" data-level="7.7" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#converting-an-nth-order-ode-to-a-system-of-first-order-odes"><i class="fa fa-check"></i><b>7.7</b> Converting an <span class="math inline">\(n^{th}\)</span> Order ODE to a System of First Order ODEs</a><ul>
+<li class="chapter" data-level="7.7.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#exercises-8"><i class="fa fa-check"></i><b>7.7.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">University of the Witwatersrand</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Numerical Methods II APPM2007</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="least-squares" class="section level1">
+<h1><span class="header-section-number">Chapter 6</span> Least Squares</h1>
+<p>When considering experimental data it is commonly associated with noise. This noise could be resultant of measurement error or some other experimental inconsistency. In these instances, we want to find a curve that fits the data points “on the average”. That is, we do not want to overfit the data, thereby amplifying any of the noise. With this in mind, the curve should have the simplest form (i.e. lowest order polynomial possible). Let:
+<span class="math display">\[
+f(x) = f(x, a_1, a_2, \ldots, a_m),
+\]</span>
+be the function that is to be fitted to the <span class="math inline">\(n\)</span> data points (<span class="math inline">\(x_i, y_i\)</span>), <span class="math inline">\(i = 1, 2, \ldots, n\)</span>. Thus, we have a function of <span class="math inline">\(x\)</span> that contains the parameters <span class="math inline">\(a_j, \ \ j = 1, 2,\ldots, m\)</span>, where <span class="math inline">\(m &lt; n\)</span>. The shape of <span class="math inline">\(f(x)\)</span> is known a priori, normally from the theory associated with the experiment in question. This means we are looking to fit the best parameters. Thus curve fitting is a two step process; (i) selecting the correct form of <span class="math inline">\(f(x)\)</span> and (ii) computing the parameters that produce the best fit to the data.</p>
+<p>The notion of <strong>best</strong> fit (at least for the purpose of this course) considers noise bound to the <span class="math inline">\(y\)</span>-coordinate. The most common of which is measured by the <em>least squares fit</em>, which minimises:
+<span class="math display" id="eq:lsf">\[\begin{equation}
+S(a_1, a_2, \ldots, a_m) = \sum_{i=1}^n \left[y_i - f(x_i)\right]^2,\tag{6.1}
+\end{equation}\]</span>
+with respect to each <span class="math inline">\(a_j\)</span>. The optimal values of the parameters are given by the solution of the equations:
+<span class="math display">\[\begin{equation}
+\dfrac{\partial S}{\partial a_k} = 0, \ \ \ k = 1, 2,\ldots, m.
+\end{equation}\]</span>
+We measure the residual as <span class="math inline">\(r_i = y_i - f(x_i)\)</span> from Equation <a href="least-squares.html#eq:lsf">(6.1)</a> which represent the discrepancy between the data points and the fitting function at <span class="math inline">\(x_i\)</span>. The function <span class="math inline">\(S\)</span> is the sum of the squares of all residuals.</p>
+<p>A Least squares problem is said to be <strong>linear</strong> if the fitting function is chosen as a linear combination of functions <span class="math inline">\(f_j(x)\)</span>:
+<span class="math display">\[\begin{equation}\label{eq:linearcomb}
+f(x) = a_1f_1(x) + a_2f_2(x) + \ldots + a_mf_m(x).
+\end{equation}\]</span>
+Here an example could be where <span class="math inline">\(f_1(x) = 1, f_2(x) = x, f_3(x) = x^2\)</span> etc. Often these polynomials can be nonlinear and become increasingly difficult to solve. For the purpose of this course we will only consider linear least squares.</p>
+<div id="linear-least-squares" class="section level2">
+<h2><span class="header-section-number">6.1</span> Linear Least Squares</h2>
+<p>We fit the straight line <span class="math inline">\(y=a_0+a_1 x\)</span> through some given <span class="math inline">\(n\)</span> points. The sum of the squares of the deviations is
+<span class="math display">\[
+S=\sum_{i=1}^{n}[y_i-f(x_i)]^2=\sum_{i=1}^{n}[y_i-(a_0+ a_1 x_i)]^2
+\]</span>
+A necessary condition for <span class="math inline">\(S(a_0,a_1)\)</span> to be a minimum is that the first partial derivatives of <span class="math inline">\(S\)</span> w.r.t. <span class="math inline">\(a_0\)</span> and <span class="math inline">\(a_1\)</span> must be zero:
+<span class="math display">\[\begin{eqnarray}
+{\partial E\over \partial a_0} &amp;=&amp;-2 \sum_{i=1}^{n} [y_i-a_0-a_1 x_i)]=0\\
+{\partial E\over \partial a_1} &amp;=&amp;-2 \sum_{i=1}^{n}x_i [y_i-a_0-a_1 x_i)]=0
+\end{eqnarray}\]</span>
+We can rewrite these sums as:
+<span class="math display" id="eq:ls2" id="eq:ls1">\[\begin{eqnarray}
+a_0 n +a_1\sum_{i=1}^n x_i &amp;=&amp; \sum_{i=1}^n y_i\tag{6.2}\\
+a_0\sum_{i=1}^n x_i+a_1 \sum_{i=1}^n x_i^2 &amp;=&amp;\sum_{i=1}^n x_i y_i\tag{6.3}
+\end{eqnarray}\]</span>
+These equations are called the <strong>normal equations.</strong> They can be solved simultaneously for <span class="math inline">\(a_1\)</span>:
+<span class="math display">\[\begin{equation}
+a_1 = {n\sum_i x_i y_i- \sum_i x_i\sum_i y_i 
+\over n\sum_i x_i^2 -\left(\sum_i x_i \right)^2}
+\end{equation}\]</span>
+This result can then be used in conjunction with the Equation <a href="least-squares.html#eq:ls1">(6.2)</a>
+to solve for <span class="math inline">\(a_0\)</span>:
+<span class="math display">\[\begin{equation}
+a_0={1\over n}\left(\sum_{i=1}^n y_i- a_1\sum_{i=1}^n x_i\right).
+\end{equation}\]</span></p>
+<p>So in matrix form:
+<span class="math display">\[\begin{eqnarray}
+        \begin{bmatrix}
+        n &amp; \sum_{i=1}^{n}x_i \\
+        \sum_{i=1}^{n}x_i &amp; \sum_{i=1}^n x_i^2
+        \end{bmatrix}
+        \begin{bmatrix}
+        a_0\\
+        a_1
+        \end{bmatrix}
+        =\begin{bmatrix}
+        \sum_{i=1}^{n}y_i \\
+        \sum_{i=1}^n x_iy_i
+        \end{bmatrix}.
+        \end{eqnarray}\]</span>
+Therefore:
+<span class="math display">\[\begin{eqnarray}
+        \begin{bmatrix}
+        a_0\\
+        a_1
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+        n &amp; \sum_{i=1}^{n}x_i \\
+        \sum_{i=1}^{n}x_i &amp; \sum_{i=1}^n x_i^2
+        \end{bmatrix}^{-1}  
+        \begin{bmatrix}
+        \sum_{i=1}^{n}y_i \\
+        \sum_{i=1}^n x_iy_i
+        \end{bmatrix}.
+        \end{eqnarray}\]</span></p>
+<hr />
+<div id="example-16" class="section level4">
+<h4><span class="header-section-number">6.1.0.1</span> Example</h4>
+<p>Consider the data:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><span class="math inline">\(x_i\)</span></th>
+<th align="left">1</th>
+<th align="left">2</th>
+<th align="left">3</th>
+<th align="left">4</th>
+<th align="left">5</th>
+<th align="left">6</th>
+<th align="left">7</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><span class="math inline">\(y_i\)</span></td>
+<td align="left">0.5</td>
+<td align="left">2.5</td>
+<td align="left">2.0</td>
+<td align="left">4.0</td>
+<td align="left">3.5</td>
+<td align="left">6.0</td>
+<td align="left">5.5</td>
+</tr>
+</tbody>
+</table>
+<p>To find the least squares line approximation of this data, extend the table and sum the columns, as below:</p>
+<table>
+<colgroup>
+<col width="23%" />
+<col width="20%" />
+<col width="30%" />
+<col width="25%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"><span class="math inline">\(x_i\)</span></th>
+<th align="center"><span class="math inline">\(y_i\)</span></th>
+<th align="center"><span class="math inline">\(x_i^2\)</span></th>
+<th align="center"><span class="math inline">\(x_i y_i\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">1</td>
+<td align="center">0.5</td>
+<td align="center">1</td>
+<td align="center">0.5</td>
+</tr>
+<tr class="even">
+<td align="center">2</td>
+<td align="center">2.5</td>
+<td align="center">4</td>
+<td align="center">5.0</td>
+</tr>
+<tr class="odd">
+<td align="center">3</td>
+<td align="center">2.0</td>
+<td align="center">9</td>
+<td align="center">6.0</td>
+</tr>
+<tr class="even">
+<td align="center">4</td>
+<td align="center">4.0</td>
+<td align="center">16</td>
+<td align="center">16.0</td>
+</tr>
+<tr class="odd">
+<td align="center">5</td>
+<td align="center">3.5</td>
+<td align="center">25</td>
+<td align="center">16.5</td>
+</tr>
+<tr class="even">
+<td align="center">6</td>
+<td align="center">6.0</td>
+<td align="center">36</td>
+<td align="center">36.0</td>
+</tr>
+<tr class="odd">
+<td align="center">7</td>
+<td align="center">5.5</td>
+<td align="center">49</td>
+<td align="center">37.5</td>
+</tr>
+<tr class="even">
+<td align="center"><span class="math inline">\(\scriptsize\sum=28\)</span></td>
+<td align="center"><span class="math inline">\(\scriptsize\sum=24\)</span></td>
+<td align="center"><span class="math inline">\(\scriptsize\sum=140\)</span></td>
+<td align="center"><span class="math inline">\(\scriptsize\sum=119.5\)</span></td>
+</tr>
+</tbody>
+</table>
+<p><span class="math display">\[
+a_1= {7(119.5)-28(24)\over 7(140)-28^2} =0.8393
+\]</span>
+and hence:
+<span class="math display">\[ a_0 ={24-0.8393(28)\over 7}=0.0714\]</span>
+The least squares linear fit is:
+<span class="math display">\[y=0.0714+0.8393 x \]</span></p>
+<p>Or alternatively in matrix form we have:
+<span class="math display">\[
+\begin{bmatrix}
+a_0 \\ a_1
+\end{bmatrix}=
+\begin{bmatrix}
+7 &amp; 28 \\ 28 &amp; 140
+\end{bmatrix}^{-1}
+\begin{bmatrix}
+24 \\ 119.5
+\end{bmatrix}
+\]</span>
+Solving gives the following:</p>
+<div class="sourceCode" id="cb41"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb41-1" data-line-number="1"><span class="im">import</span> numpy <span class="im">as</span> np</a>
+<a class="sourceLine" id="cb41-2" data-line-number="2"><span class="im">import</span> numpy.linalg <span class="im">as</span> LA</a>
+<a class="sourceLine" id="cb41-3" data-line-number="3">A    <span class="op">=</span> np.array([[<span class="dv">7</span>, <span class="dv">28</span>],[<span class="dv">28</span>, <span class="dv">140</span>]])</a>
+<a class="sourceLine" id="cb41-4" data-line-number="4">b    <span class="op">=</span> np.array([<span class="dv">24</span>, <span class="fl">119.5</span>])</a>
+<a class="sourceLine" id="cb41-5" data-line-number="5">tans <span class="op">=</span> np.dot(LA.inv(A), b)</a>
+<a class="sourceLine" id="cb41-6" data-line-number="6"><span class="co"># Solving the matrix equation gives:</span></a>
+<a class="sourceLine" id="cb41-7" data-line-number="7"><span class="bu">print</span>(<span class="st">&#39;The value for a_0 is:&#39;</span>, tans[<span class="dv">0</span>])</a></code></pre></div>
+<pre><code>## The value for a_0 is: 0.0714285714285694</code></pre>
+<div class="sourceCode" id="cb43"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb43-1" data-line-number="1"><span class="bu">print</span>(<span class="st">&#39;The value for a_1 is:&#39;</span>, tans[<span class="dv">1</span>])</a>
+<a class="sourceLine" id="cb43-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb43-3" data-line-number="3"><span class="co"># Check using the builtin functions:</span></a></code></pre></div>
+<pre><code>## The value for a_1 is: 0.839285714285714</code></pre>
+<div class="sourceCode" id="cb45"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb45-1" data-line-number="1">x    <span class="op">=</span> np.array([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>])</a>
+<a class="sourceLine" id="cb45-2" data-line-number="2">y    <span class="op">=</span> np.array([<span class="fl">0.5</span>, <span class="fl">2.5</span>, <span class="fl">2.0</span>, <span class="fl">4.0</span>, <span class="fl">3.5</span>, <span class="fl">6.0</span>, <span class="fl">5.5</span>])</a>
+<a class="sourceLine" id="cb45-3" data-line-number="3">bans <span class="op">=</span> np.polyfit(x, y, <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb45-4" data-line-number="4"><span class="co"># Note polyfit returns function of form P(x) = p[0]*x**degree .... (This is the opposite direction of above so flip)</span></a>
+<a class="sourceLine" id="cb45-5" data-line-number="5">bans <span class="op">=</span> bans[::<span class="op">-</span><span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb45-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb45-7" data-line-number="7"><span class="bu">print</span>(<span class="st">&#39;The value for a_0 with builtin is:&#39;</span>, bans[<span class="dv">0</span>])</a></code></pre></div>
+<pre><code>## The value for a_0 with builtin is: 0.07142857142857305</code></pre>
+<div class="sourceCode" id="cb47"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="bu">print</span>(<span class="st">&#39;The value for a_1 with builtin is:&#39;</span>, bans[<span class="dv">1</span>])</a></code></pre></div>
+<pre><code>## The value for a_1 with builtin is: 0.8392857142857142</code></pre>
+<p><img src="lecture_notes_files/figure-html/unnamed-chunk-38-1.png" /><!-- --></p>
+<hr />
+</div>
+</div>
+<div id="polynomial-least-squares" class="section level2">
+<h2><span class="header-section-number">6.2</span> Polynomial Least Squares</h2>
+<p>The least squares procedure above can be readily extended to fit the data to an <span class="math inline">\(m\)</span>th degree polynomial:
+<span class="math display">\[\begin{equation}
+f(x)=P_m(x)=a_0+a_1 x+\cdots+a_m x^m
+\end{equation}\]</span>
+through some <span class="math inline">\(n\)</span> data points <span class="math inline">\((x_1,P_m(x_1)),(x_2,P_m(x_2)),\ldots,(x_m,P_m(x_n))\)</span>, where <span class="math inline">\(m\leq n-1\)</span>. Then, <span class="math inline">\(S\)</span> takes the form:
+<span class="math display" id="eq:genE">\[\begin{equation}
+S=\sum_{i=1}^{n} [y_i-f(x_i)]^2\tag{6.4}
+\end{equation}\]</span>
+which depends on the <span class="math inline">\(m+1\)</span> parameters <span class="math inline">\(a_0,\;a_1,\cdots,\;a_m\)</span>. We then have <span class="math inline">\(m+1\)</span> conditions:
+<span class="math display">\[
+{\partial E\over\partial a_0}=0,\;\; {\partial E\over\partial a_1}=0,\;\; \cdots,{\partial E\over\partial a_m}=0 
+\]</span>
+which gives a system of <span class="math inline">\(m+1\)</span> normal equations:
+<span class="math display">\[\begin{eqnarray}
+a_0 \;n &amp;+&amp; a_1\sum_{i=1}^n x_i+a_2\sum_{i=1}^n x_i^2+\cdots+a_m\sum_{i=1}^n 
+x_i^m = \sum_{i=1}^n y_i\\
+a_0 \sum_{i=1}^n x_i &amp;+&amp; a_1\sum_{i=1}^n x_i^2+a_2\sum_{i=1}^n x_i^3+\cdots+
+a_m\sum_{i=1}^n x_i^{m+1} = \sum_{i=1}^n x_i y_i\\
+a_0 \sum_{i=1}^n x_i^2 &amp;+&amp; a_1\sum_{i=1}^n x_i^3+a_2\sum_{i=1}^n x_i^4+\cdots+
+a_m\sum_{i=1}^n x_i^{m+2} = \sum_{i=1}^n x_i^2 y_i\\
+\vdots &amp;&amp; \vdots\\
+a_0 \sum_{i=1}^n x_i^m &amp;+&amp; a_1\sum_{i=1}^n x_i^{m+1}+a_2\sum_{i=1}^n x_i^{m+2}+
+\cdots+ a_m\sum_{i=1}^n x_i^{2m} = \sum_{i=1}^n x_i^m y_i
+\end{eqnarray}\]</span>
+These are <span class="math inline">\(m+1\)</span> equations and have <span class="math inline">\(m+1\)</span> unknowns: <span class="math inline">\(a_0,\;a_1,\;\cdots a_m\)</span>.</p>
+<p>So for a quadratic polynomial fit, <span class="math inline">\(m=2\)</span>,and the required polynomial is <span class="math inline">\(f(x)=a_0+a_1 x+a_2 x^2\)</span> obtained from solving the normal equations:
+<span class="math display">\[\begin{eqnarray}
+a_0 n &amp;+&amp; a_1\sum_{i=1}^n x_i+ a_2\sum_{i=1}^n x_i^2 =\sum_{i=1}^n y_i\\
+a_0 \sum_{i=1}^n x_i &amp;+&amp; a_1\sum_{i=1}^n x_i^2 + a_2\sum_{i=1}^n x_i^3  
+=\sum_{i=1}^n x_i y_i\\ 
+a_0 \sum_{i=1}^n x_i^2 &amp;+&amp; a_1\sum_{i=1}^n x_i^3 + a_2\sum_{i=1}^n x_i^4  
+=\sum_{i=1}^n x_i^2 y_i 
+\end{eqnarray}\]</span>
+for <span class="math inline">\(a_0,\,a_1,\,\)</span> and <span class="math inline">\(a_2.\)</span></p>
+<p><strong>Note:</strong> This system is symmetric and can be solved using Gauss elimination.</p>
+<hr />
+<div id="exercise-5" class="section level4">
+<h4><span class="header-section-number">6.2.0.1</span> Exercise</h4>
+<p>Fit a second degree polynomial to the data</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><span class="math inline">\(x_i\)</span></th>
+<th align="left">0</th>
+<th align="left">1</th>
+<th align="left">2</th>
+<th align="left">3</th>
+<th align="left">4</th>
+<th align="left">5</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><span class="math inline">\(y_i\)</span></td>
+<td align="left">2.1</td>
+<td align="left">7.7</td>
+<td align="left">13.6</td>
+<td align="left">27.2</td>
+<td align="left">40.9</td>
+<td align="left">61.1</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode" id="cb49"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb49-1" data-line-number="1"><span class="im">import</span> numpy.linalg <span class="im">as</span> LA</a>
+<a class="sourceLine" id="cb49-2" data-line-number="2">x      <span class="op">=</span> np.array([<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>, <span class="dv">4</span>, <span class="dv">5</span>])</a>
+<a class="sourceLine" id="cb49-3" data-line-number="3">y      <span class="op">=</span> np.array([<span class="fl">2.1</span>, <span class="fl">7.7</span>, <span class="fl">13.6</span>, <span class="fl">27.2</span>, <span class="fl">40.9</span>, <span class="fl">61.1</span>])</a>
+<a class="sourceLine" id="cb49-4" data-line-number="4">n      <span class="op">=</span> <span class="bu">len</span>(x)</a>
+<a class="sourceLine" id="cb49-5" data-line-number="5">sumX   <span class="op">=</span> <span class="bu">sum</span>(x)</a>
+<a class="sourceLine" id="cb49-6" data-line-number="6">sumY   <span class="op">=</span> <span class="bu">sum</span>(y)</a>
+<a class="sourceLine" id="cb49-7" data-line-number="7">sumX2  <span class="op">=</span> <span class="bu">sum</span>(x<span class="op">**</span><span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb49-8" data-line-number="8">sumX3  <span class="op">=</span> <span class="bu">sum</span>(x<span class="op">**</span><span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb49-9" data-line-number="9">sumX4  <span class="op">=</span> <span class="bu">sum</span>(x<span class="op">**</span><span class="dv">4</span>)</a>
+<a class="sourceLine" id="cb49-10" data-line-number="10">sumXY  <span class="op">=</span> <span class="bu">sum</span>(x <span class="op">*</span> y)</a>
+<a class="sourceLine" id="cb49-11" data-line-number="11">sumXXY <span class="op">=</span> <span class="bu">sum</span>(x<span class="op">**</span><span class="dv">2</span> <span class="op">*</span> y)</a>
+<a class="sourceLine" id="cb49-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb49-13" data-line-number="13">A    <span class="op">=</span> np.array([[n, sumX, sumX2],[sumX, sumX2, sumX3], [sumX2, sumX3, sumX4]])</a>
+<a class="sourceLine" id="cb49-14" data-line-number="14"><span class="bu">print</span>(A)</a></code></pre></div>
+<pre><code>## [[  6  15  55]
+##  [ 15  55 225]
+##  [ 55 225 979]]</code></pre>
+<div class="sourceCode" id="cb51"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb51-1" data-line-number="1">b    <span class="op">=</span> np.array([sumY, sumXY, sumXXY])</a>
+<a class="sourceLine" id="cb51-2" data-line-number="2"><span class="bu">print</span>(b)</a></code></pre></div>
+<pre><code>## [ 152.6  585.6 2488.8]</code></pre>
+<div class="sourceCode" id="cb53"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb53-1" data-line-number="1">tans <span class="op">=</span> np.dot(LA.inv(A), b)</a>
+<a class="sourceLine" id="cb53-2" data-line-number="2"><span class="co"># Solving the matrix equation gives:</span></a>
+<a class="sourceLine" id="cb53-3" data-line-number="3"><span class="bu">print</span>(<span class="st">&#39;The value for a_0 is:&#39;</span>, tans[<span class="dv">0</span>])</a></code></pre></div>
+<pre><code>## The value for a_0 is: 2.478571428571229</code></pre>
+<div class="sourceCode" id="cb55"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="bu">print</span>(<span class="st">&#39;The value for a_1 is:&#39;</span>, tans[<span class="dv">1</span>])</a></code></pre></div>
+<pre><code>## The value for a_1 is: 2.3592857142858747</code></pre>
+<div class="sourceCode" id="cb57"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb57-1" data-line-number="1"><span class="bu">print</span>(<span class="st">&#39;The value for a_2 is:&#39;</span>, tans[<span class="dv">2</span>])</a>
+<a class="sourceLine" id="cb57-2" data-line-number="2"><span class="co"># Check using the builtin functions:</span></a></code></pre></div>
+<pre><code>## The value for a_2 is: 1.8607142857142804</code></pre>
+<div class="sourceCode" id="cb59"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb59-1" data-line-number="1">bans <span class="op">=</span> np.polyfit(x, y, <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb59-2" data-line-number="2"><span class="co"># Note polyfit returns function of form P(x) = p[0]*x**degree .... (This is the opposite direction of above so flip)</span></a>
+<a class="sourceLine" id="cb59-3" data-line-number="3">bans <span class="op">=</span> bans[::<span class="op">-</span><span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb59-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb59-5" data-line-number="5"><span class="bu">print</span>(<span class="st">&#39;The value for a_0 with builtin is:&#39;</span>, bans[<span class="dv">0</span>])</a></code></pre></div>
+<pre><code>## The value for a_0 with builtin is: 2.4785714285714366</code></pre>
+<div class="sourceCode" id="cb61"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb61-1" data-line-number="1"><span class="bu">print</span>(<span class="st">&#39;The value for a_1 with builtin is:&#39;</span>, bans[<span class="dv">1</span>])</a></code></pre></div>
+<pre><code>## The value for a_1 with builtin is: 2.3592857142857095</code></pre>
+<div class="sourceCode" id="cb63"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb63-1" data-line-number="1"><span class="bu">print</span>(<span class="st">&#39;The value for a_1 with builtin is:&#39;</span>, bans[<span class="dv">2</span>])</a></code></pre></div>
+<pre><code>## The value for a_1 with builtin is: 1.8607142857142878</code></pre>
+<p><img src="lecture_notes_files/figure-html/unnamed-chunk-40-1.png" /><!-- --></p>
+<hr />
+<p><strong>Remark:</strong>
+As the degree <span class="math inline">\(m\)</span> increases the coefficient matrix becomes extremely ill-conditioned. It is therefore not recommended to fit least squares polynomials of degree greater than 4 to given data points.</p>
+<p>Also, it would be common practice to use built-in libraries to do these computations instead of programming it yourself. In addition, any real world scenario would likely involve a massive number of data points. Gradient descent techniques could also be applied. You may find these within machine learning courses etc.</p>
+</div>
+</div>
+<div id="least-squares-exponential-fit" class="section level2">
+<h2><span class="header-section-number">6.3</span> Least Squares Exponential Fit</h2>
+<p>Frequently a theory may suggest a model other than a polynomial fit. A common functional form for the model is the exponential function:
+<span class="math display" id="eq:expfn">\[\begin{equation}
+y=a e^{b x}.\tag{6.5}
+\end{equation}\]</span>
+for some constants <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>. We have from Equation <a href="least-squares.html#eq:genE">(6.4)</a>:
+<span class="math display">\[\begin{equation}
+S=\sum_{i=1}^{n} [y_i-a e^{b x_i}]^2.
+\end{equation}\]</span>
+When the derivatives of <span class="math inline">\(S\)</span> with respect to <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span> are set equal to zero the resulting equations are:
+<span class="math display">\[\begin{eqnarray}
+{\partial E\over\partial a}&amp;=&amp;-2\sum_{i=1}^n e^{b x_i}[y_i-a e^{b x_i}]=0\\
+ {\partial E\over\partial b}&amp;=&amp;-2\sum_{i=1}^n a x_i e^{b x_i}[y_i-a e^{b x_i}]=0
+\end{eqnarray}\]</span>
+These two equations in two unknowns are nonlinear and generally difficult to solve.</p>
+<p>It is sometimes possible to “linearise” the normal equations through a change of variables. If we take natural logarithm of our equation <a href="least-squares.html#eq:expfn">(6.5)</a> we have:
+<span class="math display">\[
+\ln(y)= \ln(a e^{bx})=\ln(a)+b x
+\]</span>
+We introduce the variable <span class="math inline">\(Y=\ln(y)\)</span>, <span class="math inline">\(a_0=\ln(a)\)</span> and <span class="math inline">\(a_1=b\)</span>. Then the linearized equation becomes:
+<span class="math display">\[\begin{equation}
+Y(x)=a_0+a_1 x,
+\end{equation}\]</span>
+and the ordinary least squares analysis may then be applied to the problem. Once the coefficients <span class="math inline">\(a_0\)</span> and <span class="math inline">\(a_1\)</span> have been determined, the original coefficients can be computed as <span class="math inline">\(a=e^{a_0}\)</span> and <span class="math inline">\(b=a_1\)</span>.</p>
+<hr />
+<div id="example-17" class="section level4">
+<h4><span class="header-section-number">6.3.0.1</span> Example</h4>
+<p>Fit an exponential function to the following data</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><span class="math inline">\(x_i\)</span></th>
+<th align="left">1.00</th>
+<th align="left">1.25</th>
+<th align="left">1.50</th>
+<th align="left">1.75</th>
+<th align="left">2.00</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><span class="math inline">\(y_i\)</span></td>
+<td align="left">5.10</td>
+<td align="left">5.79</td>
+<td align="left">6.53</td>
+<td align="left">7.45</td>
+<td align="left">8.46</td>
+</tr>
+</tbody>
+</table>
+<p>To fit an exponential least squares fit to this data, extend the table as:</p>
+<table>
+<colgroup>
+<col width="18%" />
+<col width="11%" />
+<col width="23%" />
+<col width="23%" />
+<col width="23%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left"><span class="math inline">\(x_i\)</span></th>
+<th align="left"><span class="math inline">\(y_i\)</span></th>
+<th align="left"><span class="math inline">\(Y_i=\ln y_i\)</span></th>
+<th align="left"><span class="math inline">\(x_i^2\)</span></th>
+<th align="left"><span class="math inline">\(x_i Y_i\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1.00</td>
+<td align="left">5.10</td>
+<td align="left">1.629</td>
+<td align="left">1.0000</td>
+<td align="left">1.629</td>
+</tr>
+<tr class="even">
+<td align="left">1.25</td>
+<td align="left">5.79</td>
+<td align="left">1.756</td>
+<td align="left">1.5625</td>
+<td align="left">2.195</td>
+</tr>
+<tr class="odd">
+<td align="left">1.50</td>
+<td align="left">6.53</td>
+<td align="left">1.876</td>
+<td align="left">2.2500</td>
+<td align="left">2.814</td>
+</tr>
+<tr class="even">
+<td align="left">1.75</td>
+<td align="left">7.45</td>
+<td align="left">2.008</td>
+<td align="left">3.0625</td>
+<td align="left">3.514</td>
+</tr>
+<tr class="odd">
+<td align="left">2.00</td>
+<td align="left">8.46</td>
+<td align="left">2.135</td>
+<td align="left">4.000</td>
+<td align="left">4.270</td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(\scriptsize\sum=7.5\)</span></td>
+<td align="left"><span class="math inline">\(\scriptsize\sum=33.3\)</span></td>
+<td align="left"><span class="math inline">\(\scriptsize\sum=9.404\)</span></td>
+<td align="left"><span class="math inline">\(\scriptsize\sum=11.875\)</span></td>
+<td align="left"><span class="math inline">\(\scriptsize\sum=14.422\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Using the normal equations for linear least squares give:
+<span class="math display">\[
+a_1=b={5(14.422)-7.5(9.404)\over 5(11.875)-(7.5)^2}=0.5056
+\]</span>
+and hence:
+<span class="math display">\[
+a_0=\ln a={9.404- 0.5056(7.5)\over 5}=1.122,\ \ \ \ a=e^{1.122}
+\]</span>
+The exponential fit is:
+<span class="math display">\[\begin{eqnarray}
+Y &amp;=&amp;1.122+ 0.5056 x\\
+\ln y &amp;=&amp;1.122+ 0.5056 x\\
+ y &amp;=&amp;3.071 e^{0.5056 x}
+\end{eqnarray}\]</span></p>
+<div class="sourceCode" id="cb65"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb65-1" data-line-number="1"><span class="im">import</span> numpy.linalg <span class="im">as</span> LA</a>
+<a class="sourceLine" id="cb65-2" data-line-number="2">x      <span class="op">=</span> np.array([<span class="fl">1.0</span>, <span class="fl">1.25</span>, <span class="fl">1.5</span>, <span class="fl">1.75</span>, <span class="fl">2.0</span>])</a>
+<a class="sourceLine" id="cb65-3" data-line-number="3">y      <span class="op">=</span> np.array([<span class="fl">5.1</span>, <span class="fl">5.79</span>, <span class="fl">6.53</span>, <span class="fl">7.45</span>, <span class="fl">8.46</span>])</a>
+<a class="sourceLine" id="cb65-4" data-line-number="4">sumX   <span class="op">=</span> <span class="bu">sum</span>(x)</a>
+<a class="sourceLine" id="cb65-5" data-line-number="5">sumY   <span class="op">=</span> <span class="bu">sum</span>(y)</a>
+<a class="sourceLine" id="cb65-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb65-7" data-line-number="7">bans    <span class="op">=</span> np.polyfit(x, np.log(y), <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb65-8" data-line-number="8"><span class="co"># Note polyfit returns function of form P(x) = p[0]*x**degree .... (This is the opposite direction of above so flip)</span></a>
+<a class="sourceLine" id="cb65-9" data-line-number="9">bans    <span class="op">=</span> bans[::<span class="op">-</span><span class="dv">1</span>]</a>
+<a class="sourceLine" id="cb65-10" data-line-number="10">bans[<span class="dv">0</span>] <span class="op">=</span> np.exp(bans[<span class="dv">0</span>]) </a>
+<a class="sourceLine" id="cb65-11" data-line-number="11"><span class="bu">print</span>(<span class="st">&#39;The value for a_0 with builtin is:&#39;</span>, bans[<span class="dv">0</span>])</a></code></pre></div>
+<pre><code>## The value for a_0 with builtin is: 3.072492713621628</code></pre>
+<div class="sourceCode" id="cb67"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb67-1" data-line-number="1"><span class="bu">print</span>(<span class="st">&#39;The value for a_1 with builtin is:&#39;</span>, bans[<span class="dv">1</span>])</a></code></pre></div>
+<pre><code>## The value for a_1 with builtin is: 0.5057196034329067</code></pre>
+<p><img src="lecture_notes_files/figure-html/unnamed-chunk-42-1.png" /><!-- --></p>
+<hr />
+</div>
+<div id="exercises-7" class="section level3">
+<h3><span class="header-section-number">6.3.1</span> Exercises</h3>
+<ul>
+<li>Find the least squares polynomials of degrees one, two and three for the data, computing the error <span class="math inline">\(S\)</span> in each case.</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><span class="math inline">\(x\)</span></th>
+<th align="left">1.0</th>
+<th align="left">1.1</th>
+<th align="left">1.3</th>
+<th align="left">1.5</th>
+<th align="left">1.9</th>
+<th align="left">2.1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><span class="math inline">\(y\)</span></td>
+<td align="left">1.84</td>
+<td align="left">1.96</td>
+<td align="left">2.21</td>
+<td align="left">2.45</td>
+<td align="left">2.94</td>
+<td align="left">3.18</td>
+</tr>
+</tbody>
+</table>
+<p>Ans:
+<span class="math display">\[
+\begin{array}[t]{l} y=0.6209+1.2196x,\quad y=0.5966+1.2533 x-0.0109x^2,\\
+y=-0.01 x^3+0.0353 x^2+1.185 x+0.629\end{array}
+\]</span></p>
+<ul>
+<li>An experiment is performed to define the relationship between applied stress and the time to fracture for a stainless steel. Eight different values of stress are applied and the resulting data is:</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Applied stress, <span class="math inline">\(x\)</span>, kg/mm<span class="math inline">\(^2\)</span></th>
+<th align="left">5</th>
+<th align="left">10</th>
+<th align="left">15</th>
+<th align="left">20</th>
+<th align="left">25</th>
+<th align="left">30</th>
+<th align="left">35</th>
+<th align="left">40</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Fracture time, <span class="math inline">\(t\)</span>, h</td>
+<td align="left">40</td>
+<td align="left">30</td>
+<td align="left">25</td>
+<td align="left">40</td>
+<td align="left">18</td>
+<td align="left">20</td>
+<td align="left">22</td>
+<td align="left">15</td>
+</tr>
+</tbody>
+</table>
+<p>Use a linear least squares fit to determine the fracture time for an applied stress of 33 kg/mm<span class="math inline">\(^2\)</span>to a stress. (Ans: <span class="math inline">\(t=39.75 -0.6 x,\quad t=19.95\)</span> hours)</p>
+<ul>
+<li>Fit a least squares exponential model to:</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><span class="math inline">\(x\)</span></th>
+<th align="left">0.05</th>
+<th align="left">0.4</th>
+<th align="left">0.8</th>
+<th align="left">1.2</th>
+<th align="left">1.6</th>
+<th align="left">2.0</th>
+<th align="left">2.4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><span class="math inline">\(y\)</span></td>
+<td align="left">550</td>
+<td align="left">750</td>
+<td align="left">1000</td>
+<td align="left">1400</td>
+<td align="left">2000</td>
+<td align="left">2700</td>
+<td align="left">3750</td>
+</tr>
+</tbody>
+</table>
+<p>(Ans: <span class="math inline">\(\displaystyle y=530.8078 e^{0.8157 x}\)</span>)</p>
+<hr />
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="interpolation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="ordinary-differentiable-equations-odes.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/06-least_squares.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["lecture_notes.pdf", "lecture_notes.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

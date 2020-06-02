@@ -1,0 +1,1131 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 5 Interpolation | Numerical Methods II APPM2007</title>
+  <meta name="description" content="Course notes for Numerical Analysis II at the University of the Witwatersrand" />
+  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 5 Interpolation | Numerical Methods II APPM2007" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:image" content="wits_high_def-min.png" />
+  <meta property="og:description" content="Course notes for Numerical Analysis II at the University of the Witwatersrand" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 5 Interpolation | Numerical Methods II APPM2007" />
+  
+  <meta name="twitter:description" content="Course notes for Numerical Analysis II at the University of the Witwatersrand" />
+  <meta name="twitter:image" content="wits_high_def-min.png" />
+
+<meta name="author" content="Dr Matthew Woolway" />
+
+
+<meta name="date" content="2020-01-15" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="eigenvalues-and-eigenvectors.html"/>
+<link rel="next" href="least-squares.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Numerical Analysis II</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Course Outline</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#course-structure-and-details"><i class="fa fa-check"></i>Course Structure and Details</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#course-assessment"><i class="fa fa-check"></i>Course Assessment</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#course-topics"><i class="fa fa-check"></i>Course Topics</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#hardware-requirements"><i class="fa fa-check"></i>Hardware Requirements</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html"><i class="fa fa-check"></i><b>1</b> Numerical Differentiation</a><ul>
+<li class="chapter" data-level="1.1" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#finite-difference-methods"><i class="fa fa-check"></i><b>1.1</b> Finite Difference Methods</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#approximations-to-fprimex"><i class="fa fa-check"></i><b>1.1.1</b> Approximations to <span class="math inline">\(f^\prime(x)\)</span></a></li>
+<li class="chapter" data-level="1.1.2" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#approximations-to-fprimeprimex"><i class="fa fa-check"></i><b>1.1.2</b> Approximations to <span class="math inline">\(f^{\prime\prime}(x)\)</span></a></li>
+<li class="chapter" data-level="1.1.3" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#errors-in-first-and-second-order"><i class="fa fa-check"></i><b>1.1.3</b> Errors in First and Second Order</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#exercises"><i class="fa fa-check"></i><b>1.2</b> Exercises</a></li>
+<li class="chapter" data-level="1.3" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#richardsons-extrapolation"><i class="fa fa-check"></i><b>1.3</b> Richardson’s Extrapolation</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#example-1"><i class="fa fa-check"></i><b>1.3.1</b> Example</a></li>
+<li class="chapter" data-level="1.3.2" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#exercises-1"><i class="fa fa-check"></i><b>1.3.2</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="numerical-integration.html"><a href="numerical-integration.html"><i class="fa fa-check"></i><b>2</b> Numerical Integration</a><ul>
+<li class="chapter" data-level="2.1" data-path="numerical-integration.html"><a href="numerical-integration.html#quadrature-rules"><i class="fa fa-check"></i><b>2.1</b> Quadrature Rules</a></li>
+<li class="chapter" data-level="2.2" data-path="numerical-integration.html"><a href="numerical-integration.html#newton-cotes-quadrature"><i class="fa fa-check"></i><b>2.2</b> Newton-Cotes Quadrature</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="numerical-integration.html"><a href="numerical-integration.html#trapezoidal-rule"><i class="fa fa-check"></i><b>2.2.1</b> Trapezoidal Rule</a></li>
+<li class="chapter" data-level="2.2.2" data-path="numerical-integration.html"><a href="numerical-integration.html#example-2"><i class="fa fa-check"></i><b>2.2.2</b> Example</a></li>
+<li class="chapter" data-level="2.2.3" data-path="numerical-integration.html"><a href="numerical-integration.html#the-midpoint-method"><i class="fa fa-check"></i><b>2.2.3</b> The Midpoint Method</a></li>
+<li class="chapter" data-level="2.2.4" data-path="numerical-integration.html"><a href="numerical-integration.html#simpsons-rule"><i class="fa fa-check"></i><b>2.2.4</b> Simpson’s Rule</a></li>
+<li class="chapter" data-level="2.2.5" data-path="numerical-integration.html"><a href="numerical-integration.html#convergence-rates"><i class="fa fa-check"></i><b>2.2.5</b> Convergence Rates</a></li>
+<li class="chapter" data-level="2.2.6" data-path="numerical-integration.html"><a href="numerical-integration.html#exercises-2"><i class="fa fa-check"></i><b>2.2.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="numerical-integration.html"><a href="numerical-integration.html#romberg-integration"><i class="fa fa-check"></i><b>2.3</b> Romberg Integration</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="numerical-integration.html"><a href="numerical-integration.html#exercises-3"><i class="fa fa-check"></i><b>2.3.1</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="numerical-integration.html"><a href="numerical-integration.html#double-and-triple-integrals"><i class="fa fa-check"></i><b>2.4</b> Double and Triple Integrals</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="numerical-integration.html"><a href="numerical-integration.html#the-midpoint-method-for-double-integrals"><i class="fa fa-check"></i><b>2.4.1</b> The Midpoint Method for Double Integrals</a></li>
+<li class="chapter" data-level="2.4.2" data-path="numerical-integration.html"><a href="numerical-integration.html#the-midpoint-method-for-triple-integrals"><i class="fa fa-check"></i><b>2.4.2</b> The Midpoint Method for Triple Integrals</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html"><i class="fa fa-check"></i><b>3</b> Numerical Solutions to Nonlinear Equations</a><ul>
+<li class="chapter" data-level="3.1" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#nonlinear-equations-in-one-unknown-fx0"><i class="fa fa-check"></i><b>3.1</b> Nonlinear equations in one unknown: <span class="math inline">\(f(x)=0\)</span></a><ul>
+<li class="chapter" data-level="3.1.1" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#interval-methods"><i class="fa fa-check"></i><b>3.1.1</b> Interval Methods</a></li>
+<li class="chapter" data-level="3.1.2" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#bisection-method"><i class="fa fa-check"></i><b>3.1.2</b> Bisection Method</a></li>
+<li class="chapter" data-level="3.1.3" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#false-position-method-or-regula-falsi"><i class="fa fa-check"></i><b>3.1.3</b> False position method or Regula Falsi</a></li>
+<li class="chapter" data-level="3.1.4" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#fixed-point-methods"><i class="fa fa-check"></i><b>3.1.4</b> Fixed Point Methods</a></li>
+<li class="chapter" data-level="3.1.5" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#newtons-method"><i class="fa fa-check"></i><b>3.1.5</b> Newton’s Method</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#newtons-method-for-systems-of-nonlinear-equations"><i class="fa fa-check"></i><b>3.2</b> Newton’s Method for Systems of Nonlinear Equations</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#exercises-4"><i class="fa fa-check"></i><b>3.2.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="eigenvalues-and-eigenvectors.html"><a href="eigenvalues-and-eigenvectors.html"><i class="fa fa-check"></i><b>4</b> Eigenvalues and Eigenvectors</a><ul>
+<li class="chapter" data-level="4.1" data-path="eigenvalues-and-eigenvectors.html"><a href="eigenvalues-and-eigenvectors.html#the-power-method"><i class="fa fa-check"></i><b>4.1</b> The Power Method</a></li>
+<li class="chapter" data-level="4.2" data-path="eigenvalues-and-eigenvectors.html"><a href="eigenvalues-and-eigenvectors.html#the-inverse-power-method"><i class="fa fa-check"></i><b>4.2</b> The Inverse Power Method</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="eigenvalues-and-eigenvectors.html"><a href="eigenvalues-and-eigenvectors.html#exercises-5"><i class="fa fa-check"></i><b>4.2.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="interpolation.html"><a href="interpolation.html"><i class="fa fa-check"></i><b>5</b> Interpolation</a><ul>
+<li class="chapter" data-level="5.1" data-path="interpolation.html"><a href="interpolation.html#weierstrauss-approximation-theorem"><i class="fa fa-check"></i><b>5.1</b> Weierstrauss Approximation Theorem</a></li>
+<li class="chapter" data-level="5.2" data-path="interpolation.html"><a href="interpolation.html#linear-interpolation"><i class="fa fa-check"></i><b>5.2</b> Linear Interpolation</a></li>
+<li class="chapter" data-level="5.3" data-path="interpolation.html"><a href="interpolation.html#quadratic-interpolation"><i class="fa fa-check"></i><b>5.3</b> Quadratic Interpolation</a></li>
+<li class="chapter" data-level="5.4" data-path="interpolation.html"><a href="interpolation.html#lagrange-interpolating-polynomials"><i class="fa fa-check"></i><b>5.4</b> Lagrange Interpolating Polynomials</a></li>
+<li class="chapter" data-level="5.5" data-path="interpolation.html"><a href="interpolation.html#newtons-divided-differences"><i class="fa fa-check"></i><b>5.5</b> Newton’s Divided Differences</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="interpolation.html"><a href="interpolation.html#errors-of-newtons-interpolating-polynomials"><i class="fa fa-check"></i><b>5.5.1</b> Errors of Newton’s interpolating polynomials</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="interpolation.html"><a href="interpolation.html#cubic-splines-interpolation"><i class="fa fa-check"></i><b>5.6</b> Cubic Splines Interpolation</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="interpolation.html"><a href="interpolation.html#runges-phenomenon"><i class="fa fa-check"></i><b>5.6.1</b> Runge’s Phenomenon</a></li>
+<li class="chapter" data-level="5.6.2" data-path="interpolation.html"><a href="interpolation.html#exercises-6"><i class="fa fa-check"></i><b>5.6.2</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="least-squares.html"><a href="least-squares.html"><i class="fa fa-check"></i><b>6</b> Least Squares</a><ul>
+<li class="chapter" data-level="6.1" data-path="least-squares.html"><a href="least-squares.html#linear-least-squares"><i class="fa fa-check"></i><b>6.1</b> Linear Least Squares</a></li>
+<li class="chapter" data-level="6.2" data-path="least-squares.html"><a href="least-squares.html#polynomial-least-squares"><i class="fa fa-check"></i><b>6.2</b> Polynomial Least Squares</a></li>
+<li class="chapter" data-level="6.3" data-path="least-squares.html"><a href="least-squares.html#least-squares-exponential-fit"><i class="fa fa-check"></i><b>6.3</b> Least Squares Exponential Fit</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="least-squares.html"><a href="least-squares.html#exercises-7"><i class="fa fa-check"></i><b>6.3.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html"><i class="fa fa-check"></i><b>7</b> Ordinary Differentiable Equations (ODEs)</a><ul>
+<li class="chapter" data-level="7.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#initial-value-problems"><i class="fa fa-check"></i><b>7.1</b> Initial Value Problems</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#stability-of-odes"><i class="fa fa-check"></i><b>7.1.1</b> Stability of ODEs</a></li>
+<li class="chapter" data-level="7.1.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#unstable-ode"><i class="fa fa-check"></i><b>7.1.2</b> Unstable ODE</a></li>
+<li class="chapter" data-level="7.1.3" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#stable-ode"><i class="fa fa-check"></i><b>7.1.3</b> Stable ODE</a></li>
+<li class="chapter" data-level="7.1.4" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#neutrally-stable-ode"><i class="fa fa-check"></i><b>7.1.4</b> Neutrally Stable ODE</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#eulers-method"><i class="fa fa-check"></i><b>7.2</b> Euler’s Method</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#error-in-eulers-method"><i class="fa fa-check"></i><b>7.2.1</b> Error in Euler’s Method</a></li>
+<li class="chapter" data-level="7.2.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#example-18"><i class="fa fa-check"></i><b>7.2.2</b> Example</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#modified-eulers-method"><i class="fa fa-check"></i><b>7.3</b> Modified Euler’s Method</a></li>
+<li class="chapter" data-level="7.4" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#runge-kutta-methods"><i class="fa fa-check"></i><b>7.4</b> Runge-Kutta Methods</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#second-order-runge-kutta-method"><i class="fa fa-check"></i><b>7.4.1</b> Second Order Runge-Kutta Method</a></li>
+<li class="chapter" data-level="7.4.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#fourth-order-runge-kutta-method"><i class="fa fa-check"></i><b>7.4.2</b> Fourth Order Runge-Kutta Method</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#multistep-methods"><i class="fa fa-check"></i><b>7.5</b> Multistep Methods</a><ul>
+<li class="chapter" data-level="7.5.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#adam-bashforth-moultonmethod"><i class="fa fa-check"></i><b>7.5.1</b> Adam-Bashforth-MoultonMethod</a></li>
+<li class="chapter" data-level="7.5.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#advantages-of-multistep-methods"><i class="fa fa-check"></i><b>7.5.2</b> Advantages of Multistep Methods</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#systems-of-first-order-odes"><i class="fa fa-check"></i><b>7.6</b> Systems of First Order ODEs</a><ul>
+<li class="chapter" data-level="7.6.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#r-k-method-for-systems"><i class="fa fa-check"></i><b>7.6.1</b> R-K Method for Systems</a></li>
+</ul></li>
+<li class="chapter" data-level="7.7" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#converting-an-nth-order-ode-to-a-system-of-first-order-odes"><i class="fa fa-check"></i><b>7.7</b> Converting an <span class="math inline">\(n^{th}\)</span> Order ODE to a System of First Order ODEs</a><ul>
+<li class="chapter" data-level="7.7.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#exercises-8"><i class="fa fa-check"></i><b>7.7.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">University of the Witwatersrand</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Numerical Methods II APPM2007</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="interpolation" class="section level1">
+<h1><span class="header-section-number">Chapter 5</span> Interpolation</h1>
+<p>Typically, from experimental observations or statistical measurements we may have the value of a function <span class="math inline">\(f\)</span> at a set of points <span class="math inline">\(x_0,x_1,\cdots, x_n\)</span> (<span class="math inline">\(x_0&lt;x_1&lt;\cdots &lt; x_n\)</span>). However, we do not have an analytic expression for <span class="math inline">\(f\)</span> which would allow us to calculate the value of <span class="math inline">\(f\)</span> at an arbitrary point.</p>
+<p>You will frequently have occasion to estimate intermediate values between precise data points when dealing with real world data sets. The most common method used for this purpose is polynomial interpolation.</p>
+<p>Polynomial functions which fit the known data are commonly used to allow us to approximate these arbitrary points. If we use this function to approximate <span class="math inline">\(f\)</span> for some point <span class="math inline">\(x_0&lt;x&lt;x_n\)</span> then the process is called <strong>interpolation</strong>. If we use it to approximate <span class="math inline">\(f\)</span> for <span class="math inline">\(x&lt;x_0\)</span> or <span class="math inline">\(x&gt;x_n\)</span> then it is called <strong>extrapolation</strong>.</p>
+<p>Polynomials are used because:</p>
+<ul>
+<li>Computers can handle them easily. Which makes for fast and efficient
+programming.</li>
+<li>The integration and differentiation of polynomials is straightforward
+computationally.</li>
+<li>Polynomials are smooth functions - i.e. not only is a polynomial a continuous
+function, but all the derivatives exist and are themselves continuous.</li>
+<li>Polynomials are <strong>uniformly approximate continuous</strong> functions. This means that, given any function, which is continuous on some interval <span class="math inline">\([a,b]\)</span> and any positive number <span class="math inline">\(\epsilon\)</span> (no matter how small) we can find a polynomial <span class="math inline">\(P\)</span> such that
+<span class="math display">\[|f(x)-P(x)|&lt;\epsilon, \ \ \ \ x\in[a,b]\]</span></li>
+</ul>
+<p>This result is known as Weierstrass Approximation theorem.</p>
+<p>For <span class="math inline">\(n + 1\)</span> data points, there is one and only one polynomial of order <span class="math inline">\(n\)</span> that passes through all the points. For example, there is only one straight line (that is, a first-order polynomial) that connects two points. Similarly, only one parabola connects a set of three points. Polynomial interpolation consists of determining the unique nth-order polynomial that fits <span class="math inline">\(n + 1\)</span> data points. This polynomial then provides a formula to compute intermediate values.</p>
+<div id="weierstrauss-approximation-theorem" class="section level2">
+<h2><span class="header-section-number">5.1</span> Weierstrauss Approximation Theorem</h2>
+<p>One of the most useful and well-known classes of functions mapping the set of real numbers
+into itself is the <em>algebraic polynomials</em>, the set of functions of the form,
+<span class="math display">\[\begin{eqnarray}
+P_n(x) = a_nx^n+a_{n-1}^{n-1}+...+a_1x+a_0, \nonumber
+\end{eqnarray}\]</span>
+where <span class="math inline">\(n\)</span> is a nonnegative integer and <span class="math inline">\(a_0,...,a_n\)</span> are real constants. One reason for their importance is that they uniformly approximate continuous functions. By this we mean that given any function, defined and continuous on a closed and bounded interval, there exists a polynomial that is as “close” to the given function as desired. This result is expressed precisely in the Weierstrass Approximation Theorem.</p>
+<center>
+<img src="Figures/wier.png" />
+</center>
+<div class="alert alert-info">
+
+<div class="theorem">
+<span id="thm:unnamed-chunk-32" class="theorem"><strong>Theorem 5.1  (Weierstrauss Approximation Theorem)  </strong></span>
+Suppose that <span class="math inline">\(f\)</span> is defined and continuos on <span class="math inline">\([a,b]\)</span>. For each, <span class="math inline">\(\epsilon &gt; 0\)</span>, there exists a polynomial <span class="math inline">\(P(x)\)</span>, with the property that,
+<span class="math display">\[\begin{eqnarray}
+|f(x) - P(x)| &lt; \epsilon, \qquad \mbox{for all $x$ in}\ \ \ \ [a,b]. \nonumber
+\end{eqnarray}\]</span>
+</div>
+</div>
+<p><strong>Note: Karl Weierstrass (1815-1897) is often referred to as the father of modern analysis because of his insistence on rigour in the demonstration of mathematical results. He was instrumental in developing tests for convergence of series, and determining ways to rigorously define irrational numbers. He was the first to demonstrate that a function could be everywhere continuous but nowhere differentiable, a result that shocked some of his contemporaries.</strong></p>
+</div>
+<div id="linear-interpolation" class="section level2">
+<h2><span class="header-section-number">5.2</span> Linear Interpolation</h2>
+<p>Given only two points <span class="math inline">\((x_0,f(x_0))\)</span> and <span class="math inline">\((x_1,f(x_1))\)</span> (<span class="math inline">\(y=f(x)\)</span>) the obvious interpolating function is the (unique) straight line that passes through them.</p>
+<p>Let <span class="math inline">\(P_1(x)=a_0+a_1 x=f(x)\)</span>. Since this polynomial has to pass through these two points, it is required that:
+<span class="math display">\[\begin{eqnarray}
+a_0+a_1x_0&amp;=&amp;f(x_0)\\ a_0+a_1x_1&amp;=&amp;f(x_1)
+\end{eqnarray}\]</span>
+By solving for <span class="math inline">\(a_0\)</span> and <span class="math inline">\(a_1\)</span>, it is easy to show that:
+<span class="math display">\[ 
+a_0={f(x_0) x_1-f(x_1) x_0\over x_1-x_0},\quad a_1={f(x_1)-f(x_0) 
+\over x_1-x_0}
+\]</span>
+and hence:
+<span class="math display">\[
+P_1(x) ={f(x_0) x_1-f(x_1) x_0\over x_1-x_0}+x{f(x_1)-f(x_0)\over x_1-x_0}
+\]</span>
+which can be rearranged to yield:
+<span class="math display">\[
+P_1(x)=f(x_0)+ { f(x_1)- f(x_0)\over x_1-x_0} (x-x_0)
+\]</span>
+which is a linear interpolating formula.</p>
+<p>Hence at <span class="math inline">\(x=x^*\)</span> the linear interpolate is :
+<span class="math display">\[
+f(x^*)= f(x_0)+ { f(x_1)- f(x_0)\over x_1-x_0} (x^*-x_0).
+\]</span>
+<strong>Note</strong> that the quotient <span class="math inline">\({ f(x_1)- f(x_0)\over x_1-x_0}\)</span> is the slope of the line joining <span class="math inline">\((x_0,f(x_0))\)</span> and <span class="math inline">\((x_1,f(x_1))\)</span>. It is also a <strong>finite divided difference approximation</strong> to the first derivative.</p>
+<hr />
+<div id="example-10" class="section level4">
+<h4><span class="header-section-number">5.2.0.1</span> Example</h4>
+<p>Estimate <span class="math inline">\(\ln (2)\)</span> using linear interpolation given <span class="math inline">\(x_0=1\)</span> and <span class="math inline">\(x_1=6\)</span>.</p>
+<p><strong>Solution:</strong></p>
+<p><span class="math display">\[
+P_{(2)}=\ln 1+ {\ln 6-\ln 1\over 6-1} (2-1)=0.3583519
+\]</span>
+Calculator value <span class="math inline">\(\ln 2=0.6931472\)</span>.</p>
+<p>In this case the error is large because for one the interval between the data points is large and secondly we are linearly approximating a non-linear function.</p>
+<hr />
+</div>
+</div>
+<div id="quadratic-interpolation" class="section level2">
+<h2><span class="header-section-number">5.3</span> Quadratic Interpolation</h2>
+<p>The error in the above example results because we approximated a curve with a straight line. We can improve the estimate by introducing some curvature into the line connecting the data points.</p>
+<p>Given three distinct points <span class="math inline">\((x_i,f(x_i))\)</span>, <span class="math inline">\(i=0,1,2\)</span>, a unique <strong>parabola</strong> (i.e., a second degree polynomial) can be fitted through them:
+<span class="math display" id="eq:sec0">\[\begin{equation}
+P_2(x)=b_0+b_1 x+b_2 x^2,\tag{5.1}
+\end{equation}\]</span>
+by finding suitable coefficients <span class="math inline">\(b_0,\,b_1\)</span> and <span class="math inline">\(b_2.\)</span> A particularly convenient form for representing this polynomial is:
+<span class="math display" id="eq:sec1">\[\begin{equation}
+P_2(x)=a_0+a_1 (x-x_0)+a_2 (x-x_0)(x-x_1)\tag{5.2}
+\end{equation}\]</span>
+<strong>Note:</strong> This polynomial is just equivalent to the general polynomial <a href="interpolation.html#eq:sec0">(5.1)</a>. This can be shown by multiplying out the terms in <a href="interpolation.html#eq:sec1">(5.2)</a>.
+<span class="math display">\[
+P_2(x)=(a_0-a_1 x_0+a_2 x_0 x_1)+ (a_1-a_2 x_0-a_2 x_1)x+a_2 x^2 
+\]</span>
+and hence:
+<span class="math display">\[
+b_0 = a_0-a_1 x_0+a_2 x_0 x_1\ \ \ \ b_1 = a_1-a_2 x_0-a_2 x_1\ \ \ \ b_2 = a_2
+\]</span>
+Thus equations <a href="interpolation.html#eq:sec0">(5.1)</a> and <a href="interpolation.html#eq:sec1">(5.2)</a> are equivalent formulations of the unique second degree polynomial joining three points.</p>
+<p>Determination of the coefficients <span class="math inline">\(a_0\)</span>, <span class="math inline">\(a_1\)</span> and <span class="math inline">\(a_2\)</span>:
+The polynomial has to pass through the three points. Substituting in <span class="math inline">\(x=x_0\)</span> and <span class="math inline">\(x=x_1\)</span> gives:
+<span class="math display">\[\begin{eqnarray}
+P_2(x_0) &amp;=&amp; a_0=f(x_0)\\
+P_2(x_1) &amp;=&amp; f(x_0)+a_1 (x_1-x_0)=f(x_1),\ \ \ \ \Rightarrow a_1={f(x_1)-f(x_0)\over x_1- x_0}
+\end{eqnarray}\]</span>
+Finally, substituting in <span class="math inline">\(x=x_2\)</span> in <a href="interpolation.html#eq:sec1">(5.2)</a> and making use of the evaluated values of <span class="math inline">\(a_0\)</span> and <span class="math inline">\(a_1\)</span>, we can show, after some algebraic manipulations that:
+<span class="math display">\[
+a_2={{f(x_2)-f(x_1)\over x_2-x_1}- {f(x_1)-f(x_0)\over x_1-x_0}\over x_2-x_0} 
+\]</span>
+<strong>Note:</strong> that <span class="math inline">\(a_1\)</span> still represents the slope of the line joining <span class="math inline">\((x_0, f(x_0))\)</span> and <span class="math inline">\((x_1,f(x_1))\)</span>. The last term <span class="math inline">\(a_2(x-x_0)(x-x_1)\)</span> introduces the second order curvature into the formula.</p>
+<div id="example-11" class="section level4">
+<h4><span class="header-section-number">5.3.0.1</span> Example</h4>
+<p>Fit a second degree polynomial that goes through the points <span class="math inline">\(x_0=1\)</span>, <span class="math inline">\(x_1=4\)</span> and <span class="math inline">\(x_2=6\)</span> for <span class="math inline">\(f(x)=\ln x\)</span>. Use this polynomial to approximate <span class="math inline">\(\ln 2\)</span>.</p>
+<p><strong>Solution:</strong></p>
+<p>Polynomial,
+<span class="math display">\[ 
+P_2(x)=0+0.46209813(x-1)-0.051873116(x-1)(x-4)
+\]</span>
+Estimate for <span class="math inline">\(\ln 2\)</span>, put <span class="math inline">\(x=2\)</span> in <span class="math inline">\(P_2(x)\)</span>
+<span class="math display">\[ 
+P_2(2)=0+0.46209813(2-1)-0.051873116(2-1)(2-4)=0.56584436
+\]</span>
+This is a more accurate result than obtained using linear interpolation. We now have a relative error of <span class="math inline">\(\epsilon = 18.4\%\)</span>. Thus, the curvature introduced by the quadratic formula improves the interpolation compared with the result obtained using straight lines.</p>
+<p><img src="lecture_notes_files/figure-html/unnamed-chunk-33-1.png" /><!-- --></p>
+</div>
+</div>
+<div id="lagrange-interpolating-polynomials" class="section level2">
+<h2><span class="header-section-number">5.4</span> Lagrange Interpolating Polynomials</h2>
+<p>The general class of interpolating polynomials that require specification of certain points through which they must pass is called Lagrange polynomials. Suppose we want to determine a first degree polynomial that passes through two points <span class="math inline">\((x_0,y_0)\)</span> and <span class="math inline">\((x_1,y_1)\)</span>. Let such a polynomial have the form:
+<span class="math display">\[\begin{eqnarray*} 
+P(x)&amp;=&amp;\frac{(x-x_1)}{(x_0-x_1)}y_0+\frac{(x-x_0)}{(x_1-x_0)}\ y_1 \\
+&amp;=&amp; L_0(x)y_0+L_1(x)y_1
+\end{eqnarray*}\]</span>
+It is easy to verify that <span class="math inline">\(P(x_0)=y_0\)</span> and <span class="math inline">\(P(x_1)=y_1.\)</span> Thus the polynomial agrees with the functional values at the two stipulated points. We also note the following about the quotients <span class="math inline">\(L_0(x)\)</span> and <span class="math inline">\(L_1(x)\)</span>. When <span class="math inline">\(x=x_0,\; L_0(x_0)=1\)</span> and <span class="math inline">\(L_1(x_0)=0.\)</span> When <span class="math inline">\(x=x_1,\;L_0(x_1)=0\)</span> and <span class="math inline">\(L_1(x_1)=1.\)</span> Thus we need to construct the quotients <span class="math inline">\(L_0(x)\)</span> and <span class="math inline">\(L_1(x)\)</span> to determine the polynomial.</p>
+<p>In general, to construct a polynomial of degree at most <span class="math inline">\(n\)</span> that passes through the <span class="math inline">\(n+1\)</span> points <span class="math inline">\((x_0,f(x_0)),\;(x_1,f(x_1)),\ldots,(x_n,f(x_n))\)</span>, we need to construct for <span class="math inline">\(k=0,1,\ldots,n,\)</span> a quotient <span class="math inline">\(L_{n,k}(x)\)</span> with the property that <span class="math inline">\(L_{n,k}(x_i)=0\)</span> when <span class="math inline">\(i\neq k\)</span> and <span class="math inline">\(L_{n,k}(x_k)=1.\)</span> To satisfy <span class="math inline">\(L_{n,k}(x_i)=0\)</span> for each <span class="math inline">\(i\neq k\)</span> requires that the numerator of <span class="math inline">\(L_{n,k}\)</span> to contain the term:
+<span class="math display">\[
+(x-x_0)(x-x_1)\ldots(x-x_{k-1})(x-x_{k+1})\ldots(x-x_n).
+\]</span>
+To satisfy <span class="math inline">\(L_{n,k}(x_k)=1,\)</span> the denominator of <span class="math inline">\(L_{n,k}\)</span> must equal the denominator of the above numerator evaluated at <span class="math inline">\(x=x_k\)</span>. Thus:
+<span class="math display">\[\begin{eqnarray*} L_{n,k}(x)&amp;=&amp;\frac{(x-x_0)\ldots(x-x_{k-1})(x-x_{k+1})\ldots(x-x_n)}{(x_k-x_0)\ldots(x_k-x_{k-1})(x_k-x_{k+1})\ldots(x_k-x_n)}\\
+&amp;=&amp;\prod_{i=0,i\neq k}^n \frac{(x-x_i)}{(x_k-x_i)}.\end{eqnarray*}\]</span>
+The lagrange interpolating polynomial is thus given by:
+<span class="math display">\[\begin{equation}
+P(x)=L_{n,0}(x)f(x_0)+L_{n,1}(x)f(x_1)+\ldots +L_{n,n}(x)f(x_n)
+\end{equation}\]</span>
+If there is no confusion about the degree of the required polynomial we shall simply use <span class="math inline">\(L_k\)</span> instead of <span class="math inline">\(L_{n,k}.\)</span></p>
+<p><strong>Error in Lagrange polynomial:</strong></p>
+<p>The error in the approximation by the Lagrange interpolating polynomial can be estimated if <span class="math inline">\(f(x)\)</span> is known as:
+<span class="math display">\[\begin{equation}
+E(x)=\frac{f^{(n+1)}(\xi(x))}{(n+1)!}\prod_{i=0}^n (x-x_i), 
+\end{equation}\]</span>
+for some <span class="math inline">\(\xi(x)\in (a,b),\; a\leq x_0\leq x-1\leq \ldots \leq x_n\leq b_n,\)</span> assuming <span class="math inline">\(f^{(n+1)}(x)\)</span> is continuous on <span class="math inline">\([a,b].\)</span></p>
+<hr />
+<div id="example-12" class="section level4">
+<h4><span class="header-section-number">5.4.0.1</span> Example</h4>
+<p>Use a Lagrange interpolating polynomial of the first and second order to evaluate <span class="math inline">\(ln (x)\)</span> on the basis of the given data points and estimate the value at <span class="math inline">\(x=2\)</span></p>
+<p><span class="math display">\[\begin{equation*}
+L_i(x) =  \prod_{i=0, i\neq k}^n \dfrac{x-x_k}{x_i-x_k}
+\end{equation*}\]</span></p>
+<p><span class="math display">\[\begin{eqnarray}
+&amp;x_0 = 1;&amp; \ \ \   f(x_0)= 0 \nonumber \\
+&amp;x_1 = 4;&amp; \ \ \   f(x_1) = 1.386294 \nonumber \\
+&amp;x_2 = 6;&amp; \ \ \   f(x_2) = 1.791760 \nonumber
+\end{eqnarray}\]</span></p>
+<p><strong>First Order:</strong></p>
+<p>We have the following equation for the first order Lagrange polynomial,
+<span class="math display">\[\begin{equation*}
+P_1(x) = \dfrac{x-x_1}{x_0-x_1}f(x_0) + \dfrac{x-x_0}{x_1-x_0}f(x_1)
+\end{equation*}\]</span>
+Therefore we obtain,
+<span class="math display">\[\begin{eqnarray}
+P_1(2) &amp;=&amp; \dfrac{2-4}{1-4}(0) + \dfrac{2-1}{4-1}(1.386294) \nonumber \\
+&amp;&amp; \nonumber \\
+&amp;=&amp; 0.4620981.  \nonumber
+\end{eqnarray}\]</span></p>
+<p><strong>Second Order:</strong></p>
+<p>We have the following equation for the second order Lagrange polynomial,
+<span class="math display">\[\begin{equation*}
+P_2(x) = \dfrac{(x-x_1)(x-x_2)}{(x_0-x_1)(x_0-x_2)}f(x_0) + \dfrac{(x-x_0)(x-x_2)}{(x_1-x_0)(x_1-x_2)}f(x_1) + \dfrac{(x-x_0)(x-x_1)}{(x_2-x_0)(x_2-x_1)}f(x_2)
+\end{equation*}\]</span>
+Therefore we obtain,
+<span class="math display">\[\begin{eqnarray}
+P_2(2) &amp;=&amp; \dfrac{(2-4)(2-6)}{(1-4)(1-6)}(0) + \dfrac{(2-1)(2-6)}{(4-1)(4-6)}(1.386294) + \dfrac{(2-1)(2-4)}{(6-1)(6-4)}(1.791760) \nonumber \\
+&amp;&amp; \nonumber \\
+&amp;=&amp; 0.565844\nonumber 
+\end{eqnarray}\]</span></p>
+<p><img src="lecture_notes_files/figure-html/unnamed-chunk-34-1.png" /><!-- --></p>
+</div>
+<div id="example-13" class="section level4">
+<h4><span class="header-section-number">5.4.0.2</span> Example</h4>
+<p>Use the following data to approximate <span class="math inline">\(f(1.5)\)</span> using the Lagrange interpolating polynomial for <span class="math inline">\(n=1,2,\)</span> and <span class="math inline">\(3\)</span>.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><span class="math inline">\(x_i\)</span> values</th>
+<th>1</th>
+<th>1.3</th>
+<th>1.6</th>
+<th>1.9</th>
+<th>2.2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><span class="math inline">\(f(x_i)\)</span></td>
+<td>0.7651977</td>
+<td>0.6200860</td>
+<td>0.4554022</td>
+<td>0.2818186</td>
+<td>0.1103623</td>
+</tr>
+</tbody>
+</table>
+<p>The interpolating polynomial show be,
+<span class="math display">\[\begin{eqnarray}
+P(x) = (((0.0018251 x+0.0552928) x-0.343047) x+0.0733913) x+0.977735, \nonumber 
+\end{eqnarray}\]</span>
+which gives,
+<span class="math display">\[\begin{eqnarray}
+P(1.5) = 0.508939. \nonumber
+\end{eqnarray}\]</span></p>
+<hr />
+</div>
+</div>
+<div id="newtons-divided-differences" class="section level2">
+<h2><span class="header-section-number">5.5</span> Newton’s Divided Differences</h2>
+<p>We first introduce the notation for the divided differences:</p>
+<ul>
+<li>The zeroth divided difference of <span class="math inline">\(f\)</span> w.r.t. <span class="math inline">\(x_i\)</span> is <span class="math inline">\(f[x_i]=f(x_i)=f_i\)</span>.</li>
+<li>The first divided difference of <span class="math inline">\(f\)</span> w.r.t. <span class="math inline">\(x_i\)</span> and <span class="math inline">\(x_{i+1}\)</span> is:
+<span class="math display">\[
+  f[x_i,x_{i+1}] = {f[x_{i+1}]-f[x_i]\over x_{i+1}-x_i}={f_{i+1}-f_i\over x_{i+1}-x_i}
+  \]</span></li>
+<li>The Second divided difference of <span class="math inline">\(f\)</span> w.r.t. <span class="math inline">\(x_i\)</span>, <span class="math inline">\(x_{i+1}\)</span> and <span class="math inline">\(x_{i+2}\)</span> is:
+<span class="math display">\[
+  f[x_i,x_{i+1},x_{i+2}] = {f[x_{i+1},x_{i+2}]-f[x_i,x_{i+1}]\over x_{i+2}-x_i}
+  \]</span></li>
+<li>The <span class="math inline">\(k^{th}\)</span> divided difference of <span class="math inline">\(f\)</span> w.r.t. <span class="math inline">\(x_i, x_{i+1},\cdots, x_{i+k}\)</span> is:
+<span class="math display">\[
+  f[x_i,x_{i+1},\cdots, x_{i+k}] = {f[x_{i+1},x_{i+2},\cdots, x_{i+k}]-f[x_i,x_{i+2},\cdots, x_{i+k-1}]\over x_{i+k}-x_i}
+  \]</span></li>
+</ul>
+<p>We now fit an <span class="math inline">\(n\)</span>th degree interpolating polynomial to the <span class="math inline">\(n+1\)</span> data points <span class="math inline">\((x_i,f(x_i)),\;i=0,1,\cdots,n\)</span> in the form:
+<span class="math display">\[
+P_n(x)=a_0+a_1(x-x_0)+a_2(x-x_0)(x-x_1)+\cdots+a_n(x-x_0)(x-x_1)\cdots
+(x-x_{n-1}).
+\]</span>
+Since the polynomial must pass through the points <span class="math inline">\((x_i,f_i)\)</span> we have:</p>
+<ul>
+<li><span class="math inline">\(x=x_0\)</span> <span class="math inline">\(P_n(x_0)=f_0=a_0=f[x_0]\)</span></li>
+<li><span class="math inline">\(x=x_1\)</span> <span class="math inline">\(P_n(x_1)=f_1=f[x_0]+a_1(x_1-x_0)=f[x_1] \ \ \ \Rightarrow a_1={f[x_1]-f[x_0]\over x_1-x_0} =f[x_0,x_1].\)</span></li>
+<li><span class="math inline">\(x=x_2\)</span>
+<span class="math display">\[
+  P_n(x_2)=f_2=f[x_2]=f[x_0]+f[x_0,x_1](x_2-x_0)+a_2(x_2-x_0)(x_2-x_1),
+  \]</span>
+and therefore:
+<span class="math display">\[
+  a_2={f[x_2]-f[x_0]-f[x_0,x_1](x_2-x_0)\over (x_2-x_0)(x_2-x_1)}
+  \]</span>
+With some algebraic manipulation it can be shown that:
+<span class="math display">\[
+  a_2={f[x_1,x_2]-f[x_0,x_1]\over x_2-x_0} =f[x_0,x_1,x_2]
+  \]</span></li>
+</ul>
+<p>In general:
+<span class="math display">\[a_k=f[x_0,x_1,\cdots,x_k]\]</span>
+so that:
+<span class="math display">\[\begin{eqnarray}
+P_n(x) &amp;=&amp; f[x_0]+\sum_{k=1}^n f[x_0,\cdots,x_k](x-x_0)\cdots (x-x_{k-1})\nonumber\\
+  &amp;=&amp; f[x_0]+\sum_{k=1}^n f[x_0,\cdots,x_k]\prod_{i=0}^{k-1}(x-x_i)
+\end{eqnarray}\]</span>
+called <strong>Newton’s divided difference interpolating polynomial</strong>. All divided differences are calculated in a similar process and the results are usually tabulated in:</p>
+<p>a divided difference table:</p>
+<table>
+<colgroup>
+<col width="11%" />
+<col width="14%" />
+<col width="21%" />
+<col width="24%" />
+<col width="14%" />
+<col width="13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"><span class="math inline">\(x_i\)</span></th>
+<th align="center"><span class="math inline">\(f[x_i]\)</span></th>
+<th align="center"><span class="math inline">\(f\left[x_i,x_{i+1}\right]\)</span></th>
+<th align="center"><span class="math inline">\(f\left[x_i,x_{i+1},x_{i+2}\right]\)</span></th>
+<th align="center"><span class="math inline">\(f[x_i,x_{i+1},x_{i+2}, x_{i+3}]\)</span></th>
+<th align="center"><span class="math inline">\(f[x_i,x_{i+1},x_{i+2}, x_{i+3}, x_{i+4}]\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><span class="math inline">\(x_0\)</span></td>
+<td align="center"><span class="math inline">\(f[x_0]\)</span></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"><span class="math inline">\(f[x_0,x_1]\)</span></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(x_1\)</span></td>
+<td align="center"><span class="math inline">\(f[x_1]\)</span></td>
+<td align="center"></td>
+<td align="center"><span class="math inline">\(f[x_0,x_1,x_2]\)</span></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"><span class="math inline">\(f[x_1,x_2]\)</span></td>
+<td align="center"></td>
+<td align="center"><span class="math inline">\(f[x_0,x_1,x_2,x_3]\)</span></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(x_2\)</span></td>
+<td align="center"><span class="math inline">\(f[x_2]\)</span></td>
+<td align="center"></td>
+<td align="center"><span class="math inline">\(f[x_1,x_2,x_3]\)</span></td>
+<td align="center"></td>
+<td align="center"><span class="math inline">\(f[x_0,x_1,x_2,x_3,x_4]\)</span></td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"><span class="math inline">\(f[x_2,x_3]\)</span></td>
+<td align="center"></td>
+<td align="center"><span class="math inline">\(f[x_1,x_2,x_3,x_4]\)</span></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(x_3\)</span></td>
+<td align="center"><span class="math inline">\(f[x_3]\)</span></td>
+<td align="center"></td>
+<td align="center"><span class="math inline">\(f[x_2,x_3,x_4]\)</span></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"><span class="math inline">\(f[x_3,x_4]\)</span></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(x_4\)</span></td>
+<td align="center"><span class="math inline">\(f[x_4]\)</span></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<div id="exercise-4" class="section level4">
+<h4><span class="header-section-number">5.5.0.1</span> Exercise</h4>
+<p>Use a third degree polynomial passing through the points <span class="math inline">\((1,\ln 1)\)</span>, <span class="math inline">\((4,\ln 4)\)</span>, <span class="math inline">\((5,\ln 5)\)</span> and <span class="math inline">\((6,\ln 6)\)</span> to estimate <span class="math inline">\(\ln 2\)</span>.
+(Ans: <span class="math inline">\(P_3(2)= 0.62876869\)</span>).</p>
+<hr />
+</div>
+<div id="example-14" class="section level4">
+<h4><span class="header-section-number">5.5.0.2</span> Example</h4>
+<p>Find a polynomial satisfied by <span class="math inline">\((-4,1245),\;(-1,33),\; (0,5),\; (2,9),\;(5,1335)\)</span>.</p>
+<p><strong>Solution:</strong></p>
+<table>
+<colgroup>
+<col width="16%" />
+<col width="18%" />
+<col width="25%" />
+<col width="14%" />
+<col width="19%" />
+<col width="5%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="center"><span class="math inline">\(x_i\)</span></th>
+<th align="center"><span class="math inline">\(f(x_i)\)</span></th>
+<th align="center"><span class="math inline">\(f[x_i,x_{i+1}]\)</span></th>
+<th align="center"><span class="math inline">\(f[x_i,x_{i+1},x_{i+2}]\)</span></th>
+<th align="center"><span class="math inline">\(f[x_i,x_{i+1},x_{i+2},x_{i+3}]\)</span></th>
+<th align="center"><span class="math inline">\(f[x_i,x_{i+1},x_{i+2},x_{i+3},x_{i+4}]\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><span class="math inline">\(-4\)</span></td>
+<td align="center"><span class="math inline">\(1245\)</span></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"><span class="math inline">\(-404\)</span></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(-1\)</span></td>
+<td align="center"><span class="math inline">\(33\)</span></td>
+<td align="center"></td>
+<td align="center"><span class="math inline">\(94\)</span></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"><span class="math inline">\(-28\)</span></td>
+<td align="center"></td>
+<td align="center"><span class="math inline">\(-14\)</span></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(0\)</span></td>
+<td align="center"><span class="math inline">\(5\)</span></td>
+<td align="center"></td>
+<td align="center"><span class="math inline">\(10\)</span></td>
+<td align="center"></td>
+<td align="center">3</td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"><span class="math inline">\(2\)</span></td>
+<td align="center"></td>
+<td align="center">13</td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(2\)</span></td>
+<td align="center"><span class="math inline">\(9\)</span></td>
+<td align="center"></td>
+<td align="center">88</td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="even">
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"><span class="math inline">\(442\)</span></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+<tr class="odd">
+<td align="center"><span class="math inline">\(5\)</span></td>
+<td align="center"><span class="math inline">\(1335\)</span></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+<td align="center"></td>
+</tr>
+</tbody>
+</table>
+<p>Hence,
+<span class="math display">\[\begin{eqnarray}
+P_4(x) &amp;=&amp;1245-404(x+4)+94(x+4)(x+1)-14(x+4)(x+1)(x)\\
+&amp;&amp;+3(x+4)(x+1)x(x-2)\nonumber \\
+      &amp;=&amp; 3 x^4-5 x^3+ 6x^2-14x+5.\nonumber
+\end{eqnarray}\]</span>
+<strong>Note:</strong> If an extra data point <span class="math inline">\((x,f(x))\)</span> is added, we only need to add an additional term to the <span class="math inline">\(P_n(x)\)</span> already found.</p>
+<hr />
+<div class="sourceCode" id="cb39"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb39-1" data-line-number="1">x <span class="op">=</span> np.array([<span class="op">-</span><span class="dv">4</span>, <span class="dv">-1</span>, <span class="dv">0</span>, <span class="dv">2</span>, <span class="dv">5</span>])</a>
+<a class="sourceLine" id="cb39-2" data-line-number="2">y <span class="op">=</span> np.array([<span class="dv">1245</span>, <span class="dv">33</span>, <span class="dv">5</span>, <span class="dv">9</span>, <span class="dv">1335</span>])</a>
+<a class="sourceLine" id="cb39-3" data-line-number="3">f <span class="op">=</span> <span class="kw">lambda</span> x: <span class="dv">3</span><span class="op">*</span>x<span class="op">**</span><span class="dv">4</span> <span class="op">-</span> <span class="dv">5</span><span class="op">*</span>x<span class="op">**</span><span class="dv">3</span> <span class="op">+</span> <span class="dv">6</span><span class="op">*</span>x<span class="op">**</span><span class="dv">2</span> <span class="dv">-13</span><span class="op">*</span>x <span class="op">+</span> <span class="dv">5</span></a>
+<a class="sourceLine" id="cb39-4" data-line-number="4">X <span class="op">=</span> np.arange(<span class="op">-</span><span class="dv">4</span>, <span class="fl">5.1</span>, <span class="fl">0.1</span>)</a>
+<a class="sourceLine" id="cb39-5" data-line-number="5">Y <span class="op">=</span> f(X)</a>
+<a class="sourceLine" id="cb39-6" data-line-number="6">plt.figure()</a>
+<a class="sourceLine" id="cb39-7" data-line-number="7">plt.plot(X, Y)</a>
+<a class="sourceLine" id="cb39-8" data-line-number="8">plt.plot(x, f(x), <span class="st">&#39;r*&#39;</span>)</a>
+<a class="sourceLine" id="cb39-9" data-line-number="9">plt.show()</a></code></pre></div>
+<p><img src="lecture_notes_files/figure-html/unnamed-chunk-36-1.png" /><!-- --></p>
+<p>In general if <span class="math inline">\(P_n(x)\)</span> is the interpolating polynomial through the <span class="math inline">\((n+1)\)</span> points <span class="math inline">\((x_i,f_i),\;i=0,1,\cdots,n\)</span>, then the Newton’s divided difference formula gives <span class="math inline">\(P_{n+1}\)</span> through these points plus one more point <span class="math inline">\((x_{n+1},f_{n+1})\)</span> as i.e.,
+<span class="math display">\[\begin{equation}
+P_{n+1}(x)=P_n(x)+f[x_0,x_1,\cdots,x_n,x_{n+1}]\prod_{i=0}^{n} (x-x_i)
+\end{equation}\]</span>
+<span class="math inline">\(P_{n+1}(x)\)</span> improves the interpolation by introducing additional curvature.</p>
+</div>
+<div id="errors-of-newtons-interpolating-polynomials" class="section level3">
+<h3><span class="header-section-number">5.5.1</span> Errors of Newton’s interpolating polynomials</h3>
+<p>Let <span class="math inline">\(P_{n+1}(x)\)</span> be the <span class="math inline">\((n+1)\)</span>th degree polynomial which fits <span class="math inline">\(y=f(x)\)</span> at the <span class="math inline">\(n+2\)</span> points, <span class="math inline">\((x_0,f(x_0)),\;\;(x_1,f(x_1)),\cdots,\; (x_n,f(x_n), (x, f(x))\)</span>. The last point is a general point. Then:
+<span class="math display">\[P_{n+1}(x)=P_n(x)+f[x_0,x_1,\cdots,x_n,x]\prod_{i=0}^{n} (x-x_i)\]</span>
+since <span class="math inline">\(f(x)\approx P_{n+1}(x)\)</span>, we have
+<span class="math display">\[
+\epsilon_n(x)=P_{n+1}(x)-P_n(x)= f[x_0,x_1,\cdots,x_n,x]\prod_{i=0}^{n}(x-x_i)
+\]</span>
+<strong>Remarks:</strong>
+For <span class="math inline">\(n=0\)</span>,
+<span class="math display">\[
+f[x_0,x]={f(x)-f(x_0)\over x-x_0}.
+\]</span>
+We have:</p>
+<ul>
+<li>(Mean value theorem) <span class="math inline">\(f[x_0,x]={f(x)-f(x_0)\over x-x_0}=f^\prime(\xi),\ \ \  \xi\in[x_0,x]\)</span>.</li>
+<li>(Definition of a derivative) <span class="math inline">\(\lim{x\to x_0} f[x_0,x]=f^\prime(x_0)\)</span>.</li>
+</ul>
+<p>In general, it can be shown that
+<span class="math display">\[ f[x_0,x_1,\cdots,x_n]={1\over n!} f^{(n)}(\xi),\ \ \ \ \xi\in [x_0,x_n]\]</span>
+and hence:
+<span class="math display">\[\begin{equation}
+f[x_0,x_1,\cdots,x_n,x]={1\over (n+1)!} f^{(n+1)}(\xi),\ \ \ \ \xi\in [x_0,x]
+\end{equation}\]</span>
+The error is then:
+<span class="math display">\[\begin{eqnarray}
+\epsilon_n(x) &amp;=&amp;  f[x_0,x_1,\cdots,x_n,x]\prod_{i=0}^{n}(x-x_i)\nonumber \\
+ &amp;=&amp;  {1\over (n+1)!} f^{(n+1)}(\xi)\prod_{i=0}^{n}(x-x_i),\ \ \ \ \xi\in [x_0,x]
+\end{eqnarray}\]</span></p>
+</div>
+</div>
+<div id="cubic-splines-interpolation" class="section level2">
+<h2><span class="header-section-number">5.6</span> Cubic Splines Interpolation</h2>
+<p>The previous sections concerned the approximation of arbitrary functions on closed intervals by the use of polynomials. However, the oscillatory nature of the high-degree polynomials, and the property that a fluctuation over a small portion of the interval can induce large fluctuations over the entire range, restricts their use.</p>
+<p>The concept of the spline fit originated from the drafting technique of using a thin, flexible strip to draw a smooth curve through a set of given points. The flexible spline was pinned or held by weights so that the curve passed through all the data points. The spline passed smoothly from one interval to the next because of the laws governing beam flexure.</p>
+<p>The most widely used spline fitting is the <strong>cubic spline</strong>. In the cubic spline procedure, a cubic polynomial is passed through each pair of points in such a manner that the first and second derivatives are continuous throughout the table of points.</p>
+A cubic spline <span class="math inline">\(s\)</span> with knots <span class="math inline">\(x_0&lt;x_1&lt;\cdots\;&lt;x_n\)</span> satisfies:
+
+<p>For <span class="math inline">\(x_{i-1}&lt;x&lt;x_i\)</span> let <span class="math inline">\(s(x)=s_i(x)\)</span></p>
+<p>The first condition is that the spline must pass through all the data points. So:
+<span class="math display">\[\begin{equation}
+f_i = a_i + b_i(x_i-x_i) + c_i(x_i-x_i)^2 + d_i(x_i-x_i)^3,
+\end{equation}\]</span>
+which simplifies to,
+<span class="math display">\[\begin{equation}
+a_i = f_i.
+\end{equation}\]</span>
+Therefore, the constant in each cubic must be equal to the value of the dependent variable at the beginning of the interval. This result can incorporated into,
+<span class="math display" id="eq:splines">\[\begin{equation}
+s_i(x) = f_i + b_i(x-x_i) + c_i(x-x_i)^2+d_i(x-x_i)^3. \tag{5.3}
+\end{equation}\]</span>
+Where the coefficients, <span class="math inline">\(b_i,d_i\)</span> are solved using the following,
+<span class="math display">\[\begin{eqnarray}
+b_i &amp;=&amp; \dfrac{f_{i+1}-f_i}{h_i}-\dfrac{h_i}{3}(2c_i + c_{i+1}), \\
+d_i &amp;=&amp; \dfrac{c_{i+1}-c_i}{3h_i},
+\end{eqnarray}\]</span>
+where <span class="math inline">\(h_i\)</span> is simply,
+<span class="math display">\[\begin{equation}
+h_i = x_{i+1} - x_i.
+\end{equation}\]</span>
+The solution for <span class="math inline">\(c_i\)</span> is somewhat more complicated. This enforces us to make use of systems of linear equations by solving the following tridiagonal system,
+<span class="math display">\[
+\begin{bmatrix}
+1 &amp;  &amp;  &amp; \\ 
+h_1 &amp; 2(h_1+h_2)  &amp;h_2  &amp; \\ 
+  \ddots &amp;\ddots  &amp;\ddots &amp; \\
+ &amp; h_{n-2} &amp; 2(h_{n-2}+h_{n-1})  &amp; h_{n-1} \\
+  &amp;  &amp;  &amp; 1 
+\end{bmatrix}
+\begin{Bmatrix}
+c_1\\ 
+c_2\\ 
+\vdots\\
+c_{n-1}\\
+c_n 
+\end{Bmatrix}
+=
+\begin{bmatrix}
+0\\ 
+3(f[x_3,x_2]-f[x_2,x_1])\\ 
+\vdots\\
+3(f[x_n,x_{n-1}]-f[x_{n-1},x_{n-2}])\\
+0 
+\end{bmatrix}.
+\]</span></p>
+<hr />
+<div id="example-15" class="section level4">
+<h4><span class="header-section-number">5.6.0.1</span> Example</h4>
+<p>Consider the table below. Fit cubic splines to the data and utilize the results to estimate the value at <span class="math inline">\(x=5\)</span>.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><span class="math inline">\(i\)</span></th>
+<th align="left"><span class="math inline">\(x_i\)</span></th>
+<th align="left"><span class="math inline">\(f_i\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">3</td>
+<td align="left">2.5</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">4.5</td>
+<td align="left">1</td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="left">7</td>
+<td align="left">2.5</td>
+</tr>
+<tr class="even">
+<td align="left">4</td>
+<td align="left">9</td>
+<td align="left">0.5</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Solution:</strong></p>
+<p>The first step is to generate the set of simultaneous equations that will be utilized to determine the <span class="math inline">\(c\)</span> coefficients:
+<span class="math display">\[
+\begin{bmatrix}
+1 &amp; 0 &amp;  0&amp;0 \\ 
+1.5 &amp; 8  &amp;2.5  &amp;0 \\ 
+0 &amp; 2.5 &amp; 9  &amp; 2  \\
+ 0 &amp; 0 &amp; 0 &amp; 1 
+\end{bmatrix}
+\begin{Bmatrix}
+c_1\\ 
+c_2\\ 
+c_3\\
+c_4 
+\end{Bmatrix}
+=
+\begin{bmatrix}
+0\\ 
+3(0.6+1)\\ 
+3(-1-0.6)\\
+0 
+\end{bmatrix}.
+\]</span></p>
+<p><span class="math display">\[
+\Rightarrow
+\begin{bmatrix}
+1 &amp; 0 &amp;  0&amp;0 \\ 
+1.5 &amp; 8  &amp;2.5  &amp;0 \\ 
+0 &amp; 2.5 &amp; 9  &amp; 2  \\
+ 0 &amp; 0 &amp; 0 &amp; 1 
+\end{bmatrix}
+\begin{Bmatrix}
+c_1\\ 
+c_2\\ 
+c_3\\
+c_4 
+\end{Bmatrix}
+=
+\begin{bmatrix}
+0\\ 
+4.8\\ 
+-4.8\\
+0 
+\end{bmatrix}.
+\]</span>
+Therefore:
+<span class="math display">\[
+\Rightarrow \bar{c}=
+\begin{bmatrix}
+0\\0.839543726\\-0.766539924\\0
+\end{bmatrix}.
+\]</span>
+Using our values for c we obtain the following for our <span class="math inline">\(d\)</span>’s,
+<span class="math display">\[\begin{eqnarray}
+d_1 &amp;=&amp; 0.186565272,\nonumber \\
+d_2 &amp;=&amp; -0.214144487, \nonumber \\
+d_3 &amp;=&amp; 0.127756654. \nonumber
+\end{eqnarray}\]</span>
+We can then compute the <span class="math inline">\(b\)</span>’s using equation (1.4),
+<span class="math display">\[\begin{eqnarray}
+b_1 &amp;=&amp; -1.419771863,\nonumber \\
+b_2 &amp;=&amp; -0.160456274, \nonumber \\
+b_3 &amp;=&amp; 0.022053232. \nonumber
+\end{eqnarray}\]</span>
+These results allow us to develop the cubic splines for each interval using Equation <a href="interpolation.html#eq:splines">(5.3)</a>:
+<span class="math display">\[\begin{eqnarray}
+s_1(x) &amp;=&amp; 2.5-1.419771863(x-3) +0.186565272(x-3)^3, \nonumber \\
+s_2(x) &amp;=&amp; 1 -0.160456274(x-4.5) +0.839543726(x-4.5)^2-0.214144487(x-4.5)^3, \nonumber \\
+s_3(x) &amp;=&amp; 2.5 + 0.022053232(x-7) - 0.766539924(x-7)^2 + 0.127756654(x-7)^3. \nonumber
+\end{eqnarray}\]</span>
+The three equations can then be employed to compute values within each interval. For example, the value at <span class="math inline">\(x=5\)</span>, which falls within the second interval, is calculated as,
+<span class="math display">\[\begin{eqnarray}
+s_2(5) &amp;=&amp; 1 -0.160456274(5-4.5) +0.839543726(5-4.5)^2-0.214144487(5-4.5)^3 \nonumber \\
+ &amp;=&amp; 1.102889734. \nonumber 
+\end{eqnarray}\]</span></p>
+<hr />
+</div>
+<div id="runges-phenomenon" class="section level3">
+<h3><span class="header-section-number">5.6.1</span> Runge’s Phenomenon</h3>
+<p>A major problem with interpolation is <strong>Runge’s Phenomenon</strong>. Let us consider an example in <em>Mathematica</em>:</p>
+<div class="sourceCode" id="cb40"><pre class="sourceCode mathematica"><code class="sourceCode mathematica"><a class="sourceLine" id="cb40-1" data-line-number="1"><span class="fu">ClearAll</span>[data, <span class="fu">x</span>];</a>
+<a class="sourceLine" id="cb40-2" data-line-number="2">data = <span class="fu">RandomReal</span>[{-<span class="dv">10</span>, <span class="dv">10</span>}, <span class="dv">20</span>];</a>
+<a class="sourceLine" id="cb40-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb40-4" data-line-number="4"><span class="fu">ListPlot</span>[data]</a>
+<a class="sourceLine" id="cb40-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb40-6" data-line-number="6"><span class="fu">Manipulate</span>[</a>
+<a class="sourceLine" id="cb40-7" data-line-number="7"> <span class="fu">Show</span>[</a>
+<a class="sourceLine" id="cb40-8" data-line-number="8">  <span class="fu">Plot</span>[<span class="fu">InterpolatingPolynomial</span>[data[[<span class="dv">1</span> ;; <span class="fu">n</span>]], <span class="fu">x</span>], {<span class="fu">x</span>, <span class="dv">1</span>, <span class="fu">n</span>}, </a>
+<a class="sourceLine" id="cb40-9" data-line-number="9">   <span class="fu">PlotRange</span> -&gt; <span class="fu">All</span>],</a>
+<a class="sourceLine" id="cb40-10" data-line-number="10">  <span class="fu">ListPlot</span>[data, <span class="fu">PlotStyle</span> -&gt; <span class="fu">Directive</span>[<span class="fu">PointSize</span>[<span class="fu">Large</span>], <span class="fu">Red</span>]],</a>
+<a class="sourceLine" id="cb40-11" data-line-number="11">  <span class="fu">PlotRange</span> -&gt; <span class="fu">All</span></a>
+<a class="sourceLine" id="cb40-12" data-line-number="12">  ], {<span class="fu">n</span>, <span class="dv">2</span>, <span class="fu">Length</span>[data], <span class="dv">1</span>}]</a>
+<a class="sourceLine" id="cb40-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb40-14" data-line-number="14">pctrl[<span class="dt">d_</span>, <span class="dt">param_</span>, <span class="dt">noeud_</span>] := </a>
+<a class="sourceLine" id="cb40-15" data-line-number="15"> <span class="fu">LinearSolve</span>[</a>
+<a class="sourceLine" id="cb40-16" data-line-number="16">  <span class="fu">Module</span>[{<span class="fu">n</span> = <span class="fu">Length</span>[<span class="fu">d</span>]}, </a>
+<a class="sourceLine" id="cb40-17" data-line-number="17">   <span class="fu">Table</span>[<span class="fu">BSplineBasis</span>[{<span class="dv">3</span>, noeud}, <span class="fu">j</span> - <span class="dv">1</span>, param[[<span class="fu">i</span>]]], {<span class="fu">i</span>, <span class="fu">n</span>}, {<span class="fu">j</span>, </a>
+<a class="sourceLine" id="cb40-18" data-line-number="18">     <span class="fu">n</span>}]], <span class="fu">d</span>]</a>
+<a class="sourceLine" id="cb40-19" data-line-number="19"></a>
+<a class="sourceLine" id="cb40-20" data-line-number="20">tcentr[<span class="dt">d_</span>] := </a>
+<a class="sourceLine" id="cb40-21" data-line-number="21"> <span class="fu">Module</span>[{<span class="fu">a</span>}, </a>
+<a class="sourceLine" id="cb40-22" data-line-number="22">  <span class="fu">a</span> = <span class="fu">Accumulate</span>[</a>
+<a class="sourceLine" id="cb40-23" data-line-number="23">    <span class="fu">Table</span>[<span class="fu">Norm</span>[<span class="fu">d</span>[[<span class="fu">i</span> + <span class="dv">1</span>]] - <span class="fu">d</span>[[<span class="fu">i</span>]]]^(<span class="dv">1</span>/<span class="dv">2</span>), {<span class="fu">i</span>, <span class="fu">Length</span>[<span class="fu">d</span>] - <span class="dv">1</span>}]]; </a>
+<a class="sourceLine" id="cb40-24" data-line-number="24">  <span class="fu">N</span>[<span class="fu">Prepend</span>[<span class="fu">a</span>/<span class="fu">Last</span>[<span class="fu">a</span>], <span class="dv">0</span>]]]</a>
+<a class="sourceLine" id="cb40-25" data-line-number="25"></a>
+<a class="sourceLine" id="cb40-26" data-line-number="26">noeudmoy[<span class="dt">d_</span>, <span class="dt">param_</span>] := </a>
+<a class="sourceLine" id="cb40-27" data-line-number="27"> <span class="fu">Join</span>[{<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>}, </a>
+<a class="sourceLine" id="cb40-28" data-line-number="28">  <span class="fu">Table</span>[<span class="dv">1</span>/<span class="dv">3</span>*<span class="fu">Sum</span>[param[[<span class="fu">i</span>]], {<span class="fu">i</span>, <span class="fu">j</span>, <span class="fu">j</span> + <span class="dv">2</span>}], {<span class="fu">j</span>, <span class="dv">2</span>, </a>
+<a class="sourceLine" id="cb40-29" data-line-number="29">    <span class="fu">Length</span>[param] - <span class="dv">3</span>}], {<span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>, <span class="dv">1</span>}]</a>
+<a class="sourceLine" id="cb40-30" data-line-number="30"></a>
+<a class="sourceLine" id="cb40-31" data-line-number="31">dpts = <span class="fu">Table</span>[{<span class="fu">i</span>, data[[<span class="fu">i</span>]]}, {<span class="fu">i</span>, <span class="fu">Length</span>[data]}];</a>
+<a class="sourceLine" id="cb40-32" data-line-number="32"></a>
+<a class="sourceLine" id="cb40-33" data-line-number="33"></a>
+<a class="sourceLine" id="cb40-34" data-line-number="34"><span class="fu">Manipulate</span>[<span class="fu">Module</span>[{pCt},</a>
+<a class="sourceLine" id="cb40-35" data-line-number="35">  pCt = pctrl[dpts[[<span class="dv">1</span> ;; <span class="fu">n</span>]], tcentr[dpts[[<span class="dv">1</span> ;; <span class="fu">n</span>]]], </a>
+<a class="sourceLine" id="cb40-36" data-line-number="36">    noeudmoy[dpts[[<span class="dv">1</span> ;; <span class="fu">n</span>]], tcentr[dpts[[<span class="dv">1</span> ;; <span class="fu">n</span>]]]]];</a>
+<a class="sourceLine" id="cb40-37" data-line-number="37">  <span class="fu">Show</span>[</a>
+<a class="sourceLine" id="cb40-38" data-line-number="38">   <span class="fu">ParametricPlot</span>[</a>
+<a class="sourceLine" id="cb40-39" data-line-number="39">    <span class="fu">BSplineFunction</span>[pCt, </a>
+<a class="sourceLine" id="cb40-40" data-line-number="40">      <span class="fu">SplineKnots</span> -&gt; </a>
+<a class="sourceLine" id="cb40-41" data-line-number="41">       noeudmoy[dpts[[<span class="dv">1</span> ;; <span class="fu">n</span>]], tcentr[dpts[[<span class="dv">1</span> ;; <span class="fu">n</span>]]]]][<span class="fu">x</span>], {<span class="fu">x</span>, <span class="dv">0</span>, </a>
+<a class="sourceLine" id="cb40-42" data-line-number="42">     <span class="dv">1</span>}, <span class="fu">PlotRange</span> -&gt; <span class="fu">All</span>],</a>
+<a class="sourceLine" id="cb40-43" data-line-number="43">   <span class="fu">ListPlot</span>[data, <span class="fu">PlotStyle</span> -&gt; <span class="fu">Directive</span>[<span class="fu">PointSize</span>[<span class="fu">Large</span>], <span class="fu">Red</span>]],</a>
+<a class="sourceLine" id="cb40-44" data-line-number="44">   <span class="fu">PlotRange</span> -&gt; <span class="fu">All</span></a>
+<a class="sourceLine" id="cb40-45" data-line-number="45">   ]], {<span class="fu">n</span>, <span class="dv">4</span>, <span class="fu">Length</span>[data], <span class="dv">1</span>}]</a></code></pre></div>
+<p>Thus we can see that high order polynomials lead to an exponential growth of the infinity norm error. To overcome this we used the splines technique from above, however, another method one could use is Chebyshev polynomials. Here points are distributed more densely towards the bounds of the interval.</p>
+<hr />
+</div>
+<div id="exercises-6" class="section level3">
+<h3><span class="header-section-number">5.6.2</span> Exercises</h3>
+<ol style="list-style-type: decimal">
+<li>Given the data points:</li>
+</ol>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><span class="math inline">\(x\)</span></th>
+<th align="left">-1.2</th>
+<th align="left">0.3</th>
+<th align="left">1.1</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><span class="math inline">\(y\)</span></td>
+<td align="left">-5.76</td>
+<td align="left">-5.61</td>
+<td align="left">-3.69</td>
+</tr>
+</tbody>
+</table>
+<p>determine <span class="math inline">\(y\)</span> at <span class="math inline">\(x = 0\)</span> using (a) Lagrange’s method and (b) Newton’s Divided Differences.</p>
+<ol start="2" style="list-style-type: decimal">
+<li>Given the data:</li>
+</ol>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><span class="math inline">\(x\)</span></th>
+<th align="left">0.4</th>
+<th align="left">0.5</th>
+<th align="left">0.7</th>
+<th align="left">0.8</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><span class="math inline">\(y\)</span></td>
+<td align="left">1.086</td>
+<td align="left">1.139</td>
+<td align="left">1.307</td>
+<td align="left">1.435</td>
+</tr>
+</tbody>
+</table>
+<p>Estimate <span class="math inline">\(f(0.6)\)</span> from the data using:
+(a) a second degree Lagrange polynomial
+(b) a third degree Lagrange polynomial</p>
+<ol start="3" style="list-style-type: decimal">
+<li>Given <span class="math inline">\(f(-2)=46,\; f(-1)=4,\;f(1)=4,\;f(3)=156,\; f(4)=484\)</span>, use Newton Divided Differences to estimate <span class="math inline">\(f(0)\)</span>.</li>
+<li>Let <span class="math inline">\(P(x)\)</span> be the degree 5 polynomial that takes the value 10 at <span class="math inline">\(x = 1, 2, 3, 4, 5\)</span> and the value 15 at <span class="math inline">\(x = 6\)</span>. Find <span class="math inline">\(P(7)\)</span>.</li>
+<li>Write down a polynomial of degree exactly 5 that interpolates the four points <span class="math inline">\((1, 1), (2, 3), (3, 3), (4, 4)\)</span>.</li>
+<li>Find <span class="math inline">\(P(0)\)</span>, where <span class="math inline">\(P(x)\)</span> is the degree 10 polynomial that is zero at <span class="math inline">\(x = 1, \ldots, 10\)</span> and satisfies <span class="math inline">\(P(12) = 44\)</span>.</li>
+<li>Write down the degree 25 polynomial that passes through the points <span class="math inline">\((1, -1), (2, -2), \ldots, (25, -25)\)</span> and has constant term equal to 25.</li>
+<li>Use the method of divided differences to find the degree 4 interpolating polynomial <span class="math inline">\(P_4(x)\)</span> for the data <span class="math inline">\((0.6, 1.433329), (0.7, 1.632316), (0.8, 1.896481), (0.9, 2.247908)\)</span> and <span class="math inline">\((1.0, 2.718282)\)</span>. Next calculate <span class="math inline">\(P_4(0.82)\)</span> and <span class="math inline">\(P_4(0.98)\)</span>. The aforementioned data is sampled from the function <span class="math inline">\(f(x) = e^x\)</span>. Compute the absolute and relative errors of your approximations at <span class="math inline">\(P_4(0.82)\)</span> and <span class="math inline">\(P_4(0.98)\)</span>.</li>
+</ol>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="eigenvalues-and-eigenvectors.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="least-squares.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/05-interpolation.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["lecture_notes.pdf", "lecture_notes.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

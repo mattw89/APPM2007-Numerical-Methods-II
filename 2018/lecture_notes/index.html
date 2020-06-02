@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Numerical Methods II APPM2007</title>
+  <meta name="description" content="Course notes for Numerical Analysis II at the University of the Witwatersrand" />
+  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Numerical Methods II APPM2007" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:image" content="wits_high_def-min.png" />
+  <meta property="og:description" content="Course notes for Numerical Analysis II at the University of the Witwatersrand" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Numerical Methods II APPM2007" />
+  
+  <meta name="twitter:description" content="Course notes for Numerical Analysis II at the University of the Witwatersrand" />
+  <meta name="twitter:image" content="wits_high_def-min.png" />
+
+<meta name="author" content="Dr Matthew Woolway" />
+
+
+<meta name="date" content="2020-01-15" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+
+<link rel="next" href="numerical-differentiation.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Numerical Analysis II</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Course Outline</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#course-structure-and-details"><i class="fa fa-check"></i>Course Structure and Details</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#course-assessment"><i class="fa fa-check"></i>Course Assessment</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#course-topics"><i class="fa fa-check"></i>Course Topics</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#hardware-requirements"><i class="fa fa-check"></i>Hardware Requirements</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html"><i class="fa fa-check"></i><b>1</b> Numerical Differentiation</a><ul>
+<li class="chapter" data-level="1.1" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#finite-difference-methods"><i class="fa fa-check"></i><b>1.1</b> Finite Difference Methods</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#approximations-to-fprimex"><i class="fa fa-check"></i><b>1.1.1</b> Approximations to <span class="math inline">\(f^\prime(x)\)</span></a></li>
+<li class="chapter" data-level="1.1.2" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#approximations-to-fprimeprimex"><i class="fa fa-check"></i><b>1.1.2</b> Approximations to <span class="math inline">\(f^{\prime\prime}(x)\)</span></a></li>
+<li class="chapter" data-level="1.1.3" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#errors-in-first-and-second-order"><i class="fa fa-check"></i><b>1.1.3</b> Errors in First and Second Order</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#exercises"><i class="fa fa-check"></i><b>1.2</b> Exercises</a></li>
+<li class="chapter" data-level="1.3" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#richardsons-extrapolation"><i class="fa fa-check"></i><b>1.3</b> Richardson’s Extrapolation</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#example-1"><i class="fa fa-check"></i><b>1.3.1</b> Example</a></li>
+<li class="chapter" data-level="1.3.2" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#exercises-1"><i class="fa fa-check"></i><b>1.3.2</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="numerical-integration.html"><a href="numerical-integration.html"><i class="fa fa-check"></i><b>2</b> Numerical Integration</a><ul>
+<li class="chapter" data-level="2.1" data-path="numerical-integration.html"><a href="numerical-integration.html#quadrature-rules"><i class="fa fa-check"></i><b>2.1</b> Quadrature Rules</a></li>
+<li class="chapter" data-level="2.2" data-path="numerical-integration.html"><a href="numerical-integration.html#newton-cotes-quadrature"><i class="fa fa-check"></i><b>2.2</b> Newton-Cotes Quadrature</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="numerical-integration.html"><a href="numerical-integration.html#trapezoidal-rule"><i class="fa fa-check"></i><b>2.2.1</b> Trapezoidal Rule</a></li>
+<li class="chapter" data-level="2.2.2" data-path="numerical-integration.html"><a href="numerical-integration.html#example-2"><i class="fa fa-check"></i><b>2.2.2</b> Example</a></li>
+<li class="chapter" data-level="2.2.3" data-path="numerical-integration.html"><a href="numerical-integration.html#the-midpoint-method"><i class="fa fa-check"></i><b>2.2.3</b> The Midpoint Method</a></li>
+<li class="chapter" data-level="2.2.4" data-path="numerical-integration.html"><a href="numerical-integration.html#simpsons-rule"><i class="fa fa-check"></i><b>2.2.4</b> Simpson’s Rule</a></li>
+<li class="chapter" data-level="2.2.5" data-path="numerical-integration.html"><a href="numerical-integration.html#convergence-rates"><i class="fa fa-check"></i><b>2.2.5</b> Convergence Rates</a></li>
+<li class="chapter" data-level="2.2.6" data-path="numerical-integration.html"><a href="numerical-integration.html#exercises-2"><i class="fa fa-check"></i><b>2.2.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="numerical-integration.html"><a href="numerical-integration.html#romberg-integration"><i class="fa fa-check"></i><b>2.3</b> Romberg Integration</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="numerical-integration.html"><a href="numerical-integration.html#exercises-3"><i class="fa fa-check"></i><b>2.3.1</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="numerical-integration.html"><a href="numerical-integration.html#double-and-triple-integrals"><i class="fa fa-check"></i><b>2.4</b> Double and Triple Integrals</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="numerical-integration.html"><a href="numerical-integration.html#the-midpoint-method-for-double-integrals"><i class="fa fa-check"></i><b>2.4.1</b> The Midpoint Method for Double Integrals</a></li>
+<li class="chapter" data-level="2.4.2" data-path="numerical-integration.html"><a href="numerical-integration.html#the-midpoint-method-for-triple-integrals"><i class="fa fa-check"></i><b>2.4.2</b> The Midpoint Method for Triple Integrals</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html"><i class="fa fa-check"></i><b>3</b> Numerical Solutions to Nonlinear Equations</a><ul>
+<li class="chapter" data-level="3.1" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#nonlinear-equations-in-one-unknown-fx0"><i class="fa fa-check"></i><b>3.1</b> Nonlinear equations in one unknown: <span class="math inline">\(f(x)=0\)</span></a><ul>
+<li class="chapter" data-level="3.1.1" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#interval-methods"><i class="fa fa-check"></i><b>3.1.1</b> Interval Methods</a></li>
+<li class="chapter" data-level="3.1.2" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#bisection-method"><i class="fa fa-check"></i><b>3.1.2</b> Bisection Method</a></li>
+<li class="chapter" data-level="3.1.3" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#false-position-method-or-regula-falsi"><i class="fa fa-check"></i><b>3.1.3</b> False position method or Regula Falsi</a></li>
+<li class="chapter" data-level="3.1.4" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#fixed-point-methods"><i class="fa fa-check"></i><b>3.1.4</b> Fixed Point Methods</a></li>
+<li class="chapter" data-level="3.1.5" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#newtons-method"><i class="fa fa-check"></i><b>3.1.5</b> Newton’s Method</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#newtons-method-for-systems-of-nonlinear-equations"><i class="fa fa-check"></i><b>3.2</b> Newton’s Method for Systems of Nonlinear Equations</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#exercises-4"><i class="fa fa-check"></i><b>3.2.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="eigenvalues-and-eigenvectors.html"><a href="eigenvalues-and-eigenvectors.html"><i class="fa fa-check"></i><b>4</b> Eigenvalues and Eigenvectors</a><ul>
+<li class="chapter" data-level="4.1" data-path="eigenvalues-and-eigenvectors.html"><a href="eigenvalues-and-eigenvectors.html#the-power-method"><i class="fa fa-check"></i><b>4.1</b> The Power Method</a></li>
+<li class="chapter" data-level="4.2" data-path="eigenvalues-and-eigenvectors.html"><a href="eigenvalues-and-eigenvectors.html#the-inverse-power-method"><i class="fa fa-check"></i><b>4.2</b> The Inverse Power Method</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="eigenvalues-and-eigenvectors.html"><a href="eigenvalues-and-eigenvectors.html#exercises-5"><i class="fa fa-check"></i><b>4.2.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="interpolation.html"><a href="interpolation.html"><i class="fa fa-check"></i><b>5</b> Interpolation</a><ul>
+<li class="chapter" data-level="5.1" data-path="interpolation.html"><a href="interpolation.html#weierstrauss-approximation-theorem"><i class="fa fa-check"></i><b>5.1</b> Weierstrauss Approximation Theorem</a></li>
+<li class="chapter" data-level="5.2" data-path="interpolation.html"><a href="interpolation.html#linear-interpolation"><i class="fa fa-check"></i><b>5.2</b> Linear Interpolation</a></li>
+<li class="chapter" data-level="5.3" data-path="interpolation.html"><a href="interpolation.html#quadratic-interpolation"><i class="fa fa-check"></i><b>5.3</b> Quadratic Interpolation</a></li>
+<li class="chapter" data-level="5.4" data-path="interpolation.html"><a href="interpolation.html#lagrange-interpolating-polynomials"><i class="fa fa-check"></i><b>5.4</b> Lagrange Interpolating Polynomials</a></li>
+<li class="chapter" data-level="5.5" data-path="interpolation.html"><a href="interpolation.html#newtons-divided-differences"><i class="fa fa-check"></i><b>5.5</b> Newton’s Divided Differences</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="interpolation.html"><a href="interpolation.html#errors-of-newtons-interpolating-polynomials"><i class="fa fa-check"></i><b>5.5.1</b> Errors of Newton’s interpolating polynomials</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="interpolation.html"><a href="interpolation.html#cubic-splines-interpolation"><i class="fa fa-check"></i><b>5.6</b> Cubic Splines Interpolation</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="interpolation.html"><a href="interpolation.html#runges-phenomenon"><i class="fa fa-check"></i><b>5.6.1</b> Runge’s Phenomenon</a></li>
+<li class="chapter" data-level="5.6.2" data-path="interpolation.html"><a href="interpolation.html#exercises-6"><i class="fa fa-check"></i><b>5.6.2</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="least-squares.html"><a href="least-squares.html"><i class="fa fa-check"></i><b>6</b> Least Squares</a><ul>
+<li class="chapter" data-level="6.1" data-path="least-squares.html"><a href="least-squares.html#linear-least-squares"><i class="fa fa-check"></i><b>6.1</b> Linear Least Squares</a></li>
+<li class="chapter" data-level="6.2" data-path="least-squares.html"><a href="least-squares.html#polynomial-least-squares"><i class="fa fa-check"></i><b>6.2</b> Polynomial Least Squares</a></li>
+<li class="chapter" data-level="6.3" data-path="least-squares.html"><a href="least-squares.html#least-squares-exponential-fit"><i class="fa fa-check"></i><b>6.3</b> Least Squares Exponential Fit</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="least-squares.html"><a href="least-squares.html#exercises-7"><i class="fa fa-check"></i><b>6.3.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html"><i class="fa fa-check"></i><b>7</b> Ordinary Differentiable Equations (ODEs)</a><ul>
+<li class="chapter" data-level="7.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#initial-value-problems"><i class="fa fa-check"></i><b>7.1</b> Initial Value Problems</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#stability-of-odes"><i class="fa fa-check"></i><b>7.1.1</b> Stability of ODEs</a></li>
+<li class="chapter" data-level="7.1.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#unstable-ode"><i class="fa fa-check"></i><b>7.1.2</b> Unstable ODE</a></li>
+<li class="chapter" data-level="7.1.3" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#stable-ode"><i class="fa fa-check"></i><b>7.1.3</b> Stable ODE</a></li>
+<li class="chapter" data-level="7.1.4" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#neutrally-stable-ode"><i class="fa fa-check"></i><b>7.1.4</b> Neutrally Stable ODE</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#eulers-method"><i class="fa fa-check"></i><b>7.2</b> Euler’s Method</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#error-in-eulers-method"><i class="fa fa-check"></i><b>7.2.1</b> Error in Euler’s Method</a></li>
+<li class="chapter" data-level="7.2.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#example-18"><i class="fa fa-check"></i><b>7.2.2</b> Example</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#modified-eulers-method"><i class="fa fa-check"></i><b>7.3</b> Modified Euler’s Method</a></li>
+<li class="chapter" data-level="7.4" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#runge-kutta-methods"><i class="fa fa-check"></i><b>7.4</b> Runge-Kutta Methods</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#second-order-runge-kutta-method"><i class="fa fa-check"></i><b>7.4.1</b> Second Order Runge-Kutta Method</a></li>
+<li class="chapter" data-level="7.4.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#fourth-order-runge-kutta-method"><i class="fa fa-check"></i><b>7.4.2</b> Fourth Order Runge-Kutta Method</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#multistep-methods"><i class="fa fa-check"></i><b>7.5</b> Multistep Methods</a><ul>
+<li class="chapter" data-level="7.5.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#adam-bashforth-moultonmethod"><i class="fa fa-check"></i><b>7.5.1</b> Adam-Bashforth-MoultonMethod</a></li>
+<li class="chapter" data-level="7.5.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#advantages-of-multistep-methods"><i class="fa fa-check"></i><b>7.5.2</b> Advantages of Multistep Methods</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#systems-of-first-order-odes"><i class="fa fa-check"></i><b>7.6</b> Systems of First Order ODEs</a><ul>
+<li class="chapter" data-level="7.6.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#r-k-method-for-systems"><i class="fa fa-check"></i><b>7.6.1</b> R-K Method for Systems</a></li>
+</ul></li>
+<li class="chapter" data-level="7.7" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#converting-an-nth-order-ode-to-a-system-of-first-order-odes"><i class="fa fa-check"></i><b>7.7</b> Converting an <span class="math inline">\(n^{th}\)</span> Order ODE to a System of First Order ODEs</a><ul>
+<li class="chapter" data-level="7.7.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#exercises-8"><i class="fa fa-check"></i><b>7.7.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">University of the Witwatersrand</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Numerical Methods II APPM2007</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="header">
+<h1 class="title">Numerical Methods II APPM2007</h1>
+<p class="author"><em>Dr Matthew Woolway</em></p>
+<p class="date"><em>2020-01-15</em></p>
+</div>
+<div id="course-outline" class="section level1 unnumbered">
+<h1>Course Outline</h1>
+<hr />
+<!---- 
+<img src="/wits_high_def-min.png" style="display: block; margin: auto;" />
+--->
+<center>
+<img src="wits_high_def-min.png" />
+</center>
+<div id="course-structure-and-details" class="section level2 unnumbered">
+<h2>Course Structure and Details</h2>
+<ul>
+<li><strong>Office: UG3 - Maths Science Building (MSB)</strong></li>
+<li><strong>Consultation: Wednesdays - 12:30 - 14:15</strong> (This is for all three topics)</li>
+<li><strong>Lecture Venues: P115 - Tuesdays (10:15 - 11:30)</strong></li>
+</ul>
+</div>
+<div id="course-assessment" class="section level2 unnumbered">
+<h2>Course Assessment</h2>
+<ul>
+<li>There will be two tests and <strong>no</strong> assignment</li>
+<li>There will be labs. These <strong>may/may not</strong> count for extra marks</li>
+<li>The programming language will be <strong>Python</strong></li>
+</ul>
+</div>
+<div id="course-topics" class="section level2 unnumbered">
+<h2>Course Topics</h2>
+<p>We will be covering the following topics throughout the course:</p>
+<ul>
+<li>Numerical differentiation</li>
+<li>Numerical Integration</li>
+<li>Numerical solutions to nonlinear equations</li>
+<li>Numerical solutions to systems of nonlinear equations</li>
+<li>Eigenvalues and eigenvectors</li>
+<li>Interpolation and least squares approximation</li>
+<li>Numerical solutions of ordinary differential equations and boundary value problems</li>
+</ul>
+</div>
+<div id="hardware-requirements" class="section level2 unnumbered">
+<h2>Hardware Requirements</h2>
+<p>The course will be very computational in nature, however, you do not need your own personal machine. MSL already has <strong>Python</strong> installed. The labs will be running the IDEs for Python (along with Jupyter) while I will be using Jupyter for easier presentation and explanation in lectures. You will at some point need to become familiar with Jupyter as the tests will be conducted in the Maths Science Labs (MSL) utilising this platform for autograding purposes.</p>
+<p>If you do have your own machine and would prefer to work from that you are more than welcome. Since all the notes and code will be presented through Jupyter please follow the following steps:</p>
+<ul>
+<li>Install Anaconda from here: <a href="https://repo.continuum.io/archive/Anaconda3-5.2.0-Windows-x86_64.exe" class="uri">https://repo.continuum.io/archive/Anaconda3-5.2.0-Windows-x86_64.exe</a>
+<ul>
+<li>Make sure when installing Anaconda to set the installation to PATH when prompted (it will be deselected by default)</li>
+</ul></li>
+<li>To launch a Jupyter notebook, open the command promt (cmd) and type jupyter notebook. This should launch the browser and jupyter. If you see any proxy issues while on campus, then you will need to set the proxy to exclude the localhost.</li>
+</ul>
+<p>If you are not running Windows but rather Linux, then you can get Anaconda at:
+<a href="https://repo.continuum.io/archive/Anaconda3-5.2.0-Linux-x86_64.sh" class="uri">https://repo.continuum.io/archive/Anaconda3-5.2.0-Linux-x86_64.sh</a></p>
+<hr />
+<!----
+<img src="wits_high_def-min.png" width="80%" />
+
+This is a _sample_ book written in **Markdown**. You can use anything that Pandoc's Markdown supports, e.g., a math equation $a^2 + b^2 = c^2$.
+
+The **bookdown** package can be installed from CRAN or Github:
+
+
+```r
+install.packages("bookdown")
+# or the development version
+# devtools::install_github("rstudio/bookdown")
+```
+
+
+```python
+print('Hello, World!')
+```
+
+Remember each Rmd file contains one and only one chapter, and a chapter is defined by the first-level heading `#`.
+
+To compile this example to PDF, you need XeLaTeX. You are recommended to install TinyTeX (which includes XeLaTeX): <https://yihui.name/tinytex/>.
+
+
+
+
+---->
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+<a href="numerical-differentiation.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/index.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["lecture_notes.pdf", "lecture_notes.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

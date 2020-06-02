@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 2 Numerical Integration | Numerical Methods II APPM2007</title>
+  <meta name="description" content="Course notes for Numerical Analysis II at the University of the Witwatersrand" />
+  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 2 Numerical Integration | Numerical Methods II APPM2007" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:image" content="wits_high_def-min.png" />
+  <meta property="og:description" content="Course notes for Numerical Analysis II at the University of the Witwatersrand" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 2 Numerical Integration | Numerical Methods II APPM2007" />
+  
+  <meta name="twitter:description" content="Course notes for Numerical Analysis II at the University of the Witwatersrand" />
+  <meta name="twitter:image" content="wits_high_def-min.png" />
+
+<meta name="author" content="Dr Matthew Woolway" />
+
+
+<meta name="date" content="2020-01-15" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="numerical-differentiation.html"/>
+<link rel="next" href="numerical-solutions-to-nonlinear-equations.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Numerical Analysis II</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Course Outline</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#course-structure-and-details"><i class="fa fa-check"></i>Course Structure and Details</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#course-assessment"><i class="fa fa-check"></i>Course Assessment</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#course-topics"><i class="fa fa-check"></i>Course Topics</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#hardware-requirements"><i class="fa fa-check"></i>Hardware Requirements</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html"><i class="fa fa-check"></i><b>1</b> Numerical Differentiation</a><ul>
+<li class="chapter" data-level="1.1" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#finite-difference-methods"><i class="fa fa-check"></i><b>1.1</b> Finite Difference Methods</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#approximations-to-fprimex"><i class="fa fa-check"></i><b>1.1.1</b> Approximations to <span class="math inline">\(f^\prime(x)\)</span></a></li>
+<li class="chapter" data-level="1.1.2" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#approximations-to-fprimeprimex"><i class="fa fa-check"></i><b>1.1.2</b> Approximations to <span class="math inline">\(f^{\prime\prime}(x)\)</span></a></li>
+<li class="chapter" data-level="1.1.3" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#errors-in-first-and-second-order"><i class="fa fa-check"></i><b>1.1.3</b> Errors in First and Second Order</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#exercises"><i class="fa fa-check"></i><b>1.2</b> Exercises</a></li>
+<li class="chapter" data-level="1.3" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#richardsons-extrapolation"><i class="fa fa-check"></i><b>1.3</b> Richardson’s Extrapolation</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#example-1"><i class="fa fa-check"></i><b>1.3.1</b> Example</a></li>
+<li class="chapter" data-level="1.3.2" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#exercises-1"><i class="fa fa-check"></i><b>1.3.2</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="numerical-integration.html"><a href="numerical-integration.html"><i class="fa fa-check"></i><b>2</b> Numerical Integration</a><ul>
+<li class="chapter" data-level="2.1" data-path="numerical-integration.html"><a href="numerical-integration.html#quadrature-rules"><i class="fa fa-check"></i><b>2.1</b> Quadrature Rules</a></li>
+<li class="chapter" data-level="2.2" data-path="numerical-integration.html"><a href="numerical-integration.html#newton-cotes-quadrature"><i class="fa fa-check"></i><b>2.2</b> Newton-Cotes Quadrature</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="numerical-integration.html"><a href="numerical-integration.html#trapezoidal-rule"><i class="fa fa-check"></i><b>2.2.1</b> Trapezoidal Rule</a></li>
+<li class="chapter" data-level="2.2.2" data-path="numerical-integration.html"><a href="numerical-integration.html#example-2"><i class="fa fa-check"></i><b>2.2.2</b> Example</a></li>
+<li class="chapter" data-level="2.2.3" data-path="numerical-integration.html"><a href="numerical-integration.html#the-midpoint-method"><i class="fa fa-check"></i><b>2.2.3</b> The Midpoint Method</a></li>
+<li class="chapter" data-level="2.2.4" data-path="numerical-integration.html"><a href="numerical-integration.html#simpsons-rule"><i class="fa fa-check"></i><b>2.2.4</b> Simpson’s Rule</a></li>
+<li class="chapter" data-level="2.2.5" data-path="numerical-integration.html"><a href="numerical-integration.html#convergence-rates"><i class="fa fa-check"></i><b>2.2.5</b> Convergence Rates</a></li>
+<li class="chapter" data-level="2.2.6" data-path="numerical-integration.html"><a href="numerical-integration.html#exercises-2"><i class="fa fa-check"></i><b>2.2.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="numerical-integration.html"><a href="numerical-integration.html#romberg-integration"><i class="fa fa-check"></i><b>2.3</b> Romberg Integration</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="numerical-integration.html"><a href="numerical-integration.html#exercises-3"><i class="fa fa-check"></i><b>2.3.1</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="numerical-integration.html"><a href="numerical-integration.html#double-and-triple-integrals"><i class="fa fa-check"></i><b>2.4</b> Double and Triple Integrals</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="numerical-integration.html"><a href="numerical-integration.html#the-midpoint-method-for-double-integrals"><i class="fa fa-check"></i><b>2.4.1</b> The Midpoint Method for Double Integrals</a></li>
+<li class="chapter" data-level="2.4.2" data-path="numerical-integration.html"><a href="numerical-integration.html#the-midpoint-method-for-triple-integrals"><i class="fa fa-check"></i><b>2.4.2</b> The Midpoint Method for Triple Integrals</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html"><i class="fa fa-check"></i><b>3</b> Numerical Solutions to Nonlinear Equations</a><ul>
+<li class="chapter" data-level="3.1" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#nonlinear-equations-in-one-unknown-fx0"><i class="fa fa-check"></i><b>3.1</b> Nonlinear equations in one unknown: <span class="math inline">\(f(x)=0\)</span></a><ul>
+<li class="chapter" data-level="3.1.1" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#interval-methods"><i class="fa fa-check"></i><b>3.1.1</b> Interval Methods</a></li>
+<li class="chapter" data-level="3.1.2" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#bisection-method"><i class="fa fa-check"></i><b>3.1.2</b> Bisection Method</a></li>
+<li class="chapter" data-level="3.1.3" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#false-position-method-or-regula-falsi"><i class="fa fa-check"></i><b>3.1.3</b> False position method or Regula Falsi</a></li>
+<li class="chapter" data-level="3.1.4" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#fixed-point-methods"><i class="fa fa-check"></i><b>3.1.4</b> Fixed Point Methods</a></li>
+<li class="chapter" data-level="3.1.5" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#newtons-method"><i class="fa fa-check"></i><b>3.1.5</b> Newton’s Method</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#newtons-method-for-systems-of-nonlinear-equations"><i class="fa fa-check"></i><b>3.2</b> Newton’s Method for Systems of Nonlinear Equations</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#exercises-4"><i class="fa fa-check"></i><b>3.2.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="eigenvalues-and-eigenvectors.html"><a href="eigenvalues-and-eigenvectors.html"><i class="fa fa-check"></i><b>4</b> Eigenvalues and Eigenvectors</a><ul>
+<li class="chapter" data-level="4.1" data-path="eigenvalues-and-eigenvectors.html"><a href="eigenvalues-and-eigenvectors.html#the-power-method"><i class="fa fa-check"></i><b>4.1</b> The Power Method</a></li>
+<li class="chapter" data-level="4.2" data-path="eigenvalues-and-eigenvectors.html"><a href="eigenvalues-and-eigenvectors.html#the-inverse-power-method"><i class="fa fa-check"></i><b>4.2</b> The Inverse Power Method</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="eigenvalues-and-eigenvectors.html"><a href="eigenvalues-and-eigenvectors.html#exercises-5"><i class="fa fa-check"></i><b>4.2.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="interpolation.html"><a href="interpolation.html"><i class="fa fa-check"></i><b>5</b> Interpolation</a><ul>
+<li class="chapter" data-level="5.1" data-path="interpolation.html"><a href="interpolation.html#weierstrauss-approximation-theorem"><i class="fa fa-check"></i><b>5.1</b> Weierstrauss Approximation Theorem</a></li>
+<li class="chapter" data-level="5.2" data-path="interpolation.html"><a href="interpolation.html#linear-interpolation"><i class="fa fa-check"></i><b>5.2</b> Linear Interpolation</a></li>
+<li class="chapter" data-level="5.3" data-path="interpolation.html"><a href="interpolation.html#quadratic-interpolation"><i class="fa fa-check"></i><b>5.3</b> Quadratic Interpolation</a></li>
+<li class="chapter" data-level="5.4" data-path="interpolation.html"><a href="interpolation.html#lagrange-interpolating-polynomials"><i class="fa fa-check"></i><b>5.4</b> Lagrange Interpolating Polynomials</a></li>
+<li class="chapter" data-level="5.5" data-path="interpolation.html"><a href="interpolation.html#newtons-divided-differences"><i class="fa fa-check"></i><b>5.5</b> Newton’s Divided Differences</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="interpolation.html"><a href="interpolation.html#errors-of-newtons-interpolating-polynomials"><i class="fa fa-check"></i><b>5.5.1</b> Errors of Newton’s interpolating polynomials</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="interpolation.html"><a href="interpolation.html#cubic-splines-interpolation"><i class="fa fa-check"></i><b>5.6</b> Cubic Splines Interpolation</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="interpolation.html"><a href="interpolation.html#runges-phenomenon"><i class="fa fa-check"></i><b>5.6.1</b> Runge’s Phenomenon</a></li>
+<li class="chapter" data-level="5.6.2" data-path="interpolation.html"><a href="interpolation.html#exercises-6"><i class="fa fa-check"></i><b>5.6.2</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="least-squares.html"><a href="least-squares.html"><i class="fa fa-check"></i><b>6</b> Least Squares</a><ul>
+<li class="chapter" data-level="6.1" data-path="least-squares.html"><a href="least-squares.html#linear-least-squares"><i class="fa fa-check"></i><b>6.1</b> Linear Least Squares</a></li>
+<li class="chapter" data-level="6.2" data-path="least-squares.html"><a href="least-squares.html#polynomial-least-squares"><i class="fa fa-check"></i><b>6.2</b> Polynomial Least Squares</a></li>
+<li class="chapter" data-level="6.3" data-path="least-squares.html"><a href="least-squares.html#least-squares-exponential-fit"><i class="fa fa-check"></i><b>6.3</b> Least Squares Exponential Fit</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="least-squares.html"><a href="least-squares.html#exercises-7"><i class="fa fa-check"></i><b>6.3.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html"><i class="fa fa-check"></i><b>7</b> Ordinary Differentiable Equations (ODEs)</a><ul>
+<li class="chapter" data-level="7.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#initial-value-problems"><i class="fa fa-check"></i><b>7.1</b> Initial Value Problems</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#stability-of-odes"><i class="fa fa-check"></i><b>7.1.1</b> Stability of ODEs</a></li>
+<li class="chapter" data-level="7.1.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#unstable-ode"><i class="fa fa-check"></i><b>7.1.2</b> Unstable ODE</a></li>
+<li class="chapter" data-level="7.1.3" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#stable-ode"><i class="fa fa-check"></i><b>7.1.3</b> Stable ODE</a></li>
+<li class="chapter" data-level="7.1.4" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#neutrally-stable-ode"><i class="fa fa-check"></i><b>7.1.4</b> Neutrally Stable ODE</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#eulers-method"><i class="fa fa-check"></i><b>7.2</b> Euler’s Method</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#error-in-eulers-method"><i class="fa fa-check"></i><b>7.2.1</b> Error in Euler’s Method</a></li>
+<li class="chapter" data-level="7.2.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#example-18"><i class="fa fa-check"></i><b>7.2.2</b> Example</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#modified-eulers-method"><i class="fa fa-check"></i><b>7.3</b> Modified Euler’s Method</a></li>
+<li class="chapter" data-level="7.4" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#runge-kutta-methods"><i class="fa fa-check"></i><b>7.4</b> Runge-Kutta Methods</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#second-order-runge-kutta-method"><i class="fa fa-check"></i><b>7.4.1</b> Second Order Runge-Kutta Method</a></li>
+<li class="chapter" data-level="7.4.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#fourth-order-runge-kutta-method"><i class="fa fa-check"></i><b>7.4.2</b> Fourth Order Runge-Kutta Method</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#multistep-methods"><i class="fa fa-check"></i><b>7.5</b> Multistep Methods</a><ul>
+<li class="chapter" data-level="7.5.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#adam-bashforth-moultonmethod"><i class="fa fa-check"></i><b>7.5.1</b> Adam-Bashforth-MoultonMethod</a></li>
+<li class="chapter" data-level="7.5.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#advantages-of-multistep-methods"><i class="fa fa-check"></i><b>7.5.2</b> Advantages of Multistep Methods</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#systems-of-first-order-odes"><i class="fa fa-check"></i><b>7.6</b> Systems of First Order ODEs</a><ul>
+<li class="chapter" data-level="7.6.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#r-k-method-for-systems"><i class="fa fa-check"></i><b>7.6.1</b> R-K Method for Systems</a></li>
+</ul></li>
+<li class="chapter" data-level="7.7" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#converting-an-nth-order-ode-to-a-system-of-first-order-odes"><i class="fa fa-check"></i><b>7.7</b> Converting an <span class="math inline">\(n^{th}\)</span> Order ODE to a System of First Order ODEs</a><ul>
+<li class="chapter" data-level="7.7.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#exercises-8"><i class="fa fa-check"></i><b>7.7.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">University of the Witwatersrand</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Numerical Methods II APPM2007</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="numerical-integration" class="section level1">
+<h1><span class="header-section-number">Chapter 2</span> Numerical Integration</h1>
+<p>A common problem is to evaluate the definite integral:
+<span class="math display" id="eq:definiteInt">\[\begin{equation}
+I = \int_a^b f(x)dx.\tag{2.1}
+\end{equation}\]</span>
+Here we wish to compute the area under a the curve <span class="math inline">\(f(x)\)</span> over an interval <span class="math inline">\([a, b]\)</span> on the real line. The numerical approximation of definite integrals is known as <strong>numerical quadrature</strong>. We will consider the interval of integration to be finite and assume the integrand <span class="math inline">\(f\)</span> is smooth and continuous.</p>
+<p>Since integration is an infinite summation we will need to approximate this infinite sum by a finite sum. This finite sum involves sampling the integrand a some number of finite points within the interval, this is known as the <strong>quadrature rule</strong>. Thus, our goal is to determine which sample points to take and how to weight these in contribution to the quadrature formula. We can design these to a desired accuracy at which we are satisfied with the computational cost required. Generally, this computational cost is measured through the number of integrand function requirements undertaken. Importantly, Numerical Integration is <em>insensitive</em> to round-off error.</p>
+<div id="quadrature-rules" class="section level2">
+<h2><span class="header-section-number">2.1</span> Quadrature Rules</h2>
+<p>An <span class="math inline">\(n\)</span>-point quadrature formula has the form:
+<span class="math display" id="eq:quadRule">\[\begin{equation}
+I = \int_a^b f(x)dx = \sum_{i=1}^n w_if(x_i) + R_n.\tag{2.2}
+\end{equation}\]</span>
+The points <span class="math inline">\(x_i\)</span> are the values at which <span class="math inline">\(f\)</span> is evaluated (called nodes), the multipliers <span class="math inline">\(w_i\)</span> (called weights) and the remainder <span class="math inline">\(R_n\)</span>. To approximate the value of the integral we compute:
+<span class="math display" id="eq:approxRule">\[\begin{equation}
+I =\sum_{i=1}^n w_if(x_i),\tag{2.3}
+\end{equation}\]</span>
+giving the quadrature rule.</p>
+<p>Methods of numerical integration are divided into two groups; (i) Newton-Cotes formulas and (ii) Gaussian Quadrature. Newton-Cotes formulas deal with evenly spaced nodes. They are generally used when <span class="math inline">\(f(x)\)</span> can be computed cheaply. With Gaussian Quadrature nodes are chosen to deliver the best possible accuracy. It requires less evaluations of the integrand and is often used when <span class="math inline">\(f(x)\)</span> is expensive to compute. It is also used when dealing with integrals containing singularities or infinite limits. In this course we will only be working with Newton-Cotes.</p>
+</div>
+<div id="newton-cotes-quadrature" class="section level2">
+<h2><span class="header-section-number">2.2</span> Newton-Cotes Quadrature</h2>
+<p>If the nodes <span class="math inline">\(x_i\)</span> are equally spaced on the interval <span class="math inline">\([a, b]\)</span>, then the resultant quadrature rule is known as a <strong>Newton-Cotes Quadrature rule</strong>. A <strong>closed Newton-Cotes rule</strong> includes the endpoints <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>, if not, the rule is <strong>closed</strong>.</p>
+<p>Consider the definite integral:
+<span class="math display" id="eq:definiteInt2">\[\begin{equation}
+I = \int_a^b f(x)dx.\tag{2.4}
+\end{equation}\]</span>
+Dividing the interval of integration <span class="math inline">\((a, b)\)</span> into <span class="math inline">\(n\)</span> equal intervals, each of length <span class="math inline">\(h = (b-a)/n\)</span>, then we obtain our nodes <span class="math inline">\(x_0, x_1, \ldots, x_n\)</span>. We then approximate <span class="math inline">\(f(x)\)</span> with an interpolant of degree <span class="math inline">\(n\)</span> which intersects all the nodes. Thus:
+<span class="math display" id="eq:newtonCotesClosed">\[\begin{equation}
+I = \int_a^b f(x)dx \approx \int_a^b P_n(x)dx.\tag{2.5}
+\end{equation}\]</span></p>
+<div id="trapezoidal-rule" class="section level3">
+<h3><span class="header-section-number">2.2.1</span> Trapezoidal Rule</h3>
+<p>This is the first and simplest of Newton–Cotes closed integration formulae. It corresponds to the case when the polynomial is of first degree. We partition the interval <span class="math inline">\([a,b]\)</span> of integration into <span class="math inline">\(n\)</span> subintervals of equal width, and with <span class="math inline">\(n+1\)</span> points <span class="math inline">\(x_0,\;x_1,\;\cdots,\;x_n\)</span>, where <span class="math inline">\(x_0=a\)</span> and <span class="math inline">\(x_n=b\)</span>. Let
+<span class="math display">\[x_{i+1}-x_i=h=\dfrac{b-a}{n},\quad i=0,1,2,\cdots,n-1.\]</span>
+On each subinterval <span class="math inline">\([x_i,x_{i+1}]\)</span>, we approximate <span class="math inline">\(f(x)\)</span> with a first degree polynomial,
+<span class="math display">\[\begin{eqnarray*}
+P_1(x) &amp;=&amp; f_i+{f_{i+1}-f_i \over x_{i+1}-x_i}(x-x_i)\\
+ &amp;=&amp; f_i+{f_{i+1}-f_i \over h}(x-x_i).
+\end{eqnarray*}\]</span>
+Then we have:
+<span class="math display">\[\begin{eqnarray*}
+\int_{x_i}^{x_{i+1}} f(x)dx &amp;\approx&amp; \int_{x_i}^{x_{i+1}} P_1(x)dx\\
+&amp;=&amp; \int_{x_i}^{x_{i+1}} f_i+{f_{i+1}-f_i \over h}(x-x_i) dx\\
+ &amp;=&amp; h f_i+{f_{i+1}-f_i\ over h}{h^2\over 2}\\
+ &amp;=&amp; {h \over 2}\left(f_i+f_{i+1}\right)
+\end{eqnarray*}\]</span>
+Geometrically, the trapezoidal rule is equivalent to approximating the area of the trapezoid under the straight line connecting <span class="math inline">\(f(x_i)\)</span> and <span class="math inline">\(f(x_{i+1})\)</span>. Summing over all subintervals and simplifying gives:
+<span class="math display">\[\begin{equation}
+I = \int_a^b f(x)dx = \sum_{i=1}^n\int_{x_{i-1}}^{x_i}f(x)dx \approx \sum_i^n \dfrac{f(x_{i-1}) + f(x_i)}{2}h, 
+\end{equation}\]</span>
+or:
+<span class="math display" id="eq:compositeTrap">\[\begin{equation}
+I\approx {h\over 2}\left[f_0+2(f_1+f_2+\cdots+f_{n-1})+f_n\right],\tag{2.6}
+\end{equation}\]</span>
+which is known as the <strong>Composite Trapezoidal rule</strong>. In practice we would always used composite trapezoidal rule since it is simply trapezoidal rule applied in a piecewise fashion. The error of the composite trapezoidal rule is the difference between the value of the integral and the computed numerical result:
+<span class="math display" id="eq:errorTrap">\[\begin{equation}
+E = \int_a^b f(x)dx - I,\tag{2.7}
+\end{equation}\]</span>
+So:
+<span class="math display" id="eq:errorTrap2"\tag{2.8}on}(#eq:errorTrap2)
+E_T = -\dfrac{(b-a)h^2}{12}f^{\prime\prime}(\epsilon), \ \ \ \ \epsilon \in [a, b],
+\end{equation}\]</span>
+where <span class="math inline">\(\epsilon\)</span> is a point which exists between <span class="math inline">\(a\)</span> and <span class="math inline">\(b\)</span>. We can also see that the error is of order <span class="math inline">\(\mathcal{O}(h^2)\)</span>. Therefore, if the integrand is concave then the error is negative and the trapezoidal rule overestimates the true value. Should the integrand be concave then the error is positive and we have underestimated the true value.</p>
+<hr />
+</div>
+<div id="example-2" class="section level3">
+<h3><span class="header-section-number">2.2.2</span> Example</h3>
+<p>Using the trapezoidal rule, evaluate:
+<span class="math display">\[
+\int_0^1 \dfrac{1}{1 + x^2}dx = \dfrac{\pi}{4},
+\]</span>
+use <span class="math inline">\(n = 6\)</span>, i.e. we need 7 nodes.</p>
+<p><strong>Solution:</strong></p>
+<p>Since <span class="math inline">\(n = 6\)</span> then <span class="math inline">\(h = (1 - 0)/6 = 1/6\)</span>, therefore:
+<span class="math display">\[
+I \approx \dfrac{1}{12}\left[f_0 + 2(f_1 + f_2 + f_3 +f_4 + f_5) + f_6\right]
+\]</span></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="im">import</span> numpy <span class="im">as</span> np</a>
+<a class="sourceLine" id="cb7-2" data-line-number="2"><span class="im">from</span> math <span class="im">import</span> <span class="op">*</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3"><span class="im">import</span> warnings</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">warnings.filterwarnings(<span class="st">&quot;ignore&quot;</span>)</a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">trap <span class="op">=</span> <span class="kw">lambda</span> f, x, h: (h<span class="op">/</span><span class="dv">2</span>)<span class="op">*</span>(f(x[<span class="dv">0</span>]) <span class="op">+</span> <span class="bu">sum</span>(<span class="dv">2</span><span class="op">*</span>f(x[<span class="dv">1</span>:<span class="op">-</span><span class="dv">1</span>])) <span class="op">+</span>f(x[<span class="op">-</span><span class="dv">1</span>]))</a>
+<a class="sourceLine" id="cb7-6" data-line-number="6">f    <span class="op">=</span> <span class="kw">lambda</span> x: (<span class="dv">1</span> <span class="op">+</span> x<span class="op">**</span><span class="dv">2</span>)<span class="op">**</span>(<span class="op">-</span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb7-7" data-line-number="7"><span class="bu">print</span>(<span class="st">&#39;Computed Inputs:&#39;</span>)</a></code></pre></div>
+<pre><code>## Computed Inputs:</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb9-1" data-line-number="1">x    <span class="op">=</span> np.linspace(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">7</span>)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2">h    <span class="op">=</span> <span class="dv">1</span><span class="op">/</span><span class="dv">6</span></a>
+<a class="sourceLine" id="cb9-3" data-line-number="3">ans  <span class="op">=</span> trap(f, x, h)</a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="bu">print</span>(<span class="st">&#39;The trapezoidal method yields: </span><span class="sc">{:.6f}</span><span class="st">&#39;</span>.<span class="bu">format</span>(ans))</a></code></pre></div>
+<pre><code>## The trapezoidal method yields: 0.784241</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb11-1" data-line-number="1">tans <span class="op">=</span> pi<span class="op">/</span><span class="dv">4</span></a>
+<a class="sourceLine" id="cb11-2" data-line-number="2"><span class="bu">print</span>(<span class="st">&#39;The true answer:               </span><span class="sc">{:.6f}</span><span class="st">&#39;</span>.<span class="bu">format</span>(tans))</a></code></pre></div>
+<pre><code>## The true answer:               0.785398</code></pre>
+<p><img src="lecture_notes_files/figure-html/unnamed-chunk-10-1.png" /><!-- --></p>
+<p><img src="lecture_notes_files/figure-html/unnamed-chunk-11-1.png" /><!-- --></p>
+<hr />
+<div id="exercise" class="section level4">
+<h4><span class="header-section-number">2.2.2.1</span> Exercise</h4>
+<p>Use the trapezoidal rule on the following integral:
+<span class="math display">\[
+\int_0^1 \cos(x)dx,
+\]</span>
+by splitting the interval into <span class="math inline">\(2^k\)</span> subintervals, for <span class="math inline">\(k = 1, 2,\ldots, 10\)</span>. Report the approximation juxtaposed to the corresponding approximation.</p>
+<hr />
+</div>
+</div>
+<div id="the-midpoint-method" class="section level3">
+<h3><span class="header-section-number">2.2.3</span> The Midpoint Method</h3>
+<p>Instead of approximating the area under the curve by trapezoids, we can also use rectangles. This may seem less accurate using horizontal lines versus skew ones, however, it is often more accurate.</p>
+<p>In this approach, we construct a rectangle for every subinterval where the height equals <span class="math inline">\(f\)</span> at the midpoint of the subinterval.</p>
+<p><img src="lecture_notes_files/figure-html/unnamed-chunk-12-1.png" /><!-- --></p>
+<p>Let us now derive the general formula for the midpoint method given <span class="math inline">\(n\)</span> rectangles of equal width:</p>
+<p><span class="math display">\[\begin{align}
+\int_a^b f(x)\,dx &amp;= \int_{x_0}^{x_1} f(x)dx + \int_{x_1}^{x_2} f(x)dx +
+                     \ldots + \int_{x_{n-1}}^{x_n} f(x)dx,     \nonumber \\ 
+                  &amp;\approx h f\left(\frac{x_0 + x_1}{2}\right) +
+                   h f\left(\frac{x_1 + x_2}{2}\right) + \ldots +
+                   h f\left(\frac{x_{n-1} + x_n}{2}\right) ,
+  \\ 
+                  &amp;\approx h \left(f\left(\frac{x_0 + x_1}{2}\right) +
+                  f\left(\frac{x_1 + x_2}{2}\right) + \ldots +
+                  f\left(\frac{x_{n-1} + x_n}{2}\right)\right)
+\end{align}\]</span>
+This can be rewritten as:
+<span class="math display" id="eq:compositeMidpoint">\[\begin{equation}
+\int_a^b f(x) dx \approx h \sum_{i=0}^{n-1}f(x_i),\tag{2.9}
+\end{equation}\]</span>
+where <span class="math inline">\(x_i = (a + h/2) + ih\)</span>.</p>
+<div id="comparing-trapezoidal-vs-midpoint-method" class="section level4">
+<h4><span class="header-section-number">2.2.3.1</span> Comparing Trapezoidal Vs Midpoint Method</h4>
+<p>Consider the function <span class="math inline">\(g(y) = e^{-y^2}\)</span> on the domain <span class="math inline">\([0, 2]\)</span>, i.e. we wish to compute:
+<span class="math display">\[
+\int_0^2 e^{-y^2} dy.
+\]</span>
+To compare to the two methods, we will increase the number of panels used in each method, from <span class="math inline">\(n = 2\)</span> to <span class="math inline">\(n = 1048576\)</span>.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb13-1" data-line-number="1"><span class="bu">print</span>(<span class="st">&#39;    n        midpoint          trapezoidal&#39;</span>)</a></code></pre></div>
+<pre><code>##     n        midpoint          trapezoidal</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb15-1" data-line-number="1"><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">1</span>, <span class="dv">21</span>):</a>
+<a class="sourceLine" id="cb15-2" data-line-number="2">    n <span class="op">=</span> <span class="dv">2</span><span class="op">**</span>i</a>
+<a class="sourceLine" id="cb15-3" data-line-number="3">    m <span class="op">=</span> midpoint_method(g, a, b, n)</a>
+<a class="sourceLine" id="cb15-4" data-line-number="4">    t <span class="op">=</span> trapezoidal(g, a, b, n)</a>
+<a class="sourceLine" id="cb15-5" data-line-number="5">    <span class="bu">print</span>(<span class="st">&#39;</span><span class="sc">{:7d}</span><span class="st"> </span><span class="sc">{:.16f}</span><span class="st"> </span><span class="sc">{:.16f}</span><span class="st">&#39;</span>.<span class="bu">format</span>(n, m, t))</a>
+<a class="sourceLine" id="cb15-6" data-line-number="6">    </a></code></pre></div>
+<pre><code>##       2 0.8842000076332692 0.8770372606158094
+##       4 0.8827889485397279 0.8806186341245393
+##       8 0.8822686991994210 0.8817037913321336
+##      16 0.8821288703366458 0.8819862452657772
+##      32 0.8820933014203766 0.8820575578012112
+##      64 0.8820843709743319 0.8820754296107942
+##     128 0.8820821359746071 0.8820799002925637
+##     256 0.8820815770754198 0.8820810181335849
+##     512 0.8820814373412922 0.8820812976045025
+##    1024 0.8820814024071774 0.8820813674728968
+##    2048 0.8820813936736116 0.8820813849400392
+##    4096 0.8820813914902204 0.8820813893068272
+##    8192 0.8820813909443684 0.8820813903985197
+##   16384 0.8820813908079066 0.8820813906714446
+##   32768 0.8820813907737911 0.8820813907396778
+##   65536 0.8820813907652575 0.8820813907567422
+##  131072 0.8820813907631487 0.8820813907610036
+##  262144 0.8820813907625702 0.8820813907620528
+##  524288 0.8820813907624605 0.8820813907623183
+## 1048576 0.8820813907624268 0.8820813907623890</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb17-1" data-line-number="1"><span class="bu">print</span>(<span class="st">&#39;True Solution to 16 decimals is:&#39;</span>, <span class="fl">0.882081390762422</span>)</a></code></pre></div>
+<pre><code>## True Solution to 16 decimals is: 0.882081390762422</code></pre>
+<p>A visual inspection of the numbers shows how fast the digits stabilise in both methods. It appears that 13 digits have stabilised in the last two rows.</p>
+</div>
+</div>
+<div id="simpsons-rule" class="section level3">
+<h3><span class="header-section-number">2.2.4</span> Simpson’s Rule</h3>
+<p>The trapezoidal rule approximates the area under a curve by summing over the areas of trapezoids formed by connecting successive points by straight lines. A more accurate estimate of the area can be achieved by using polynomials of higher degree to connect the points. Simpson’s rule uses a second degree polynomial (parabola) to connect adjacent points. Interpolating polynomials are convenient for this approximation. So the interval <span class="math inline">\([a,b]\)</span> is subdivided into an even number of equal subintervals (<span class="math inline">\(n\)</span> is even). Next we pass a parabolic interpolant through through three adjacent nodes. Therefore our approximation is:
+<span class="math display" id="eq:simpsons">\[\begin{equation}
+I = \dfrac{h}{3}\left[ f_{i-1} + 4f_i + f_{i+1}\right].\tag{2.10}
+\end{equation}\]</span>
+Summing the definite integrals over each subinterval <span class="math inline">\([x_{i-1},x_{i+1}]\)</span> for <span class="math inline">\(i=1,3,5, \cdots, n-1\)</span> provides the approximation:
+<span class="math display" id="eq:compositeSimpsons">\[\begin{equation}
+\int_a^b f(x)dx\approx {h\over 3}\left[ (f_0+4 f_1+f_2)+ (f_2+4 f_3+f_4)+
+\cdots+(f_{n-2}+4 f_{n-1}+f_{n})\right]\tag{2.11}
+\end{equation}\]</span>
+By simplifying this sum we obtain the approximation scheme:
+<span class="math display">\[\begin{eqnarray}
+\int_a^b f(x)dx &amp;\approx&amp; {h\over 3}\left[ f_0+4 f_1+2f_2+ 4f_3+
+\cdots+ 2f_{n-2}+4 f_{n-1}+f_n\right]\nonumber\\
+ &amp;\approx&amp; {h\over 3}\left[ f_0+4(f_1+f_3+\cdots f_{n-1})+
+2(f_2+f_4+\cdots+f_{n-2}) +f_n \right]
+\end{eqnarray}\]</span>
+This method of approximation is known as <strong>Composite Simpson’s 1/3 Rule</strong>. The error for Simpson’s rule is:
+<span class="math display" id="eq:errorSimpson">\[\begin{equation}
+E_S = -\dfrac{(b-a)h^4}{180}f^{4}(\epsilon), \ \ \ \ \epsilon \in [a, b],\tag{2.12}
+\end{equation}\]</span>
+giving an error of order <span class="math inline">\(\mathcal{O}(h^4)\)</span>. Hence if the integrand is of degree <span class="math inline">\(n \leq 3\)</span>, then the error is zero and we obtain the exact value. The same can be said for the trapezoidal rule the integrand is linear.</p>
+<hr />
+<div id="exercise-1" class="section level4">
+<h4><span class="header-section-number">2.2.4.1</span> Exercise</h4>
+<p>Apply Simpson’s 1/3 rule on the following integral:
+<span class="math display">\[
+\int_0^1 \cos(x)dx,
+\]</span>
+by splitting the interval into <span class="math inline">\(2^k\)</span> subintervals, for <span class="math inline">\(k = 1, 2,\ldots, 10\)</span>. Report the approximation juxtaposed to the corresponding approximation.</p>
+<p>What can you note about the errors obtained here compared to when the above integral was solved using trapezoidal rule?</p>
+<hr />
+</div>
+</div>
+<div id="convergence-rates" class="section level3">
+<h3><span class="header-section-number">2.2.5</span> Convergence Rates</h3>
+<p>Often when implementation numerical approximations we may assume certain asymptotic behaviours when considering errors. For example, when implementing experimental results of the problem <span class="math inline">\(\int_0^1 3t^2e^{t^3}dt\)</span>, where <span class="math inline">\(n\)</span> is doubled in each run <span class="math inline">\(n = 4, 8, 16\)</span> using the trapezoidal rule, the errors where 12%, 3% and 0.77% respectively. This illustrates that the error was approximately reduced by a factor of 4 when <span class="math inline">\(n\)</span> was doubled. Therefore, the error converges to zero as <span class="math inline">\(n^{-2}\)</span> and we can say that the <em>convergence rate</em> is 2 (quadratic). Numerical integration methods usually have an error that converge to zero as <span class="math inline">\(n^{−p}\)</span> for some <span class="math inline">\(p\)</span> that depends on the method. This implies that it does not matter what the actual approximation error is since we know at what rate it is reducing by. Therefore, running a method for two or more different <span class="math inline">\(n\)</span> values would allows us to see if the expected rate is indeed achieved.</p>
+<p>The idea of a corresponding unit test is then to run the algorithm for some <span class="math inline">\(n\)</span> values, compute the error (the absolute value of the difference between the exact analytical result and the one produced by the numerical method), and check that the error has approximately correct asymptotic behaviour, i.e., that the error is proportional to <span class="math inline">\(n^{−2}\)</span> in case of the trapezoidal and midpoint method.</p>
+<p>More formally, assume that the error <span class="math inline">\(E\)</span> depends on <span class="math inline">\(n\)</span> according to:
+<span class="math display">\[
+E = Cn^r,
+\]</span>
+where <span class="math inline">\(C\)</span> is an unknown constant and <span class="math inline">\(r\)</span> is the convergence rate. Consider a set of experiments with various <span class="math inline">\(n\)</span>, i.e. <span class="math inline">\(n_0, n_1, \ldots, n_q\)</span>. We can compute the errors at each <span class="math inline">\(n\)</span>, i.e. <span class="math inline">\(E_0, E_1, \ldots, E_q\)</span>. Therefore, for two consecutive experiments, <span class="math inline">\(i\)</span> and <span class="math inline">\(i - 1\)</span>, we have the error model:
+<span class="math display">\[\begin{align}
+E_{i} &amp;= Cn_{i}^r,
+\\ 
+E_{i-1} &amp;= Cn_{i-1}^r\thinspace.
+\end{align}\]</span>
+These are two equations for two unknowns <span class="math inline">\(C\)</span> and <span class="math inline">\(r\)</span>. Eliminating <span class="math inline">\(C\)</span> by dividing the equations by each other. Then solving for <span class="math inline">\(r\)</span> gives:
+<span class="math display">\[\begin{equation}
+r_{i-1} = \frac{\ln (E_i/E_{i-1})}{\ln (n_i/n_{i-1})}.
+\end{equation}\]</span>
+We have a subscript <span class="math inline">\(i - 1\)</span> in <span class="math inline">\(r\)</span> since the estimated value for <span class="math inline">\(r\)</span> varies with <span class="math inline">\(i\)</span>. Ideally, <span class="math inline">\(r_{i-1}\)</span> approaches the correct convergence rate as the number of intervals.</p>
+<hr />
+</div>
+<div id="exercises-2" class="section level3">
+<h3><span class="header-section-number">2.2.6</span> Exercises</h3>
+<ol style="list-style-type: decimal">
+<li>Since every point of measurement in the trapezoidal rule is used in two different subintervals, we must evaluate the function we want to integrate at every point twice. Is this a true statement to make?</li>
+<li>Apply the trapezoidal rule to approximate the integral:
+<span class="math display">\[
+\int_0^1 x^2dx,
+\]</span>
+using only 2 intervals. What is the result?</li>
+<li>Compute an approximation for the integral:
+<span class="math display">\[
+\int_0^{\pi/2}\dfrac{\sin(x)}{1 + x^2}dx,
+\]</span>
+with the trapezoidal rule and 6 subintervals.</li>
+<li>Using the trapezoidal rule, along with 10 subintervals on the integral:
+<span class="math display">\[
+\int_0^1 e^xdx,
+\]</span>
+determine a value of <span class="math inline">\(h\)</span> which guarantees that the absolute error is smaller than <span class="math inline">\(10^{-10}\)</span>.</li>
+<li>When using the trapezoidal rule and <span class="math inline">\(h\)</span> is halved, some function values used with stepsize <span class="math inline">\(h/2\)</span> are the same as those used when the stepsize was <span class="math inline">\(h\)</span>. Derive a formula for the trapezoidal rule with step length <span class="math inline">\(h/2\)</span> that allows one not to recompute the function values that were computed when the stepsize was <span class="math inline">\(h\)</span>.</li>
+<li>Is the Simpson’s Rule exact for polynomials of degree 3 or lower?</li>
+<li>Compute an approximation for the integral:
+<span class="math display">\[
+\int_0^{\pi/2}\dfrac{\sin(x)}{1 + x^2}dx,
+\]</span>
+with the Simpson’s rule and 6 subintervals.</li>
+<li>How many function evaluations does one need to calculate the integral:
+<span class="math display">\[
+\int_0^1 \dfrac{dx}{1 + 2x},
+\]</span>
+with the trapezoidal rule to ensure that the error is smaller than <span class="math inline">\(10^{-10}\)</span>.</li>
+<li>Repeat question 8 using the Simpson’s rule.</li>
+</ol>
+<hr />
+</div>
+</div>
+<div id="romberg-integration" class="section level2">
+<h2><span class="header-section-number">2.3</span> Romberg Integration</h2>
+<p>This method of integration uses the trapezoidal rule to obtain the initial approximation to the integral followed by Richardson’s approximation to obtain improvements.</p>
+<p>We can show that for a trapezoidal approximation:
+<span class="math display">\[ I=\int_a^b f(x) dx=T(h)+ R(h), \quad R(h) = a_1 h^2+a_2 h^4+a_3 h^6+ \cdots=\mathcal{O}(h^2),\]</span>
+where,
+<span class="math display">\[ T(h)={h\over 2}(f_0+2 f_1+2 f_2+\cdots +2 f_{n-1}+f_{n}),\ \ \ \ h={(b-a)\over
+ n}.\]</span>
+Consider two trapezoidal approximations with spacing <span class="math inline">\(2h\)</span> and <span class="math inline">\(h\)</span> and <span class="math inline">\(n\)</span> is even.</p>
+<p><span class="math display" id="eq:rom1" id="eq:rom2">\[\begin{align}
+I_2 &amp;= T(2h)+ a_1  (2h)^2+ a_2 (2h)^4+ a_3 (2h)^6+\cdots\tag{2.13}\\
+I_1 &amp;= T(h)+a_1 h^2+a_2 h^4+a_3 h^6+\cdots \tag{2.14}
+\end{align}\]</span></p>
+<p>If we subtract equation <a href="numerical-integration.html#eq:rom2">(2.13)</a> from 4 times equation <a href="numerical-integration.html#eq:rom1">(2.14)</a> we eliminate the leading error term (i.e. of <span class="math inline">\(\mathcal{O}(h^2)\)</span>) and we get <span class="math display">\[I ={1\over 3}(4 T(h)- T(2h))+4 a_2  h^4+ 20 a_3 h^6+\cdots\]</span> after dividing right through by 3. But:</p>
+<p><span class="math display">\[\begin{eqnarray*}
+{1\over 3}(4 T(h)- T(2h)) &amp;=&amp; {h\over 3}[(2 f_0+4 f_1 +4 f_2+\cdots 
+4f_{n-1}+2 f_n) -  (f_0+2 f_2+2 f_4+\cdots 2 f_{n-2}+ f_n) \\
+ &amp;=&amp; {h\over 3}(f_0+4 f_1 +2 f_2+4f_3+\cdots 2f_{n-2}+4 f_{n-1}+f_n)\\
+ &amp;=&amp; S(h),
+\end{eqnarray*}\]</span></p>
+<p>which is the Simpson’s rule, <span class="math inline">\(S(h),\)</span> for <span class="math inline">\(h,\)</span> with an error <span class="math inline">\(\mathcal{O}(h^4)\)</span>.</p>
+<p>If we repeat for <span class="math inline">\(h/2\)</span>, assuming that <span class="math inline">\(n\)</span> is a multiple of 4, we have:
+<span class="math display" id="eq:rom4" id="eq:rom3">\[\begin{align}
+I_{h} &amp;=&amp; S(h)+ c_1 h^4+ c_2 h^6+\cdots \tag{2.15}\\
+I_{h/2} &amp;= &amp; S(h/2)+c_1 \left({h\over 2}\right)^4+c_2 \left({h\over 2}\right)^6+\cdots\tag{2.16}
+\end{align}\]</span>
+Multiply <a href="numerical-integration.html#eq:rom4">(2.16)</a> by 16 and subtract <a href="numerical-integration.html#eq:rom3">(2.15)</a> to get <span class="math display">\[I ={16 S(h/2)- S(h)\over 15}+d_1 h^6+\cdots\]</span> which is now more accurate, with an error <span class="math inline">\(\mathcal{O}(h^6)\)</span>.</p>
+<p>We now generalise the results for <span class="math inline">\(h_k=(b-a)/2^k\)</span>, <span class="math inline">\(n=2^k\)</span>. Hence the trapezoidal rule for
+<span class="math inline">\(2^k\)</span> subintervals (i.e. <span class="math inline">\(n\)</span> is even) becomes
+<span class="math display">\[ T_{1,k}={h_k\over 2}(f_0+2 f_1+2 f_2+\cdots +2 f_{2^k-1}+f_{2^k})\]</span>
+<span class="math display">\[ I=T_{1,k}+a_1 h_k^2+a_2 h_k^4+a_3 h_k^6+\cdots\]</span>
+We define
+<span class="math display">\[T_{2,k} ={1\over 3}\ (4 T_{1,k+1}- T_{1,k}),\quad k=1,2,\cdots\]</span>
+which is the Simpson’s rule for <span class="math inline">\(h_k\)</span> and hence has an error
+<span class="math inline">\(\mathcal{O}(h_k^4)\)</span>, i.e.,
+<span class="math display">\[ I=T_{1,k}+c_1 h_k^4+c_2 h_k^6+\cdots\]</span></p>
+<p>In general, we define
+<span class="math display" id="eq:romberg">\[\begin{equation}
+T_{j}^{i} ={1\over 4^j-1}(4^j T_{j-1}^{i}- T_{j-1}^{i-1}),\quad j=1,\cdots, m\quad 
+i=1,2,\cdots n \tag{2.17}
+\end{equation}\]</span></p>
+<p>We can represent the approximations in the triangular form:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><span class="math inline">\(h_i\)</span></th>
+<th align="left"><span class="math inline">\(T_0^i\)</span></th>
+<th align="left"><span class="math inline">\(T_1^i\)</span></th>
+<th align="left"><span class="math inline">\(T_2^i\)</span></th>
+<th align="left"><span class="math inline">\(\ldots\)</span></th>
+<th align="left"><span class="math inline">\(T_m^i\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><span class="math inline">\(h_1\)</span></td>
+<td align="left"><span class="math inline">\(T_0^1\)</span></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(h_2\)</span></td>
+<td align="left"><span class="math inline">\(T_0^2\)</span></td>
+<td align="left"><span class="math inline">\(T_1^1\)</span></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="math inline">\(h_3\)</span></td>
+<td align="left"><span class="math inline">\(T_0^3\)</span></td>
+<td align="left"><span class="math inline">\(T_1^2\)</span></td>
+<td align="left"><span class="math inline">\(T_2^1\)</span></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left"><span class="math inline">\(\vdots\)</span></td>
+<td align="left"><span class="math inline">\(\vdots\)</span></td>
+<td align="left"><span class="math inline">\(\vdots\)</span></td>
+<td align="left"></td>
+<td align="left"><span class="math inline">\(\ddots\)</span></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left"><span class="math inline">\(h_m\)</span></td>
+<td align="left"><span class="math inline">\(T_0^{m}\)</span></td>
+<td align="left"><span class="math inline">\(T_1^{m-1}\)</span></td>
+<td align="left"><span class="math inline">\(\ldots\)</span></td>
+<td align="left"></td>
+<td align="left"><span class="math inline">\(T_m^{1}\)</span></td>
+</tr>
+</tbody>
+</table>
+<div id="example-3" class="section level4">
+<h4><span class="header-section-number">2.3.0.1</span> Example</h4>
+<p>Use Romberg integration to find the integral of <span class="math inline">\(f(x)=e^{-x}\)</span> for <span class="math inline">\(x\in [0,1]\)</span>. Take the initial sub-interval as <span class="math inline">\(h=(1-0)/2=0.5\)</span>. Use 6 decimal places.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><span class="math inline">\(h_i\)</span></th>
+<th align="left"><span class="math inline">\(T_{0}^k\)</span></th>
+<th align="left"><span class="math inline">\(T_{1}^k\)</span></th>
+<th align="left"><span class="math inline">\(T_{2}^k\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">0.5</td>
+<td align="left">0.645235</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">0.25</td>
+<td align="left">0.635409</td>
+<td align="left">0.632134</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">0.125</td>
+<td align="left">0.632943</td>
+<td align="left">0.632121</td>
+<td align="left">0.632121</td>
+</tr>
+</tbody>
+</table>
+<p>Hence <span class="math inline">\(T_{2}^1=0.632121\)</span> with an error of <span class="math inline">\(\mathcal{O}(h^6)\)</span>.</p>
+<hr />
+</div>
+<div id="exercises-3" class="section level3">
+<h3><span class="header-section-number">2.3.1</span> Exercises</h3>
+<ul>
+<li>Use (a) the trapezoidal rule (b) Simpson’s rule to estimate <span class="math inline">\(I\)</span> for the following:
+<ul>
+<li><ol style="list-style-type: lower-roman">
+<li><span class="math inline">\(\displaystyle\quad f(x)={1\over 1+x^2}\)</span>, over the interval <span class="math inline">\([0,1]\)</span> for <span class="math inline">\(n=4\)</span></li>
+</ol></li>
+<li><ol start="2" style="list-style-type: lower-roman">
+<li><span class="math inline">\(\displaystyle \quad f(x)=x e^{-x^2}\)</span> over the interval <span class="math inline">\([0,2]\)</span> for <span class="math inline">\(n=4\)</span>
+Compare your numerical results with the analytical ones.</li>
+</ol></li>
+</ul></li>
+<li>Use Romberg’s method to approximate to integral
+<span class="math display">\[ I= \int_0^1 \sqrt{1-x^2} dx\]</span>
+Use <span class="math inline">\(h_1=0.2\)</span>, <span class="math inline">\(h_2=0.1\)</span> and <span class="math inline">\(h_3=0.05\)</span>.</li>
+<li>Estimate <span class="math inline">\(\int_0^\pi f(x)dx\)</span> as accurately as possible, where <span class="math inline">\(f(x)\)</span> is defined by the data:</li>
+</ul>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><span class="math inline">\(x\)</span> values</th>
+<th align="left">0</th>
+<th align="left"><span class="math inline">\(\pi/4\)</span></th>
+<th align="left"><span class="math inline">\(\pi/2\)</span></th>
+<th align="left"><span class="math inline">\(3\pi/4\)</span></th>
+<th align="left"><span class="math inline">\(\pi\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><span class="math inline">\(f(x)\)</span></td>
+<td align="left">1.0000</td>
+<td align="left">0.3431</td>
+<td align="left">0.2500</td>
+<td align="left">0.3431</td>
+<td align="left">1.0000</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>The period of a simple pendulum of length <span class="math inline">\(L\)</span> is <span class="math inline">\(\tau = 4\sqrt{\dfrac{L}{g}h(\theta_0)}\)</span>, where <span class="math inline">\(g\)</span> is the gravitational acceleration, <span class="math inline">\(\theta_0\)</span> represents the angular amplitude and:
+<span class="math display">\[
+h(\theta_0) = \int_0^{\pi /2} \dfrac{d\theta}{\sqrt{1 - \sin^2(\theta_0/2)\sin^2\theta}}.
+\]</span>
+Compute <span class="math inline">\(h(15^\circ), h(30^\circ)\)</span> and <span class="math inline">\(h(45^\circ)\)</span>.</li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="double-and-triple-integrals" class="section level2">
+<h2><span class="header-section-number">2.4</span> Double and Triple Integrals</h2>
+<div id="the-midpoint-method-for-double-integrals" class="section level3">
+<h3><span class="header-section-number">2.4.1</span> The Midpoint Method for Double Integrals</h3>
+<p>Given a double integral over the rectangular domain <span class="math inline">\([a, b] \times [c, d]\)</span>:
+<span class="math display">\[
+\int_a^b \int_c^d f(x, y)dydx.
+\]</span>
+Can we approximate this integral numerically?</p>
+<p>This can be done by considering the double integral as two integrals, each in one variable and then approximate each one numerically with our earlier formulae. Therefore:
+<span class="math display">\[
+\int_a^b \int_c^d f(x, y)dydx = \int_a^b g(x)dx, \ \ \ \ g(x) = \int_c^d f(x, y)dy.
+\]</span>
+We can now use the midpoint method and begin with <span class="math inline">\(g(x) = \int_c^d f(x, y)dy\)</span>. For the interval <span class="math inline">\([c, d]\)</span> we have <span class="math inline">\(n_y\)</span> and length <span class="math inline">\(h_y\)</span>. Thus the integral becomes:
+<span class="math display">\[
+g(x) = \int_c^d f(x, y)dy \approx h_y \sum_{j=0}^{n_y - 1} f(x, y_j), \ \ \ \ y_j = c+ \frac{1}{2}h_y + jh_y.
+\]</span>
+This looks slightly different than before, since we need to integrate in both <span class="math inline">\(x\)</span> and <span class="math inline">\(y\)</span> directions. Note when integrating in the <span class="math inline">\(y\)</span> direction we use <span class="math inline">\(n_y\)</span> for <span class="math inline">\(n\)</span>, <span class="math inline">\(h_y\)</span> for <span class="math inline">\(h\)</span> and index according to <span class="math inline">\(j\)</span>. When integrating in the <span class="math inline">\(x\)</span> direction, we use <span class="math inline">\(h_x, n_x\)</span> and <span class="math inline">\(i\)</span> respectively.</p>
+<p>So, the double integral approximated by the midpoint method:
+<span class="math display">\[
+\int_a^b g(x)dx \approx h_x \sum_{i=0}^{n_x-1} g(x_i),\quad x_i=a + \frac{1}{2}{h_x} + ih_x.
+\]</span>
+So finally putting both approximations together we get the <em>composite midpoint method</em> for the double integral:
+<span class="math display">\[\begin{align}
+\int_a^b \int_c^d f(x,y) dydx &amp;\approx
+h_x \sum_{i=0}^{n_x-1} h_y \sum_{j=0}^{n_y-1} f(x_i,y_j)\nonumber\\ 
+&amp;=
+h_xh_y \sum_{i=0}^{n_x-1} \sum_{j=0}^{n_y-1} f(a + \frac{h_x}{2} + ih_x, c + \frac{h_y}{2} + jh_y)\thinspace .
+\end{align}\]</span></p>
+<hr />
+<div id="example-4" class="section level4">
+<h4><span class="header-section-number">2.4.1.1</span> Example</h4>
+<p>Compute the integral:
+<span class="math display">\[
+\int_2^3\int_0^2 (2x + y)dydx.
+\]</span>
+(Solution: 12 - check as an exercise)</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb19-1" data-line-number="1">f  <span class="op">=</span> <span class="kw">lambda</span> x, y: <span class="dv">2</span><span class="op">*</span>x <span class="op">+</span> y</a>
+<a class="sourceLine" id="cb19-2" data-line-number="2">a  <span class="op">=</span> <span class="dv">2</span><span class="op">;</span> b  <span class="op">=</span> <span class="dv">3</span><span class="op">;</span> c  <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> d  <span class="op">=</span> <span class="dv">2</span><span class="op">;</span> nx <span class="op">=</span> <span class="dv">5</span><span class="op">;</span> ny <span class="op">=</span> <span class="dv">5</span></a>
+<a class="sourceLine" id="cb19-3" data-line-number="3"><span class="bu">print</span>(<span class="st">&#39;Numerical approximation is:&#39;</span>, midpoint_method_double(f, a, b, c, d, nx, ny))</a>
+<a class="sourceLine" id="cb19-4" data-line-number="4"><span class="co"># check symbolic solution</span></a></code></pre></div>
+<pre><code>## Numerical approximation is: 12.000000000000009</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb21-1" data-line-number="1"><span class="im">import</span> sympy</a>
+<a class="sourceLine" id="cb21-2" data-line-number="2">x, y     <span class="op">=</span> sympy.symbols(<span class="st">&#39;x y&#39;</span>)</a>
+<a class="sourceLine" id="cb21-3" data-line-number="3">true_ans <span class="op">=</span> sympy.integrate(f(x, y), (x, a, b), (y, c, d))</a>
+<a class="sourceLine" id="cb21-4" data-line-number="4"><span class="bu">print</span>(<span class="st">&#39;True analytical solution:&#39;</span>, true_ans)</a></code></pre></div>
+<pre><code>## True analytical solution: 12</code></pre>
+</div>
+</div>
+<div id="the-midpoint-method-for-triple-integrals" class="section level3">
+<h3><span class="header-section-number">2.4.2</span> The Midpoint Method for Triple Integrals</h3>
+<p>The idea used for double integrals can similarly be extended to three dimensions. Consider the triple integral:
+<span class="math display">\[
+\int_{a}^{b} \int_c^d \int_e^f g(x,y,z) dzdydx,
+\]</span>
+we wish to approximate the integral via the midpoint rule. Utilising the same strategy as before, we split the integral into one-dimensional integrals:
+<span class="math display">\[\begin{align*}
+p(x,y) &amp;= \int_e^f g(x,y,z) dz\\ 
+q(x) &amp;= \int_c^d p(x,y) dy\\ 
+\int_{a}^{b} \int_c^d \int_e^f g(x,y,z) dzdydx &amp;= \int_a^b q(x)dx
+\end{align*}\]</span>
+Next we apply the midpoint rule to each of these one-dimension integrals:
+<span class="math display">\[\begin{align*}
+p(x,y) = \int_e^f g(x,y,z) dz
+&amp;\approx \sum_{k=0}^{n_z-1} g(x,y,z_k),
+\\ 
+q(x) = \int_c^d p(x,y) dy
+&amp;\approx \sum_{j=0}^{n_y-1} p(x,y_j),
+\\ 
+\int_{a}^{b} \int_c^d \int_e^f g(x,y,z) dzdydx = \int_a^b q(x)dx
+&amp;\approx \sum_{i=0}^{n_x-1} q(x_i),
+\end{align*}\]</span>
+where:
+<span class="math display">\[
+z_k=e + \frac{1}{2}h_z + kh_z,\quad y_j=c + \frac{1}{2}h_y + jh_y \quad
+x_i=a + \frac{1}{2}h_x + ih_x.
+\]</span>
+So finally, starting with the formula for <span class="math inline">\(\int_{a}^{b} \int_c^d \int_e^f g(x,y,z) dzdydx\)</span> and combining the two previous formulas we have:
+<span class="math display">\[\begin{align}
+&amp; \int_{a}^{b} \int_c^d \int_e^f g(x,y,z)\, dzdydx\approx\nonumber\\ 
+&amp; h_xh_yh_z
+\sum_{i=0}^{n_x-1}\sum_{j=0}^{n_y-1}\sum_{k=0}^{n_z-1}
+g(a + \frac{1}{2}h_x + ih_x,
+c + \frac{1}{2}h_y + jh_y,
+e + \frac{1}{2}h_z + kh_z)\thinspace.
+\end{align}\]</span></p>
+<div id="example-5" class="section level4">
+<h4><span class="header-section-number">2.4.2.1</span> Example</h4>
+<p>Evaluate the following integral:
+<span class="math display">\[
+\int_2^3\int_1^2\int_0^1 8xyz\ dzdydx,
+\]</span>
+where <span class="math inline">\(n_x = n_y = n_z = 5\)</span></p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb23-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb23-2" data-line-number="2">f1 <span class="op">=</span> <span class="kw">lambda</span> x, y, z: <span class="dv">8</span><span class="op">*</span>x<span class="op">*</span>y<span class="op">*</span>z</a>
+<a class="sourceLine" id="cb23-3" data-line-number="3">a <span class="op">=</span> <span class="dv">2</span><span class="op">;</span> b <span class="op">=</span> <span class="dv">3</span><span class="op">;</span> c <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> d <span class="op">=</span> <span class="dv">2</span><span class="op">;</span> e <span class="op">=</span> <span class="dv">0</span><span class="op">;</span> f <span class="op">=</span> <span class="dv">1</span><span class="op">;</span> nx <span class="op">=</span> <span class="dv">5</span><span class="op">;</span> ny <span class="op">=</span> <span class="dv">5</span><span class="op">;</span> nz <span class="op">=</span> <span class="dv">5</span></a>
+<a class="sourceLine" id="cb23-4" data-line-number="4"><span class="bu">print</span>(midpoint_method_triple(f1, a, b, c, d, e, f, nx, ny, nz))</a>
+<a class="sourceLine" id="cb23-5" data-line-number="5"><span class="co"># Check symbolic solution</span></a></code></pre></div>
+<pre><code>## 15.000000000000009</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="im">import</span> sympy</a>
+<a class="sourceLine" id="cb25-2" data-line-number="2">x, y, z     <span class="op">=</span> sympy.symbols(<span class="st">&#39;x y z&#39;</span>)</a>
+<a class="sourceLine" id="cb25-3" data-line-number="3">true_ans    <span class="op">=</span> sympy.integrate(f1(x, y, z), (x, a, b), (y, c, d), (z, e, f))</a>
+<a class="sourceLine" id="cb25-4" data-line-number="4"><span class="bu">print</span>(<span class="st">&#39;True analytical answer:&#39;</span>, true_ans)</a></code></pre></div>
+<pre><code>## True analytical answer: 15</code></pre>
+
+</div>
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="numerical-differentiation.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="numerical-solutions-to-nonlinear-equations.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/02-numerical_integration.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["lecture_notes.pdf", "lecture_notes.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

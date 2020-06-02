@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 7 Ordinary Differentiable Equations (ODEs) | Numerical Methods II APPM2007</title>
+  <meta name="description" content="Course notes for Numerical Analysis II at the University of the Witwatersrand" />
+  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 7 Ordinary Differentiable Equations (ODEs) | Numerical Methods II APPM2007" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:image" content="wits_high_def-min.png" />
+  <meta property="og:description" content="Course notes for Numerical Analysis II at the University of the Witwatersrand" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 7 Ordinary Differentiable Equations (ODEs) | Numerical Methods II APPM2007" />
+  
+  <meta name="twitter:description" content="Course notes for Numerical Analysis II at the University of the Witwatersrand" />
+  <meta name="twitter:image" content="wits_high_def-min.png" />
+
+<meta name="author" content="Dr Matthew Woolway" />
+
+
+<meta name="date" content="2020-01-15" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="least-squares.html"/>
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Numerical Analysis II</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Course Outline</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#course-structure-and-details"><i class="fa fa-check"></i>Course Structure and Details</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#course-assessment"><i class="fa fa-check"></i>Course Assessment</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#course-topics"><i class="fa fa-check"></i>Course Topics</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#hardware-requirements"><i class="fa fa-check"></i>Hardware Requirements</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html"><i class="fa fa-check"></i><b>1</b> Numerical Differentiation</a><ul>
+<li class="chapter" data-level="1.1" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#finite-difference-methods"><i class="fa fa-check"></i><b>1.1</b> Finite Difference Methods</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#approximations-to-fprimex"><i class="fa fa-check"></i><b>1.1.1</b> Approximations to <span class="math inline">\(f^\prime(x)\)</span></a></li>
+<li class="chapter" data-level="1.1.2" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#approximations-to-fprimeprimex"><i class="fa fa-check"></i><b>1.1.2</b> Approximations to <span class="math inline">\(f^{\prime\prime}(x)\)</span></a></li>
+<li class="chapter" data-level="1.1.3" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#errors-in-first-and-second-order"><i class="fa fa-check"></i><b>1.1.3</b> Errors in First and Second Order</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#exercises"><i class="fa fa-check"></i><b>1.2</b> Exercises</a></li>
+<li class="chapter" data-level="1.3" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#richardsons-extrapolation"><i class="fa fa-check"></i><b>1.3</b> Richardson’s Extrapolation</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#example-1"><i class="fa fa-check"></i><b>1.3.1</b> Example</a></li>
+<li class="chapter" data-level="1.3.2" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#exercises-1"><i class="fa fa-check"></i><b>1.3.2</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="numerical-integration.html"><a href="numerical-integration.html"><i class="fa fa-check"></i><b>2</b> Numerical Integration</a><ul>
+<li class="chapter" data-level="2.1" data-path="numerical-integration.html"><a href="numerical-integration.html#quadrature-rules"><i class="fa fa-check"></i><b>2.1</b> Quadrature Rules</a></li>
+<li class="chapter" data-level="2.2" data-path="numerical-integration.html"><a href="numerical-integration.html#newton-cotes-quadrature"><i class="fa fa-check"></i><b>2.2</b> Newton-Cotes Quadrature</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="numerical-integration.html"><a href="numerical-integration.html#trapezoidal-rule"><i class="fa fa-check"></i><b>2.2.1</b> Trapezoidal Rule</a></li>
+<li class="chapter" data-level="2.2.2" data-path="numerical-integration.html"><a href="numerical-integration.html#example-2"><i class="fa fa-check"></i><b>2.2.2</b> Example</a></li>
+<li class="chapter" data-level="2.2.3" data-path="numerical-integration.html"><a href="numerical-integration.html#the-midpoint-method"><i class="fa fa-check"></i><b>2.2.3</b> The Midpoint Method</a></li>
+<li class="chapter" data-level="2.2.4" data-path="numerical-integration.html"><a href="numerical-integration.html#simpsons-rule"><i class="fa fa-check"></i><b>2.2.4</b> Simpson’s Rule</a></li>
+<li class="chapter" data-level="2.2.5" data-path="numerical-integration.html"><a href="numerical-integration.html#convergence-rates"><i class="fa fa-check"></i><b>2.2.5</b> Convergence Rates</a></li>
+<li class="chapter" data-level="2.2.6" data-path="numerical-integration.html"><a href="numerical-integration.html#exercises-2"><i class="fa fa-check"></i><b>2.2.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="numerical-integration.html"><a href="numerical-integration.html#romberg-integration"><i class="fa fa-check"></i><b>2.3</b> Romberg Integration</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="numerical-integration.html"><a href="numerical-integration.html#exercises-3"><i class="fa fa-check"></i><b>2.3.1</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="numerical-integration.html"><a href="numerical-integration.html#double-and-triple-integrals"><i class="fa fa-check"></i><b>2.4</b> Double and Triple Integrals</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="numerical-integration.html"><a href="numerical-integration.html#the-midpoint-method-for-double-integrals"><i class="fa fa-check"></i><b>2.4.1</b> The Midpoint Method for Double Integrals</a></li>
+<li class="chapter" data-level="2.4.2" data-path="numerical-integration.html"><a href="numerical-integration.html#the-midpoint-method-for-triple-integrals"><i class="fa fa-check"></i><b>2.4.2</b> The Midpoint Method for Triple Integrals</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html"><i class="fa fa-check"></i><b>3</b> Numerical Solutions to Nonlinear Equations</a><ul>
+<li class="chapter" data-level="3.1" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#nonlinear-equations-in-one-unknown-fx0"><i class="fa fa-check"></i><b>3.1</b> Nonlinear equations in one unknown: <span class="math inline">\(f(x)=0\)</span></a><ul>
+<li class="chapter" data-level="3.1.1" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#interval-methods"><i class="fa fa-check"></i><b>3.1.1</b> Interval Methods</a></li>
+<li class="chapter" data-level="3.1.2" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#bisection-method"><i class="fa fa-check"></i><b>3.1.2</b> Bisection Method</a></li>
+<li class="chapter" data-level="3.1.3" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#false-position-method-or-regula-falsi"><i class="fa fa-check"></i><b>3.1.3</b> False position method or Regula Falsi</a></li>
+<li class="chapter" data-level="3.1.4" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#fixed-point-methods"><i class="fa fa-check"></i><b>3.1.4</b> Fixed Point Methods</a></li>
+<li class="chapter" data-level="3.1.5" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#newtons-method"><i class="fa fa-check"></i><b>3.1.5</b> Newton’s Method</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#newtons-method-for-systems-of-nonlinear-equations"><i class="fa fa-check"></i><b>3.2</b> Newton’s Method for Systems of Nonlinear Equations</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#exercises-4"><i class="fa fa-check"></i><b>3.2.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="eigenvalues-and-eigenvectors.html"><a href="eigenvalues-and-eigenvectors.html"><i class="fa fa-check"></i><b>4</b> Eigenvalues and Eigenvectors</a><ul>
+<li class="chapter" data-level="4.1" data-path="eigenvalues-and-eigenvectors.html"><a href="eigenvalues-and-eigenvectors.html#the-power-method"><i class="fa fa-check"></i><b>4.1</b> The Power Method</a></li>
+<li class="chapter" data-level="4.2" data-path="eigenvalues-and-eigenvectors.html"><a href="eigenvalues-and-eigenvectors.html#the-inverse-power-method"><i class="fa fa-check"></i><b>4.2</b> The Inverse Power Method</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="eigenvalues-and-eigenvectors.html"><a href="eigenvalues-and-eigenvectors.html#exercises-5"><i class="fa fa-check"></i><b>4.2.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="interpolation.html"><a href="interpolation.html"><i class="fa fa-check"></i><b>5</b> Interpolation</a><ul>
+<li class="chapter" data-level="5.1" data-path="interpolation.html"><a href="interpolation.html#weierstrauss-approximation-theorem"><i class="fa fa-check"></i><b>5.1</b> Weierstrauss Approximation Theorem</a></li>
+<li class="chapter" data-level="5.2" data-path="interpolation.html"><a href="interpolation.html#linear-interpolation"><i class="fa fa-check"></i><b>5.2</b> Linear Interpolation</a></li>
+<li class="chapter" data-level="5.3" data-path="interpolation.html"><a href="interpolation.html#quadratic-interpolation"><i class="fa fa-check"></i><b>5.3</b> Quadratic Interpolation</a></li>
+<li class="chapter" data-level="5.4" data-path="interpolation.html"><a href="interpolation.html#lagrange-interpolating-polynomials"><i class="fa fa-check"></i><b>5.4</b> Lagrange Interpolating Polynomials</a></li>
+<li class="chapter" data-level="5.5" data-path="interpolation.html"><a href="interpolation.html#newtons-divided-differences"><i class="fa fa-check"></i><b>5.5</b> Newton’s Divided Differences</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="interpolation.html"><a href="interpolation.html#errors-of-newtons-interpolating-polynomials"><i class="fa fa-check"></i><b>5.5.1</b> Errors of Newton’s interpolating polynomials</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="interpolation.html"><a href="interpolation.html#cubic-splines-interpolation"><i class="fa fa-check"></i><b>5.6</b> Cubic Splines Interpolation</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="interpolation.html"><a href="interpolation.html#runges-phenomenon"><i class="fa fa-check"></i><b>5.6.1</b> Runge’s Phenomenon</a></li>
+<li class="chapter" data-level="5.6.2" data-path="interpolation.html"><a href="interpolation.html#exercises-6"><i class="fa fa-check"></i><b>5.6.2</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="least-squares.html"><a href="least-squares.html"><i class="fa fa-check"></i><b>6</b> Least Squares</a><ul>
+<li class="chapter" data-level="6.1" data-path="least-squares.html"><a href="least-squares.html#linear-least-squares"><i class="fa fa-check"></i><b>6.1</b> Linear Least Squares</a></li>
+<li class="chapter" data-level="6.2" data-path="least-squares.html"><a href="least-squares.html#polynomial-least-squares"><i class="fa fa-check"></i><b>6.2</b> Polynomial Least Squares</a></li>
+<li class="chapter" data-level="6.3" data-path="least-squares.html"><a href="least-squares.html#least-squares-exponential-fit"><i class="fa fa-check"></i><b>6.3</b> Least Squares Exponential Fit</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="least-squares.html"><a href="least-squares.html#exercises-7"><i class="fa fa-check"></i><b>6.3.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html"><i class="fa fa-check"></i><b>7</b> Ordinary Differentiable Equations (ODEs)</a><ul>
+<li class="chapter" data-level="7.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#initial-value-problems"><i class="fa fa-check"></i><b>7.1</b> Initial Value Problems</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#stability-of-odes"><i class="fa fa-check"></i><b>7.1.1</b> Stability of ODEs</a></li>
+<li class="chapter" data-level="7.1.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#unstable-ode"><i class="fa fa-check"></i><b>7.1.2</b> Unstable ODE</a></li>
+<li class="chapter" data-level="7.1.3" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#stable-ode"><i class="fa fa-check"></i><b>7.1.3</b> Stable ODE</a></li>
+<li class="chapter" data-level="7.1.4" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#neutrally-stable-ode"><i class="fa fa-check"></i><b>7.1.4</b> Neutrally Stable ODE</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#eulers-method"><i class="fa fa-check"></i><b>7.2</b> Euler’s Method</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#error-in-eulers-method"><i class="fa fa-check"></i><b>7.2.1</b> Error in Euler’s Method</a></li>
+<li class="chapter" data-level="7.2.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#example-18"><i class="fa fa-check"></i><b>7.2.2</b> Example</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#modified-eulers-method"><i class="fa fa-check"></i><b>7.3</b> Modified Euler’s Method</a></li>
+<li class="chapter" data-level="7.4" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#runge-kutta-methods"><i class="fa fa-check"></i><b>7.4</b> Runge-Kutta Methods</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#second-order-runge-kutta-method"><i class="fa fa-check"></i><b>7.4.1</b> Second Order Runge-Kutta Method</a></li>
+<li class="chapter" data-level="7.4.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#fourth-order-runge-kutta-method"><i class="fa fa-check"></i><b>7.4.2</b> Fourth Order Runge-Kutta Method</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#multistep-methods"><i class="fa fa-check"></i><b>7.5</b> Multistep Methods</a><ul>
+<li class="chapter" data-level="7.5.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#adam-bashforth-moultonmethod"><i class="fa fa-check"></i><b>7.5.1</b> Adam-Bashforth-MoultonMethod</a></li>
+<li class="chapter" data-level="7.5.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#advantages-of-multistep-methods"><i class="fa fa-check"></i><b>7.5.2</b> Advantages of Multistep Methods</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#systems-of-first-order-odes"><i class="fa fa-check"></i><b>7.6</b> Systems of First Order ODEs</a><ul>
+<li class="chapter" data-level="7.6.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#r-k-method-for-systems"><i class="fa fa-check"></i><b>7.6.1</b> R-K Method for Systems</a></li>
+</ul></li>
+<li class="chapter" data-level="7.7" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#converting-an-nth-order-ode-to-a-system-of-first-order-odes"><i class="fa fa-check"></i><b>7.7</b> Converting an <span class="math inline">\(n^{th}\)</span> Order ODE to a System of First Order ODEs</a><ul>
+<li class="chapter" data-level="7.7.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#exercises-8"><i class="fa fa-check"></i><b>7.7.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">University of the Witwatersrand</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Numerical Methods II APPM2007</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="ordinary-differentiable-equations-odes" class="section level1">
+<h1><span class="header-section-number">Chapter 7</span> Ordinary Differentiable Equations (ODEs)</h1>
+<p>Ordinary differential equations govern a great number of many important physical processes and phenomena. Not all differential equations can be solved using analytic techniques. Consequently, numerical solutions have become an alternative method of solution, and these have become a very large area of study.</p>
+<p>Importantly, we note the following:</p>
+<ul>
+<li>By itself <span class="math inline">\(y^\prime = f(x, y)\)</span> does not determine a unique solution.</li>
+<li>This simply tells us the slope <span class="math inline">\(y^\prime(x)\)</span> of the solution function at each point, but not the actual value <span class="math inline">\(y(x)\)</span> at any point.</li>
+<li>There are an infinite family of functions satisfying an ODE.</li>
+<li>To single out a particular solution, a value <span class="math inline">\(y_0\)</span> of the solution function must be specified at some point <span class="math inline">\(x_0\)</span>. These are called initial value problems.</li>
+</ul>
+<div id="initial-value-problems" class="section level2">
+<h2><span class="header-section-number">7.1</span> Initial Value Problems</h2>
+<p>The general first order equation can be written as:
+<span class="math display" id="eq:de1">\[\begin{equation}
+{dy\over dx}=f(x,y),\tag{7.1}
+\end{equation}\]</span>
+with <span class="math inline">\(f(x,y)\)</span> given. Together with this may be given an initial condition, say <span class="math inline">\(y(x_0)=y_0,\)</span> in which case <a href="ordinary-differentiable-equations-odes.html#eq:de1">(7.1)</a> and this condition form an initial value problem. Its general solution contains a single arbitrary constant of integration which can be determined from the given initial condition.</p>
+<div id="stability-of-odes" class="section level3">
+<h3><span class="header-section-number">7.1.1</span> Stability of ODEs</h3>
+<p>Should members of the solution family of an ODE move away from each other over time, then the equation is said to be <strong>unstable</strong>. If the family members move closer to one another with time then the equation is said to be <strong>stable</strong>. Finally, if the solution curves do not approach or diverge from one another with time, then the equation is said to be <strong>neutrally stable</strong>. So small perturbations to a solution of a stable equation will be damped out with time since the solution curves are converging. Conversely, an unstable equation would see the perturbation grow with time as the solution curves diverge.</p>
+<p>To give physical meaning to the above, consider a 3D cone. If the cone is stood on its circular base, then applying a perturbation to the cone will see it return to its original position standing up, implying a stable position. If the cone was balanced on its tip, then a small perturbation would see the cone fall, there the position is unstable. Finally, consider the cone resting on its side, applying a perturbation will simply roll the cone to some new position and thus the position is neutrally stable.</p>
+</div>
+<div id="unstable-ode" class="section level3">
+<h3><span class="header-section-number">7.1.2</span> Unstable ODE</h3>
+<p>An example of an unstable ODE is <span class="math inline">\(y^\prime = y\)</span>. Its family of solutions are given by the curves <span class="math inline">\(y(t) = ce^t\)</span>. From the exponential growth of the solutions we can see that the solution curves move away from one another as time increases implying that the equations is unstable. We can see this is the plot below.</p>
+<p><img src="lecture_notes_files/figure-html/unnamed-chunk-43-1.png" /><!-- --></p>
+</div>
+<div id="stable-ode" class="section level3">
+<h3><span class="header-section-number">7.1.3</span> Stable ODE</h3>
+<p>Now consider the equation <span class="math inline">\(y^\prime = -y\)</span>. Here the family of solutions is given by <span class="math inline">\(y(t) = ce^{-t}\)</span>. Since we have exponential decay of the solutions we can see that the equation is stable as seen in Figure below.</p>
+<p><img src="lecture_notes_files/figure-html/unnamed-chunk-44-1.png" /><!-- --></p>
+</div>
+<div id="neutrally-stable-ode" class="section level3">
+<h3><span class="header-section-number">7.1.4</span> Neutrally Stable ODE</h3>
+<p>Finally, consider the ODE <span class="math inline">\(y^\prime = a\)</span> for a given constant <span class="math inline">\(a\)</span>. Here the family of solutions is given by <span class="math inline">\(y(t) = at + c\)</span>, where <span class="math inline">\(c\)</span> again is any real constant. Thus, in the example plotted below where <span class="math inline">\(a = \frac{1}{2}\)</span> the solutions are parallel straight lines which neither converge or diverge. Therefore, the equation is neutrally stable.</p>
+<p><img src="lecture_notes_files/figure-html/unnamed-chunk-45-1.png" /><!-- --></p>
+</div>
+</div>
+<div id="eulers-method" class="section level2">
+<h2><span class="header-section-number">7.2</span> Euler’s Method</h2>
+<p>The simplest numerical technique for solving differential equations is Euler’s method. It involves choosing a suitable step size <span class="math inline">\(h\)</span> and an initial value <span class="math inline">\(y(x_0)=y_0\)</span>, which are then used to estimate
+<span class="math inline">\(y(x_1),\;y(x_2),\ldots\)</span> by a sequence of values <span class="math inline">\(y_i,\; i=1,2,\ldots\)</span>. Here use the notation <span class="math inline">\(x_i=x_0+ih\)</span>.</p>
+<p>A method of accomplishing this is suggested by the Taylor’s expansion
+<span class="math display">\[ 
+y(x+h)=y(x)+h y^\prime(x)+{1\over 2!} h^2 y^{\prime\prime}(x)+{1\over 3!} h^3 y^{\prime\prime\prime}(x)+\cdots
+\]</span>
+or, in terms of the notation introduced above:
+<span class="math display" id="eq:taylor1">\[\begin{equation}
+y_{i+1}=y_i+h y_i^\prime+{1\over 2!} h^2 y_i^{\prime\prime}+ {1\over 3!} h^3 y_i^{\prime\prime\prime}+\cdots \tag{7.2}
+\end{equation}\]</span>
+By the differential equation <a href="ordinary-differentiable-equations-odes.html#eq:taylor1">(7.2)</a>, we have:
+<span class="math display">\[ 
+y_i^\prime=f(x_i,y_i)
+\]</span>
+which when substituted in <a href="ordinary-differentiable-equations-odes.html#eq:taylor1">(7.2)</a> yields:
+<span class="math display" id="eq:taylor2">\[\begin{equation}
+y_{i+1}=y_i+h f(x_i,y_i)+{1\over 2!} h^2 f^{\prime}(x_i,y_i)+ {1\over 3!} h^3 f^{\prime\prime}(x_i,y_i)+\cdots \tag{7.3}
+\end{equation}\]</span>
+and so if we truncate the Taylor series <a href="ordinary-differentiable-equations-odes.html#eq:taylor2">(7.3)</a> after the term in <span class="math inline">\(h\)</span>, we have the approximate formula:
+<span class="math display" id="eq:euler1">\[\begin{equation}
+y_{i+1}=y_i+ h f(x_i,y_i)\tag{7.4}
+\end{equation}\]</span>
+This is a difference formula which can be evaluated step by step. This is the formula for <strong>Euler’s (or Euler-Cauchy)</strong> method. Thus given <span class="math inline">\((x_0,y_0)\)</span> we can calculate <span class="math inline">\((x_i,y_i)\)</span> for <span class="math inline">\(i=1,2,\cdots, n\)</span>. Since the new value <span class="math inline">\(y_{i+1}\)</span> can be calculated from known values of <span class="math inline">\(x_i\)</span> and <span class="math inline">\(y_i\)</span>, this method is said to be <strong>explicit</strong>.</p>
+<div id="error-in-eulers-method" class="section level3">
+<h3><span class="header-section-number">7.2.1</span> Error in Euler’s Method</h3>
+<p>Each time we apply an equation such as<a href="ordinary-differentiable-equations-odes.html#eq:euler1">(7.4)</a> we introduce two types of errors:</p>
+<ul>
+<li>Local truncation error introduced by ignoring the terms in <span class="math inline">\(h^2,\;h^3, \cdots\)</span> in equation <a href="ordinary-differentiable-equations-odes.html#eq:taylor1">(7.2)</a>. For Euler’s method, this error is
+<span class="math display">\[
+E ={h^2\over 2!} y_i^{\prime\prime}(\xi),\ \ \ \xi\in [x_i,x_{i+1}],
+\]</span>
+i.e. <span class="math inline">\(\epsilon_E=\mathcal{O}(h^2)\)</span>. Thus the local truncation error per step is <span class="math inline">\(\mathcal{O}(h^2)\)</span>.</li>
+<li>A further error introduced in <span class="math inline">\(y_{i+1}\)</span> because <span class="math inline">\(y_i\)</span> is itself in error. The size of this error will depend on the function <span class="math inline">\(f(x,y)\)</span> and the step size <span class="math inline">\(h\)</span>.</li>
+</ul>
+<p>The above errors are introduced at each step of the calculation.</p>
+<hr />
+</div>
+<div id="example-18" class="section level3">
+<h3><span class="header-section-number">7.2.2</span> Example</h3>
+<p>Apply the Euler’s method to solve the simple equation:
+<span class="math display">\[ 
+{dy\over dx}=x+y, \ \ \ \ y(0)=1
+\]</span>
+(Exercise: Solve the equation analytically and show that the analytic solution is <span class="math inline">\(y=2 e^x-x-1\)</span>.)</p>
+<p><strong>Solution:</strong></p>
+<p>Here <span class="math inline">\(f(x_i,y_i)=x_i+y_i.\)</span> With <span class="math inline">\(h=0.1,\)</span> and <span class="math inline">\(y_0=1\)</span> we compute <span class="math inline">\(y_1\)</span> as:
+<span class="math display">\[ 
+y_1=y_0+hf(x_0,y_0)=1+0.1(0+1)=1.1 
+\]</span>
+The numerical results of approximate solutions at subsequent points <span class="math inline">\(x_1=0.2, \ldots\)</span> can be computed in a similar way, rounded to 3 decimal, to obtain places.</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><span class="math inline">\(x\)</span></th>
+<th align="left"><span class="math inline">\(y\)</span></th>
+<th align="left"><span class="math inline">\(y^\prime=f(x,y)\)</span></th>
+<th align="left"><span class="math inline">\(y^\prime h\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">0</td>
+<td align="left">1.000</td>
+<td align="left">1.000</td>
+<td align="left">0.100</td>
+</tr>
+<tr class="even">
+<td align="left">0.1</td>
+<td align="left">1.100</td>
+<td align="left">1.200</td>
+<td align="left">0.120</td>
+</tr>
+<tr class="odd">
+<td align="left">0.2</td>
+<td align="left">1.220</td>
+<td align="left">1.420</td>
+<td align="left">0.142</td>
+</tr>
+<tr class="even">
+<td align="left">0.3</td>
+<td align="left">1.362</td>
+<td align="left">1.662</td>
+<td align="left">0.166</td>
+</tr>
+<tr class="odd">
+<td align="left">0.4</td>
+<td align="left">1.528</td>
+<td align="left">1.928</td>
+<td align="left">0.193</td>
+</tr>
+</tbody>
+</table>
+<p>The analytical solution at <span class="math inline">\(x=0.4\)</span> is 1.584. The numerical value is 1.528 and hence the error is about <span class="math inline">\(3.5\%\)</span>. The accuracy of the Euler’s method can be improved by using a smaller step size <span class="math inline">\(h\)</span>. Another alternative is to use a more accurate algorithm.</p>
+<p><img src="lecture_notes_files/figure-html/unnamed-chunk-46-1.png" /><!-- --></p>
+</div>
+</div>
+<div id="modified-eulers-method" class="section level2">
+<h2><span class="header-section-number">7.3</span> Modified Euler’s Method</h2>
+<p>A fundamental source of error in Euler’s method is that the derivative at the beginning of the interval is assumed to apply across the entire subinterval.</p>
+<p>There are two ways we can modify the Euler method to produce better results. One method is due to Heun (<strong>Heun’s method</strong>) and is well documented in numerical text books. The other method we consider here is called the <strong>improved polygon</strong> (or <strong>modified Euler</strong>) method.</p>
+<p>The modified Euler technique uses Euler’s method to predict the value of <span class="math inline">\(y\)</span> at the midpoint of the interval <span class="math inline">\([x_i,x_{i+1}]\)</span>:
+<span class="math display">\[\begin{equation}
+y_{i+\frac{1}{2}}=y_i+f(x_i,y_i) {h\over 2}.
+\end{equation}\]</span>
+Then this predicted value is used to estimate a slope at the midpoint:
+<span class="math display">\[\begin{equation}
+y_{i+\frac{1}{2}}^\prime=f(x_{i+1/2},y_{i+1/2}),
+\end{equation}\]</span>
+which is assumed to represent a valid approximation of the average slope for the entire subinterval. This slope is then used to extrapolate linearly from <span class="math inline">\(x_i\)</span> to <span class="math inline">\(x_{i+1}\)</span> using Euler’s method to obtain:
+<span class="math display">\[\begin{equation}
+y_{i+1}=y_i+ f(x_{i+1/2},y_{i+1/2}) h
+\end{equation}\]</span>
+For the modified Euler method, the truncation error can be shown to be:
+<span class="math display">\[\begin{equation}
+\epsilon_E =-{h^3\over 12} y_i^{\prime\prime\prime}(\xi),\ \ \ \ \xi\in [x_i,x_{i+1}] 
+\end{equation}\]</span>
+<strong>Note</strong>: <span class="math inline">\(x_{i + \frac{1}{2}} = x_i + \frac{1}{2}\)</span></p>
+<div id="example-19" class="section level4">
+<h4><span class="header-section-number">7.3.0.1</span> Example</h4>
+<p>Solve
+<span class="math display">\[ 
+{dy\over dx}=x+y,\ \ \ \  y(0)=1, \ \ \ \ h=0.1
+\]</span>
+using the modified Euler’s method described above.</p>
+<p><strong>Solution:</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><span class="math inline">\(x_i\)</span></th>
+<th align="left"><span class="math inline">\(y_i\)</span></th>
+<th align="left"><span class="math inline">\(y_{i+1/2}\)</span></th>
+<th align="left"><span class="math inline">\(y_{i+1/2}^\prime\)</span></th>
+<th align="left"><span class="math inline">\(y_{i+1/2}^\prime h\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">0</td>
+<td align="left">1.000</td>
+<td align="left">1.050</td>
+<td align="left">1.100</td>
+<td align="left">0.110</td>
+</tr>
+<tr class="even">
+<td align="left">0.1</td>
+<td align="left">1.110</td>
+<td align="left">1.1705</td>
+<td align="left">1.3205</td>
+<td align="left">0.13205</td>
+</tr>
+<tr class="odd">
+<td align="left">0.2</td>
+<td align="left">1.24205</td>
+<td align="left">1.1705</td>
+<td align="left">1.3205</td>
+<td align="left">0.13205</td>
+</tr>
+<tr class="even">
+<td align="left">0.3</td>
+<td align="left">1.39847</td>
+<td align="left">1.31415</td>
+<td align="left">1.56415</td>
+<td align="left">0.15641</td>
+</tr>
+<tr class="odd">
+<td align="left">0.4</td>
+<td align="left">1.58180</td>
+<td align="left">1.48339</td>
+<td align="left">1.83339</td>
+<td align="left">0.18334</td>
+</tr>
+</tbody>
+</table>
+<p>The numerical solution is now 1.5818 which much more accurate that the result obtained using Euler’s method. In this case the error is about <span class="math inline">\(0.14\%\)</span>.</p>
+<p><img src="lecture_notes_files/figure-html/unnamed-chunk-47-1.png" /><!-- --></p>
+</div>
+</div>
+<div id="runge-kutta-methods" class="section level2">
+<h2><span class="header-section-number">7.4</span> Runge-Kutta Methods</h2>
+<p>Runge and Kutta were German mathematicians. They suggested a group of methods for numerical solutions of ODEs.</p>
+<p>The general form of the Runge-Kutta method is:
+<span class="math display">\[\begin{equation} 
+y_{i+1}=y_i+h\phi(x_i,y_i;h),
+\end{equation}\]</span>
+where <span class="math inline">\(\phi(x_i,y_i;h)\)</span> is called the increment function.</p>
+<p>In Euler’s method, <span class="math inline">\(\phi(x_i,y_i;h)=f(x_i,y_i)=y_i^\prime\)</span>, i.e we are using the slope at the point <span class="math inline">\(x_i\)</span> to extrapolate <span class="math inline">\(y_i\)</span> and obtain <span class="math inline">\(y_{i+1}\)</span>. In the modified Euler’s method:
+<span class="math display">\[
+\phi(x_i,y_i;h)=f(x_{i+\frac{1}{2}},y_{i+\frac{1}{2}})=y_{i+\frac{1}{2}}^\prime
+\]</span>
+The increment function can be written in a general form as:
+<span class="math display">\[\begin{equation}
+\phi= w_1 k_1+w_2 k_2+\cdots+w_n k_n
+\end{equation}\]</span>
+where the <span class="math inline">\(k\)</span>’s are constants and the <span class="math inline">\(w\)</span>’s are weights.</p>
+<div id="second-order-runge-kutta-method" class="section level3">
+<h3><span class="header-section-number">7.4.1</span> Second Order Runge-Kutta Method</h3>
+<p>The second order R-K method has the form:
+<span class="math display" id="eq:runge2">\[\begin{equation}
+y_{i+1}=y_i+(w_1 k_1+ w_2 k_2), \tag{7.5}
+\end{equation}\]</span>
+where
+<span class="math display">\[\begin{eqnarray}
+k_1 &amp;=&amp; h f(x_i,y_i)\\
+k_2 &amp;=&amp;hf(x_i+{h\over 2} ,y_i+{k_1\over 2} ),
+\end{eqnarray}\]</span>
+and the weights <span class="math inline">\(w_1+w_2=1\)</span>. If <span class="math inline">\(w_1=1\)</span>, then <span class="math inline">\(w_2=0\)</span> and we have Euler’s method. If <span class="math inline">\(w_2=1\)</span>, then <span class="math inline">\(w_1=0\)</span> we have the Euler’s improved polygon method:
+<span class="math display">\[\begin{eqnarray}
+y_{i+1} &amp;=&amp; y_i+ k_2 \\
+ &amp;=&amp;  y_i+ h f(x_i+{h\over 2} ,y_i+{k_1\over 2} ),
+\end{eqnarray}\]</span>
+If <span class="math inline">\(w_1=w_2=\frac{1}{2}\)</span>, then we have:
+<span class="math display">\[\begin{eqnarray}
+y_{i+1}&amp;=&amp; y_i+{1\over 2}(k_1+k_2),\\
+k_1 &amp;=&amp; h f(x_i,y_i)\\
+k_2 &amp;=&amp;hf(x_i+{h\over 2} ,y_i+{k_1\over 2} ),
+\end{eqnarray}\]</span>
+called Heun’s method.</p>
+</div>
+<div id="fourth-order-runge-kutta-method" class="section level3">
+<h3><span class="header-section-number">7.4.2</span> Fourth Order Runge-Kutta Method</h3>
+<p>The <strong>classical fourth order R–K method</strong> has the form:
+<span class="math display" id="eq:runge4">\[\begin{equation}
+y_{i+1}=y_i+{1\over 6}(k_1+2 k_2+2 k_3+k_4), \tag{7.6}
+\end{equation}\]</span>
+where
+<span class="math display">\[\begin{eqnarray}
+k_1 &amp;=&amp; hf(x_i,y_i)\\
+k_2 &amp;=&amp; hf(x_i+{h\over 2} ,y_i+{k_1\over 2} )\\
+k_3 &amp;=&amp; hf(x_i+{h\over 2} ,y_i+{k_2\over 2})\\
+k_4 &amp;=&amp; hf(x_i+h ,y_i+k_3),
+\end{eqnarray}\]</span>
+This is the most popular R–K method. It has a local truncation error <span class="math inline">\(\mathcal{O}(h^4)\)</span></p>
+<div id="example-20" class="section level4">
+<h4><span class="header-section-number">7.4.2.1</span> Example</h4>
+<p>Solve the DE <span class="math inline">\(y^\prime=x+y\)</span>, <span class="math inline">\(y(0)=1\)</span> using <span class="math inline">\(4^{th}\)</span> order Runge–Kutta method. Compare your results with those obtained from Euler’s method, modified Euler’s method and the actual value. Determine <span class="math inline">\(y(0.1)\)</span> and <span class="math inline">\(y(0.2)\)</span> only.</p>
+<p>The solution using Runge-Kutta is obtained as follows:</p>
+<p>For <span class="math inline">\(y_1:\)</span>
+<span class="math display">\[\begin{eqnarray}
+k_1&amp;=&amp;0.1(0+1)=0.1\\
+k_2&amp;=&amp;0.1\left(\left(0+\frac{0.1}{2}\right)+\left(1+\frac{0.1}{2}\right)\right)=0.01\\
+k_3&amp;=&amp;0.1\left(\left(0+\frac{0.1}{2}\right)+\left(1+\frac{0.11}{2}\right)\right)=0.1105\\
+k_4&amp;=&amp;0.1(\left(0+0.1\right)+\left(1+0.1105\right))=0.1211
+\end{eqnarray}\]</span>
+and therefore:
+<span class="math display">\[
+y_1=y_0+\frac{1}{6}(0.1+2(0.01)+2(0.1105)+0.1211)=1.1103
+\]</span>
+A similar computation yields
+<span class="math display">\[ 
+y(0.2)=y_2=1.1103+\frac{1}{6}(0.1210+2(0.1321)+2(0.1326)+0.1443=1.2428 
+\]</span>
+A table for all the approximate solutions using the required methods is:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><span class="math inline">\(x\)</span></th>
+<th align="left">Euler</th>
+<th align="left">Modified Euler</th>
+<th align="left"><span class="math inline">\(4^{th}\)</span> Order RK</th>
+<th align="left">Actual value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">0.1</td>
+<td align="left">1.1000000</td>
+<td align="left">1.1100000</td>
+<td align="left">1.1103417</td>
+<td align="left">1.1103418</td>
+</tr>
+<tr class="even">
+<td align="left">0.2</td>
+<td align="left">1.2300000</td>
+<td align="left">1.2420500</td>
+<td align="left">1.2428052</td>
+<td align="left">1.2428055</td>
+</tr>
+</tbody>
+</table>
+<p><img src="lecture_notes_files/figure-html/unnamed-chunk-48-1.png" /><!-- --></p>
+</div>
+</div>
+</div>
+<div id="multistep-methods" class="section level2">
+<h2><span class="header-section-number">7.5</span> Multistep Methods</h2>
+<p>As previously, Euler’s method, Modified Euler’s method and Runge-Kutta methods are single-step methods. They work by computing each successive value <span class="math inline">\(y_{i + 1}\)</span> only utilising information from the preceding value <span class="math inline">\(y_n\)</span>. Another approach are <em>multistep methods</em>, where values from several computed previously computed steps are used to obtain <span class="math inline">\(y_{i+1}\)</span>. There are numerous methods using this approach, however, for the purpose of this course we will only consider one - the <strong>Adam Bashforth Method</strong>.</p>
+<div id="adam-bashforth-moultonmethod" class="section level3">
+<h3><span class="header-section-number">7.5.1</span> Adam-Bashforth-MoultonMethod</h3>
+<p>This is a multistep method is similar to the Modified Euler’s method in that it is a predictor-corrector method, i.e. uses one formula to predict a value <span class="math inline">\(y^\prime_{i + 1}\)</span>, which is then used to obtain a corrected value <span class="math inline">\(y_{i+ 1}\)</span>. The predictor in this method is the Adams-Bashforth formula. Specifically,
+<span class="math display">\[\begin{eqnarray*}
+y^*_{i + 1} &amp;=&amp; y_i + \dfrac{h}{24}(55y^\prime_i - 59y^\prime_{i-1} +37y^\prime_{i-2} - 9y^\prime_{i-3}),\\
+y^\prime_i &amp;=&amp; f(x_i, y_i), \\
+y^\prime_{i-1} &amp;=&amp; f(x_{i-1}, y_{i - 1}),\\
+y^\prime_{i-2} &amp;=&amp; f(x_{i-2}, y_{i - 2}),\\
+y^\prime_{i-3} &amp;=&amp; f(x_{i-3}, y_{i - 3}),
+\end{eqnarray*}\]</span>
+for <span class="math inline">\(i \geq 3\)</span>, which is then substituted into the Adams-Moulton corrector:
+<span class="math display" id="eq:adam">\[\begin{eqnarray}
+y_{i + 1} &amp;=&amp; y_i + \dfrac{h}{24}(9y^\prime_{i + 1} + 19^\prime_{i} - 5y^\prime_{i-1} + y^\prime_{i-2}) \tag{7.7} \\
+y_{i + 1}^\prime &amp;=&amp; f(x_{i + 1}, y^*_{i+ 1}).
+\end{eqnarray}\]</span>
+Note that Equation <a href="ordinary-differentiable-equations-odes.html#eq:adam">(7.7)</a> requires that we know the initial values of <span class="math inline">\(y_0, y_1, y_2\)</span> and <span class="math inline">\(y_3\)</span> in order to obtain <span class="math inline">\(y_4\)</span>. The value <span class="math inline">\(y_0\)</span> is the initial condition. Since Adams-Bashforth method is of <span class="math inline">\(\mathcal{O}(h^5)\)</span>, we need a high order accurate method to first obtain <span class="math inline">\(y_1, y_2\)</span> and <span class="math inline">\(y_3\)</span>. Therefore, we compute these values using the RK-4 formula.</p>
+<hr />
+<div id="example-21" class="section level4">
+<h4><span class="header-section-number">7.5.1.1</span> Example</h4>
+<p>Use the Adam-Bashforth method with <span class="math inline">\(h = 0.2\)</span> to obtain an approximation to <span class="math inline">\(y(0.8)\)</span> for the IVP:
+<span class="math display">\[
+y^\prime = x + y - 1, \ \ \ \ y(0) = 1.
+\]</span>
+<strong>Solution:</strong></p>
+<p>Using the RK-4 method to get started, we obtain the following:
+<span class="math display">\[
+y_1 = 1.0214, \ \ \ y_2 = 1.09181796, \ \ \ y_3 = 1.22210646.
+\]</span>
+Since <span class="math inline">\(h = 0.2\)</span>, we know that <span class="math inline">\(x_1 = 0.2, x_2 = 0.4, x_3 = 0.6\)</span> and <span class="math inline">\(f(x, y) = x + y - 1\)</span>. Now we can proceed:
+<span class="math display">\[\begin{eqnarray*}
+y^\prime_{0} &amp;=&amp; f(x_0, y_0) = 0 + 1 -1 = 0,\\
+y^\prime_1   &amp;=&amp; f(x_1, y_1) = 0.2 + 1.0214 - 1 = 0.2214, \\
+y^\prime_{2} &amp;=&amp; f(x_2, y_2) = 0.4 + 1.09181796 - 1 = 0.49181796,\\
+y^\prime_{3} &amp;=&amp; f(x_3, y_3) = 0.6 + 1.22210646 - 1 = 0.82210646.\\
+\end{eqnarray*}\]</span>
+Now we can compute the predictor <span class="math inline">\(y^*_4\)</span>:
+<span class="math display">\[
+y^\prime_4 = y_3 + \dfrac{0.2}{24}(55y^\prime_3 - 59y^\prime_{2} +37y^\prime_{1} - 9y^\prime_{0}) = 1.42535975.
+\]</span>
+Next, we need <span class="math inline">\(y^\prime_4\)</span>:
+<span class="math display">\[
+y^\prime_4 = f(x_4, y^*_4) = 0.8 +1.42535975 - 1 = 1.22535975.
+\]</span>
+Finally, this gives <span class="math inline">\(y_4\)</span> by:
+<span class="math display">\[
+y_4 = y_3 + \dfrac{0.2}{24}(9y^\prime_4 + 19^\prime_{3} - 5y^\prime_{2} + y^\prime_{1}) = 1.42552788.
+\]</span>
+The exact solution of this ODE at <span class="math inline">\(y(0.8)\)</span> is 1.42554093.</p>
+<hr />
+</div>
+</div>
+<div id="advantages-of-multistep-methods" class="section level3">
+<h3><span class="header-section-number">7.5.2</span> Advantages of Multistep Methods</h3>
+<p>There are a number of decisions to make when choosing a numerical method to solve a differential equation. While single step explicit methods such as RK-4 are often chosen due to their accuracy and easily programmable implementation, the right hand side of the equation needs to be evaluated many times. In the case of RK-4, the method is required to make four function evaluations at each step. On the Implicit side, if the function valuations in the previous step have been computed and stored, then a multistep method would require only one new function evaluation at each step - saving computational time.</p>
+<p>In general the Adam-Bashforth method requires slightly more than one quarter of the number of function evaluations required for the RK-4 method.</p>
+<hr />
+</div>
+</div>
+<div id="systems-of-first-order-odes" class="section level2">
+<h2><span class="header-section-number">7.6</span> Systems of First Order ODEs</h2>
+<p>A <span class="math inline">\(n\)</span>th order system of first order initial value problems can be expressed in the form:</p>
+<p><span class="math display">\[\begin{eqnarray*}
+{d y_1\over dx} &amp;=&amp; f_1(x, y_1,y_2,\cdots, y_n),\ \ \ \ y_1(x_0)=\alpha_1\\
+{d y_2\over dx} &amp;=&amp; f_2(x, y_1,y_2,\cdots, y_n),\ \ \ \ y_2(x_0)=\alpha_2\\
+\vdots\\
+{d y_n\over dx} &amp;=&amp; f_n(x, y_1,y_2,\cdots, y_n),\ \ \ \ y_n(x_0)=\alpha_n,
+\end{eqnarray*}\]</span>
+for <span class="math inline">\(x_0\leq x\leq x_n\)</span>.</p>
+<p>The methods we have seen so far were for a single first order equation, in which we sought the solution <span class="math inline">\(y(x)\)</span>. Methods to solve first order systems of IVP are simple generalization of
+methods for a single equations, bearing in mind that now we seek <span class="math inline">\(n\)</span> solutions <span class="math inline">\(y_1,\; y_2,\ldots,y_n\)</span> each with an intial condition <span class="math inline">\(y_k(x_0); k=1,\ldots,n\)</span> at the points <span class="math inline">\(x_i,\; i=1,2.\ldots\)</span>.</p>
+<div id="r-k-method-for-systems" class="section level3">
+<h3><span class="header-section-number">7.6.1</span> R-K Method for Systems</h3>
+<p>Consider the system of two equations:</p>
+<p><span class="math display">\[\begin{eqnarray}
+{d y\over dx} &amp;=&amp;f(x, y,z),\quad y(0)=y_0\\
+{d z\over dx} &amp;=&amp;g(x, y,z),\quad z(0)=z_0.
+\end{eqnarray}\]</span>
+Let <span class="math inline">\(y=y_1,\; z=y_2,\; f=f_1,\;\)</span> and <span class="math inline">\(g=f_2.\)</span> The fourth order R-K method would be applied as follows. For each <span class="math inline">\(j=1,2\)</span> corresponding to solutions <span class="math inline">\(y_{j,i},\)</span> compute
+<span class="math display">\[\begin{eqnarray}
+k_{1,j}&amp;=&amp; hf_j(x_i,y_{1,i},y_{2,i}),\ \ j=1,2\\
+k_{2,j}&amp;=&amp; hf_j(x_i+\frac{h}{2},\;y_{1,i}+\frac{k_{1,1}}{2},\;y_{2,i}+\frac{k_{1,2}}{2})\ \ j=1,2\\
+k_{3,j}&amp;=&amp; hf_j(x_i+\frac{h}{2},\;y_{1,i}+\frac{k_{2,1}}{2},\;y_{2,i}+\frac{k_{2,2}}{2}), \ \ j=1,2\\
+k_{4,j}&amp;=&amp; hf_j(x_i+h,\;y_{1,i}+k_{3,1},\;y_{2,i}+k_{3,2}),\ \ j=1,2
+\end{eqnarray}\]</span>
+and:
+<span class="math display">\[\begin{eqnarray}
+y_{i+1}=y_{1,i+1} &amp;=&amp; y_{1,i}+{1\over 6}(k_{1,1}+2k_{2,1}+2 k_{3,1}+ k_{4,1})\\
+z_{i+1}=y_{2,i+1} &amp;=&amp; z_i+{1\over 6}(k_{1,2}+2k_{2,2}+2k_{3,2}+ k_{4,2}).
+\end{eqnarray}\]</span>
+Note that we must calculate <span class="math inline">\(k_{1,1},\; k_{1,2},\; k_{2,1},\;k_{2,2},\;k_{3,1},\;k_{3,2},\; k_{4,1},\; k_{4,2}\)</span> in that order.</p>
+</div>
+</div>
+<div id="converting-an-nth-order-ode-to-a-system-of-first-order-odes" class="section level2">
+<h2><span class="header-section-number">7.7</span> Converting an <span class="math inline">\(n^{th}\)</span> Order ODE to a System of First Order ODEs</h2>
+<p>Consider the general second order initial value problem
+<span class="math display">\[  
+y^{\prime\prime}+a y^\prime+b y=0,\quad y(0)=\alpha_1,\ \ \ \ y^\prime(0)=\alpha_2
+\]</span>
+If we let <span class="math display">\[z=y^\prime,\ \ \ \ z^\prime=y^{\prime\prime}\]</span>
+then the original ODE can now be written as
+<span class="math display">\[\begin{eqnarray}
+ y^\prime &amp;=&amp; z, \ \ \ \ y(0)=\alpha_1\\
+ z^\prime &amp;=&amp; -a z- by,\ \ \ \ z(0)=\alpha_2
+\end{eqnarray}\]</span>
+Once transformed into a system of first order ODEs the methods for systems of equations apply.</p>
+<div id="exercise-6" class="section level4">
+<h4><span class="header-section-number">7.7.0.1</span> Exercise</h4>
+<p>Solve the second order differential equation:
+<span class="math display">\[
+y^{\prime\prime}+3 xy^\prime +2 x^2 y=0,\ \ \ \ y(0)=3,\ \ \ \ y^\prime(0)=1
+\]</span>
+(i) Second order R–K method (ii) 4th order R–K.
+Use <span class="math inline">\(h=0.1\)</span>. Do only two steps.</p>
+<hr />
+</div>
+<div id="exercises-8" class="section level3">
+<h3><span class="header-section-number">7.7.1</span> Exercises</h3>
+<p>Use (i) Euler’s method (ii) modified Euler’s formula to solve the following IVP;</p>
+<ul>
+<li><span class="math inline">\(y^\prime=\sin(x+y),\ \ \ y(0)=0\)</span></li>
+<li><span class="math inline">\(y^\prime=y x^2-y,\ \ \ \ y(0)=1\)</span>
+for <span class="math inline">\(h=0.2\)</span> and <span class="math inline">\(h=0.1\)</span>.</li>
+<li>Determine <span class="math inline">\(y(0.4)\)</span> for each of the above IVP.</li>
+<li>Use Richardson’s extrapolation to get improved approximations to the solutions at <span class="math inline">\(x=0.4\)</span></li>
+<li>If <span class="math inline">\(f\)</span> is a function of <span class="math inline">\(x\)</span> only, show that the fourth-order Runge-Kutta formula, applied to the differential equation <span class="math inline">\(\displaystyle dy/dx=f(x)\)</span> is equivalent to the use of Simpson’s rule (over one interval) for evaluating <span class="math inline">\(\int_{0}^x f(x) dx\)</span>.</li>
+<li>Use fourth order Runge–Kutta method to solve the following IVPs:
+<ul>
+<li><span class="math inline">\(y^\prime = 2 x y,\ \ \ \ y(0)=1\)</span><br />
+</li>
+<li><span class="math inline">\(y^\prime =1+y^2, \ \ \ \ y(0)=0\)</span>,
+Use <span class="math inline">\(h=0.2\)</span> and determine the solutions at <span class="math inline">\(x=0.4\)</span>.</li>
+</ul></li>
+<li>Solve the following systems of IVPs:
+<ul>
+<li><span class="math inline">\(y^\prime=y z,\ \ \ \ z^\prime=x z,\ \ \ \ y(0)=1,\ \ \ \ z(0)=-1\)</span></li>
+<li><span class="math inline">\(y^\prime=x-z^2,\ \ \ \ z^\prime=x+y,\ \ \ \ y(0)=1\ \ \ \ z(0)=2\)</span>,
+using (i) Euler’s method (ii) Second order Runge-Kutta with <span class="math inline">\(h=0.1\)</span>. Compute <span class="math inline">\(y\)</span> and <span class="math inline">\(z\)</span>, at <span class="math inline">\(x=0.2\)</span>.</li>
+</ul></li>
+<li>Use Euler’s method to solve the differential equation:
+<span class="math display">\[
+y^\prime = 1 + y^2,
+\]</span>
+on the domain <span class="math inline">\([0,\ 1]\)</span> with the initial condition of (a) <span class="math inline">\(y_0 = 0\)</span> and (b) <span class="math inline">\(y_0 = 1\)</span>. Plot these solutions along with the exact solution. Use step sizes of <span class="math inline">\(h = 0.1\)</span> and <span class="math inline">\(h = 0.05\)</span>.</li>
+<li>Given the IVP <span class="math inline">\(y^\prime = (x + y - 1)^2\)</span>, <span class="math inline">\(y(0) = 2\)</span>. Using the Modified Euler’s method with <span class="math inline">\(h = 1\)</span> and <span class="math inline">\(h = 0.05\)</span>, obtain approximate solutions of the solution at <span class="math inline">\(x = 0.5\)</span>. Compare these values with the analytical solution.</li>
+</ul>
+<hr />
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="least-squares.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/07-ordinary_differentiable_equations.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["lecture_notes.pdf", "lecture_notes.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

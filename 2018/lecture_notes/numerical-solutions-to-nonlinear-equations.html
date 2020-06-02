@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 3 Numerical Solutions to Nonlinear Equations | Numerical Methods II APPM2007</title>
+  <meta name="description" content="Course notes for Numerical Analysis II at the University of the Witwatersrand" />
+  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 3 Numerical Solutions to Nonlinear Equations | Numerical Methods II APPM2007" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:image" content="wits_high_def-min.png" />
+  <meta property="og:description" content="Course notes for Numerical Analysis II at the University of the Witwatersrand" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 3 Numerical Solutions to Nonlinear Equations | Numerical Methods II APPM2007" />
+  
+  <meta name="twitter:description" content="Course notes for Numerical Analysis II at the University of the Witwatersrand" />
+  <meta name="twitter:image" content="wits_high_def-min.png" />
+
+<meta name="author" content="Dr Matthew Woolway" />
+
+
+<meta name="date" content="2020-01-15" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="numerical-integration.html"/>
+<link rel="next" href="eigenvalues-and-eigenvectors.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Numerical Analysis II</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Course Outline</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#course-structure-and-details"><i class="fa fa-check"></i>Course Structure and Details</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#course-assessment"><i class="fa fa-check"></i>Course Assessment</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#course-topics"><i class="fa fa-check"></i>Course Topics</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#hardware-requirements"><i class="fa fa-check"></i>Hardware Requirements</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html"><i class="fa fa-check"></i><b>1</b> Numerical Differentiation</a><ul>
+<li class="chapter" data-level="1.1" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#finite-difference-methods"><i class="fa fa-check"></i><b>1.1</b> Finite Difference Methods</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#approximations-to-fprimex"><i class="fa fa-check"></i><b>1.1.1</b> Approximations to <span class="math inline">\(f^\prime(x)\)</span></a></li>
+<li class="chapter" data-level="1.1.2" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#approximations-to-fprimeprimex"><i class="fa fa-check"></i><b>1.1.2</b> Approximations to <span class="math inline">\(f^{\prime\prime}(x)\)</span></a></li>
+<li class="chapter" data-level="1.1.3" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#errors-in-first-and-second-order"><i class="fa fa-check"></i><b>1.1.3</b> Errors in First and Second Order</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#exercises"><i class="fa fa-check"></i><b>1.2</b> Exercises</a></li>
+<li class="chapter" data-level="1.3" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#richardsons-extrapolation"><i class="fa fa-check"></i><b>1.3</b> Richardson’s Extrapolation</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#example-1"><i class="fa fa-check"></i><b>1.3.1</b> Example</a></li>
+<li class="chapter" data-level="1.3.2" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#exercises-1"><i class="fa fa-check"></i><b>1.3.2</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="numerical-integration.html"><a href="numerical-integration.html"><i class="fa fa-check"></i><b>2</b> Numerical Integration</a><ul>
+<li class="chapter" data-level="2.1" data-path="numerical-integration.html"><a href="numerical-integration.html#quadrature-rules"><i class="fa fa-check"></i><b>2.1</b> Quadrature Rules</a></li>
+<li class="chapter" data-level="2.2" data-path="numerical-integration.html"><a href="numerical-integration.html#newton-cotes-quadrature"><i class="fa fa-check"></i><b>2.2</b> Newton-Cotes Quadrature</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="numerical-integration.html"><a href="numerical-integration.html#trapezoidal-rule"><i class="fa fa-check"></i><b>2.2.1</b> Trapezoidal Rule</a></li>
+<li class="chapter" data-level="2.2.2" data-path="numerical-integration.html"><a href="numerical-integration.html#example-2"><i class="fa fa-check"></i><b>2.2.2</b> Example</a></li>
+<li class="chapter" data-level="2.2.3" data-path="numerical-integration.html"><a href="numerical-integration.html#the-midpoint-method"><i class="fa fa-check"></i><b>2.2.3</b> The Midpoint Method</a></li>
+<li class="chapter" data-level="2.2.4" data-path="numerical-integration.html"><a href="numerical-integration.html#simpsons-rule"><i class="fa fa-check"></i><b>2.2.4</b> Simpson’s Rule</a></li>
+<li class="chapter" data-level="2.2.5" data-path="numerical-integration.html"><a href="numerical-integration.html#convergence-rates"><i class="fa fa-check"></i><b>2.2.5</b> Convergence Rates</a></li>
+<li class="chapter" data-level="2.2.6" data-path="numerical-integration.html"><a href="numerical-integration.html#exercises-2"><i class="fa fa-check"></i><b>2.2.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="numerical-integration.html"><a href="numerical-integration.html#romberg-integration"><i class="fa fa-check"></i><b>2.3</b> Romberg Integration</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="numerical-integration.html"><a href="numerical-integration.html#exercises-3"><i class="fa fa-check"></i><b>2.3.1</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="numerical-integration.html"><a href="numerical-integration.html#double-and-triple-integrals"><i class="fa fa-check"></i><b>2.4</b> Double and Triple Integrals</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="numerical-integration.html"><a href="numerical-integration.html#the-midpoint-method-for-double-integrals"><i class="fa fa-check"></i><b>2.4.1</b> The Midpoint Method for Double Integrals</a></li>
+<li class="chapter" data-level="2.4.2" data-path="numerical-integration.html"><a href="numerical-integration.html#the-midpoint-method-for-triple-integrals"><i class="fa fa-check"></i><b>2.4.2</b> The Midpoint Method for Triple Integrals</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html"><i class="fa fa-check"></i><b>3</b> Numerical Solutions to Nonlinear Equations</a><ul>
+<li class="chapter" data-level="3.1" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#nonlinear-equations-in-one-unknown-fx0"><i class="fa fa-check"></i><b>3.1</b> Nonlinear equations in one unknown: <span class="math inline">\(f(x)=0\)</span></a><ul>
+<li class="chapter" data-level="3.1.1" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#interval-methods"><i class="fa fa-check"></i><b>3.1.1</b> Interval Methods</a></li>
+<li class="chapter" data-level="3.1.2" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#bisection-method"><i class="fa fa-check"></i><b>3.1.2</b> Bisection Method</a></li>
+<li class="chapter" data-level="3.1.3" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#false-position-method-or-regula-falsi"><i class="fa fa-check"></i><b>3.1.3</b> False position method or Regula Falsi</a></li>
+<li class="chapter" data-level="3.1.4" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#fixed-point-methods"><i class="fa fa-check"></i><b>3.1.4</b> Fixed Point Methods</a></li>
+<li class="chapter" data-level="3.1.5" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#newtons-method"><i class="fa fa-check"></i><b>3.1.5</b> Newton’s Method</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#newtons-method-for-systems-of-nonlinear-equations"><i class="fa fa-check"></i><b>3.2</b> Newton’s Method for Systems of Nonlinear Equations</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#exercises-4"><i class="fa fa-check"></i><b>3.2.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="eigenvalues-and-eigenvectors.html"><a href="eigenvalues-and-eigenvectors.html"><i class="fa fa-check"></i><b>4</b> Eigenvalues and Eigenvectors</a><ul>
+<li class="chapter" data-level="4.1" data-path="eigenvalues-and-eigenvectors.html"><a href="eigenvalues-and-eigenvectors.html#the-power-method"><i class="fa fa-check"></i><b>4.1</b> The Power Method</a></li>
+<li class="chapter" data-level="4.2" data-path="eigenvalues-and-eigenvectors.html"><a href="eigenvalues-and-eigenvectors.html#the-inverse-power-method"><i class="fa fa-check"></i><b>4.2</b> The Inverse Power Method</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="eigenvalues-and-eigenvectors.html"><a href="eigenvalues-and-eigenvectors.html#exercises-5"><i class="fa fa-check"></i><b>4.2.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="interpolation.html"><a href="interpolation.html"><i class="fa fa-check"></i><b>5</b> Interpolation</a><ul>
+<li class="chapter" data-level="5.1" data-path="interpolation.html"><a href="interpolation.html#weierstrauss-approximation-theorem"><i class="fa fa-check"></i><b>5.1</b> Weierstrauss Approximation Theorem</a></li>
+<li class="chapter" data-level="5.2" data-path="interpolation.html"><a href="interpolation.html#linear-interpolation"><i class="fa fa-check"></i><b>5.2</b> Linear Interpolation</a></li>
+<li class="chapter" data-level="5.3" data-path="interpolation.html"><a href="interpolation.html#quadratic-interpolation"><i class="fa fa-check"></i><b>5.3</b> Quadratic Interpolation</a></li>
+<li class="chapter" data-level="5.4" data-path="interpolation.html"><a href="interpolation.html#lagrange-interpolating-polynomials"><i class="fa fa-check"></i><b>5.4</b> Lagrange Interpolating Polynomials</a></li>
+<li class="chapter" data-level="5.5" data-path="interpolation.html"><a href="interpolation.html#newtons-divided-differences"><i class="fa fa-check"></i><b>5.5</b> Newton’s Divided Differences</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="interpolation.html"><a href="interpolation.html#errors-of-newtons-interpolating-polynomials"><i class="fa fa-check"></i><b>5.5.1</b> Errors of Newton’s interpolating polynomials</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="interpolation.html"><a href="interpolation.html#cubic-splines-interpolation"><i class="fa fa-check"></i><b>5.6</b> Cubic Splines Interpolation</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="interpolation.html"><a href="interpolation.html#runges-phenomenon"><i class="fa fa-check"></i><b>5.6.1</b> Runge’s Phenomenon</a></li>
+<li class="chapter" data-level="5.6.2" data-path="interpolation.html"><a href="interpolation.html#exercises-6"><i class="fa fa-check"></i><b>5.6.2</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="least-squares.html"><a href="least-squares.html"><i class="fa fa-check"></i><b>6</b> Least Squares</a><ul>
+<li class="chapter" data-level="6.1" data-path="least-squares.html"><a href="least-squares.html#linear-least-squares"><i class="fa fa-check"></i><b>6.1</b> Linear Least Squares</a></li>
+<li class="chapter" data-level="6.2" data-path="least-squares.html"><a href="least-squares.html#polynomial-least-squares"><i class="fa fa-check"></i><b>6.2</b> Polynomial Least Squares</a></li>
+<li class="chapter" data-level="6.3" data-path="least-squares.html"><a href="least-squares.html#least-squares-exponential-fit"><i class="fa fa-check"></i><b>6.3</b> Least Squares Exponential Fit</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="least-squares.html"><a href="least-squares.html#exercises-7"><i class="fa fa-check"></i><b>6.3.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html"><i class="fa fa-check"></i><b>7</b> Ordinary Differentiable Equations (ODEs)</a><ul>
+<li class="chapter" data-level="7.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#initial-value-problems"><i class="fa fa-check"></i><b>7.1</b> Initial Value Problems</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#stability-of-odes"><i class="fa fa-check"></i><b>7.1.1</b> Stability of ODEs</a></li>
+<li class="chapter" data-level="7.1.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#unstable-ode"><i class="fa fa-check"></i><b>7.1.2</b> Unstable ODE</a></li>
+<li class="chapter" data-level="7.1.3" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#stable-ode"><i class="fa fa-check"></i><b>7.1.3</b> Stable ODE</a></li>
+<li class="chapter" data-level="7.1.4" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#neutrally-stable-ode"><i class="fa fa-check"></i><b>7.1.4</b> Neutrally Stable ODE</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#eulers-method"><i class="fa fa-check"></i><b>7.2</b> Euler’s Method</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#error-in-eulers-method"><i class="fa fa-check"></i><b>7.2.1</b> Error in Euler’s Method</a></li>
+<li class="chapter" data-level="7.2.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#example-18"><i class="fa fa-check"></i><b>7.2.2</b> Example</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#modified-eulers-method"><i class="fa fa-check"></i><b>7.3</b> Modified Euler’s Method</a></li>
+<li class="chapter" data-level="7.4" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#runge-kutta-methods"><i class="fa fa-check"></i><b>7.4</b> Runge-Kutta Methods</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#second-order-runge-kutta-method"><i class="fa fa-check"></i><b>7.4.1</b> Second Order Runge-Kutta Method</a></li>
+<li class="chapter" data-level="7.4.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#fourth-order-runge-kutta-method"><i class="fa fa-check"></i><b>7.4.2</b> Fourth Order Runge-Kutta Method</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#multistep-methods"><i class="fa fa-check"></i><b>7.5</b> Multistep Methods</a><ul>
+<li class="chapter" data-level="7.5.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#adam-bashforth-moultonmethod"><i class="fa fa-check"></i><b>7.5.1</b> Adam-Bashforth-MoultonMethod</a></li>
+<li class="chapter" data-level="7.5.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#advantages-of-multistep-methods"><i class="fa fa-check"></i><b>7.5.2</b> Advantages of Multistep Methods</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#systems-of-first-order-odes"><i class="fa fa-check"></i><b>7.6</b> Systems of First Order ODEs</a><ul>
+<li class="chapter" data-level="7.6.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#r-k-method-for-systems"><i class="fa fa-check"></i><b>7.6.1</b> R-K Method for Systems</a></li>
+</ul></li>
+<li class="chapter" data-level="7.7" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#converting-an-nth-order-ode-to-a-system-of-first-order-odes"><i class="fa fa-check"></i><b>7.7</b> Converting an <span class="math inline">\(n^{th}\)</span> Order ODE to a System of First Order ODEs</a><ul>
+<li class="chapter" data-level="7.7.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#exercises-8"><i class="fa fa-check"></i><b>7.7.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">University of the Witwatersrand</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Numerical Methods II APPM2007</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="numerical-solutions-to-nonlinear-equations" class="section level1">
+<h1><span class="header-section-number">Chapter 3</span> Numerical Solutions to Nonlinear Equations</h1>
+<p>Non-linear equations occur in many world problems and are rarely solvable
+analytically.</p>
+<p>It is of great importance to solve equations of the form
+<span class="math display">\[f(x)=0\]</span>
+in many applications in science and engineering.
+The values of <span class="math inline">\(x\)</span> that make <span class="math inline">\(f(x)=0\)</span> are called the roots (or the zeros)
+of this equation.</p>
+<p>This type of problem also includes determining the points of intersection
+of curves. If <span class="math inline">\(f(x)\)</span> and <span class="math inline">\(g(x)\)</span> represent equations of two curves, the
+intersection points correspond to the roots of the function
+<span class="math inline">\(F(x)=f(x)-g(x)=0\)</span>.</p>
+<p>Examples of nonlinear equations:</p>
+<ul>
+<li><span class="math inline">\(ax^2+bx+c =0\)</span> (two roots).</li>
+<li><span class="math inline">\(x^3+2x^2-x-2=0\)</span> (three roots)</li>
+<li><span class="math inline">\(x\sin x=1\)</span> (infinitely many roots).</li>
+<li><span class="math inline">\(x=e^{-x}\)</span> (one root)</li>
+<li><span class="math inline">\(x=e^{x}\)</span> (No roots)</li>
+</ul>
+<p><img src="lecture_notes_files/figure-html/unnamed-chunk-19-1.png" /><!-- --></p>
+<div id="nonlinear-equations-in-one-unknown-fx0" class="section level2">
+<h2><span class="header-section-number">3.1</span> Nonlinear equations in one unknown: <span class="math inline">\(f(x)=0\)</span></h2>
+<p>We shall examine two types of iterative methods for determining the roots
+of the equation <span class="math inline">\(f(x)=0,\)</span> namely:</p>
+<ul>
+<li><strong>Bracketing methods,</strong> also known as interval methods.</li>
+<li><strong>Fixed point methods</strong></li>
+</ul>
+<p>To obtain these intervals or initial approximations graphical methods are
+usually used.</p>
+<div id="interval-methods" class="section level3">
+<h3><span class="header-section-number">3.1.1</span> Interval Methods</h3>
+<p>These methods require an initial interval
+which is guaranteed to contain a root. The width of this interval (bracket)
+is reduced iteratively until it encloses the root to a desired accuracy.</p>
+</div>
+<div id="bisection-method" class="section level3">
+<h3><span class="header-section-number">3.1.2</span> Bisection Method</h3>
+<p>The bisection method is an incremental search method in which the interval
+is always divided in half.</p>
+<p><strong>Intermediate value theorem:</strong></p>
+<p>If <span class="math inline">\(f(x)\)</span> is real and continuous in an interval <span class="math inline">\([a,b]\)</span> and
+<span class="math inline">\(f(a)f(b)&lt;0\)</span>, then there exists a point <span class="math inline">\(c\in(a,b)\)</span> such that <span class="math inline">\(f(c)=0\)</span>.</p>
+<p>If we calculate the midpoint of <span class="math inline">\([a,b]\)</span> i.e.,
+<span class="math display">\[c={1\over 2}(a+b)\]</span>
+then:</p>
+<ul>
+<li>If <span class="math inline">\(f(a)f(c)&lt;0\)</span> then <span class="math inline">\(f(a)\)</span> and <span class="math inline">\(f(c)\)</span> have opposite signs and so the root must lie in the smaller interval <span class="math inline">\([a,c]\)</span>.</li>
+<li>If <span class="math inline">\(f(a)f(c)&gt;0\)</span> then <span class="math inline">\(f(a)\)</span> and <span class="math inline">\(f(c)\)</span> have the same signs and so <span class="math inline">\(f(b)\)</span> and <span class="math inline">\(f(c)\)</span> must have opposite signs, so the root lies in <span class="math inline">\([c,b]\)</span>.</li>
+</ul>
+<hr />
+<div id="example-6" class="section level4">
+<h4><span class="header-section-number">3.1.2.1</span> Example</h4>
+<p>Perform two iterations of the bisection method on the function <span class="math inline">\(f(x) = x^2 -1\)</span>, using <span class="math inline">\([0,\,3]\)</span> as your initial interval.</p>
+<p><strong>Answer:</strong> The root lies at <span class="math inline">\(1\)</span>, but after two iterations, the interval will be <span class="math inline">\([0.75,\,1.5]\)</span>.</p>
+<hr />
+<div class="sourceCode" id="cb27"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb27-1" data-line-number="1">f   <span class="op">=</span> <span class="kw">lambda</span> x: x<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb27-2" data-line-number="2">x   <span class="op">=</span> np.arange(<span class="op">-</span><span class="dv">1</span>, <span class="dv">3</span>, <span class="fl">0.1</span>)</a>
+<a class="sourceLine" id="cb27-3" data-line-number="3">y   <span class="op">=</span> f(x)</a>
+<a class="sourceLine" id="cb27-4" data-line-number="4">a   <span class="op">=</span> <span class="dv">0</span></a>
+<a class="sourceLine" id="cb27-5" data-line-number="5">b   <span class="op">=</span> <span class="dv">3</span></a>
+<a class="sourceLine" id="cb27-6" data-line-number="6">tol <span class="op">=</span> <span class="dv">10</span><span class="op">**-</span><span class="dv">3</span></a>
+<a class="sourceLine" id="cb27-7" data-line-number="7">val <span class="op">=</span> bisection_plot(f, a, b, tol) </a></code></pre></div>
+<p><img src="lecture_notes_files/figure-html/unnamed-chunk-21-1.png" /><!-- --></p>
+<p><strong>Stopping Criteria:</strong></p>
+<p>We use a stopping criteria of
+<span class="math display">\[|b_n-a_n|&lt;\epsilon\]</span>
+We have
+<span class="math display">\[\begin{eqnarray*}
+|b_1-a_1| &amp;=&amp; |b-a|\\
+|b_2-a_2| &amp;=&amp; {1\over 2}|b_1-a_1|\\
+\vdots\\
+|b_n-a_n| &amp;=&amp; {1\over 2}|b_{n-1}-a_{n-1}|\\
+      &amp;=&amp; {1\over 2^2}|b_{n-2}-a_{n-2}|\\
+      &amp;=&amp; {1\over 2^{n-1}}|b_1 -a_1|
+\end{eqnarray*}\]</span></p>
+<p>We require that <span class="math inline">\(|b_n-a_n|\approx \epsilon\)</span> which implies
+<span class="math display">\[ {1\over 2^{n-1}}|b_1 -a_1|\approx \epsilon, \qquad \mbox{or} \quad {2^n=2{|b_1-a_1|\over \epsilon}}\]</span> or
+<span class="math display">\[\begin{equation}
+n=\log\left(2 {|b_1-a_1|\over \epsilon}\right)/\log 2
+\end{equation}\]</span></p>
+<hr />
+</div>
+<div id="example-7" class="section level4">
+<h4><span class="header-section-number">3.1.2.2</span> Example</h4>
+<p>Find the root of <span class="math inline">\(f(x) = \sin(x) - 0.5\)</span> between <span class="math inline">\(0\)</span> and <span class="math inline">\(1\)</span>. Iterate until the interval is of length <span class="math inline">\(\frac{1}{2^3}\)</span></p>
+<p><strong>Answer:</strong> the final interval is <span class="math inline">\([0.5,\,0.625]\)</span>. <span class="math inline">\(f(0.5) = -0.0206\)</span></p>
+<hr />
+<div class="alert alert-info">
+
+<div class="definition">
+<span id="def:unnamed-chunk-22" class="definition"><strong>Definition 3.1  (Bisection Method Theorem)  </strong></span>If the bisection algorithm is applied to a continuous function <span class="math inline">\(f\)</span> on an interval <span class="math inline">\([a,b]\)</span>, where <span class="math inline">\(f(a)f(b)&lt;0\)</span>, then, after <span class="math inline">\(n\)</span> steps, an approximate root will have been computed with error at most <span class="math inline">\((b-a)/2^{n+1}\)</span>.
+</div>
+</div>
+<div class="alert alert-success">
+<ul>
+<li>Bisection will always converge to a root if the function is continuous.</li>
+<li>Reliable but slow. The method does not exploit any knowledge about the function in question.</li>
+<li>Convergence rate is linear. It gains the same amount of accuracy from iteration to iteration.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="false-position-method-or-regula-falsi" class="section level3">
+<h3><span class="header-section-number">3.1.3</span> False position method or Regula Falsi</h3>
+<p>The bisection method is attractive because of its simplicity and guaranteed convergence. Its disadvantage is that it is, in general, extremely slow.</p>
+<p>Regula Falsi algorithm is a method of finding roots based on linear interpolation. Its convergence is linear, but it is usually faster than bisection. On each iteration a line is drawn between the endpoints <span class="math inline">\((a,f(a))\)</span> and <span class="math inline">\((b,f(b))\)</span> and the point where this line crosses the <span class="math inline">\(x-\)</span>axis taken as the point <span class="math inline">\(c\)</span>.</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb28-1" data-line-number="1">f   <span class="op">=</span> <span class="kw">lambda</span> x: x<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb28-2" data-line-number="2">x   <span class="op">=</span> np.arange(<span class="op">-</span><span class="dv">1</span>, <span class="dv">3</span>, <span class="fl">0.1</span>)</a>
+<a class="sourceLine" id="cb28-3" data-line-number="3">y   <span class="op">=</span> f(x)</a>
+<a class="sourceLine" id="cb28-4" data-line-number="4">a   <span class="op">=</span> <span class="dv">0</span></a>
+<a class="sourceLine" id="cb28-5" data-line-number="5">b   <span class="op">=</span> <span class="dv">3</span></a>
+<a class="sourceLine" id="cb28-6" data-line-number="6">tol <span class="op">=</span> <span class="dv">10</span><span class="op">**-</span><span class="dv">3</span></a>
+<a class="sourceLine" id="cb28-7" data-line-number="7">val <span class="op">=</span> false_position_plot(f, a, b, tol) </a></code></pre></div>
+<p><img src="lecture_notes_files/figure-html/unnamed-chunk-24-1.png" /><!-- --></p>
+<p>The equation of the line through <span class="math inline">\((a,f(a))\)</span> and <span class="math inline">\((b,f(b))\)</span> is
+<span class="math display">\[y=f(a)+{x-a\over b-a}(f(b)-f(a)).\]</span>
+We require the point <span class="math inline">\(c\)</span> where <span class="math inline">\(y=0\)</span>, i.e.
+<span class="math display">\[ f(c) = f(a)+{c-a\over b-a}(f(b)-f(a))=0,\]</span>
+from which we solve for <span class="math inline">\(c\)</span> to get:
+<span class="math display">\[\begin{equation} 
+c = {af(b)-bf(a)\over f(b)-f(a)}
+\end{equation}\]</span>
+The sign of <span class="math inline">\(f(c)\)</span> determines which side of the interval does not contain
+the root, which side is discarded to give a new, smaller interval containing
+the root. The procedure is continued until the interval is sufficiently
+small.</p>
+<hr />
+<div id="example-8" class="section level4">
+<h4><span class="header-section-number">3.1.3.1</span> Example</h4>
+<p>Perform two iterations of the false position method on the function <span class="math inline">\(f(x) = x^2 -1\)</span>, using <span class="math inline">\([0,\,3]\)</span> as your initial interval. Compare your answers to those of the bisection method.</p>
+<p><strong>Answer:</strong>
+False position, in other words, performs a linear fit onto the function, and then directly solves that fit.</p>
+<p>With Bisection we obtain the following,</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><span class="math inline">\(a\)</span></th>
+<th align="left"><span class="math inline">\(c\)</span></th>
+<th align="left"><span class="math inline">\(b\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">0</td>
+<td align="left">1.5</td>
+<td align="left">1.5</td>
+</tr>
+<tr class="even">
+<td align="left">0.75</td>
+<td align="left">0.75</td>
+<td align="left">1.5</td>
+</tr>
+<tr class="odd">
+<td align="left">0.75</td>
+<td align="left">1.125</td>
+<td align="left">1.125</td>
+</tr>
+<tr class="even">
+<td align="left">0.9375</td>
+<td align="left">0.9375</td>
+<td align="left">1.125</td>
+</tr>
+<tr class="odd">
+<td align="left">0.9375</td>
+<td align="left">1.03125</td>
+<td align="left">1.03125</td>
+</tr>
+<tr class="even">
+<td align="left">0.984375</td>
+<td align="left">0.984375</td>
+<td align="left">1.03125</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Stopping criteria</strong></p>
+<p>The false position method often approaches the root from one side only, so
+we require a different stopping criteria from that of the bisection method.
+We usually choose:
+<span class="math display">\[|c-c^*|&lt;\epsilon\]</span>
+where <span class="math inline">\(c^*\)</span> is the value of <span class="math inline">\(c\)</span> calculated from the previous step.</p>
+<ul>
+<li>Normally faster than Bisection Method. Can decrease the interval by more than half at each iteration.</li>
+<li>Superlinear convergence rate. Linear convergence rate in the worst case.</li>
+<li>Usually approaches the root from one side.</li>
+</ul>
+<hr />
+</div>
+<div id="exercise-2" class="section level4">
+<h4><span class="header-section-number">3.1.3.2</span> Exercise</h4>
+<p>Use the bisection method and the false position method to
+find the root of <span class="math inline">\(f(x)=x^2-x-2\)</span> that lies in the interval <span class="math inline">\([1,4]\)</span>.</p>
+<hr />
+</div>
+</div>
+<div id="fixed-point-methods" class="section level3">
+<h3><span class="header-section-number">3.1.4</span> Fixed Point Methods</h3>
+<p>For these methods we start with an initial approximation to the
+root and produce a sequence of approximations, each closer to the root than
+its predecessor.</p>
+</div>
+<div id="newtons-method" class="section level3">
+<h3><span class="header-section-number">3.1.5</span> Newton’s Method</h3>
+<p>This is one of the most widely used of all root-finding formulae. It works by taking as the new approximation the point of intersection of the tangent to the curve <span class="math inline">\(y=f(x)\)</span> at <span class="math inline">\(x_i\)</span>
+with the <span class="math inline">\(x\)</span>–axis. Thus we seek to solve the equation <span class="math inline">\(f(x)=0\)</span>, where <span class="math inline">\(f\)</span> is assumed to have a
+continuous derivative <span class="math inline">\(f^\prime\)</span>.</p>
+<blockquote>
+<p>Newton developed this method for solving equations while wanting the find the root to the equation <span class="math inline">\(x^3-2x-5 =0\)</span>. although he demonstrated the method only for polynomials, it is clear he realised its broader applications.</p>
+</blockquote>
+<p><img src="lecture_notes_files/figure-html/unnamed-chunk-25-1.png" /><!-- --></p>
+<p>Newton’s method can be derived in several ways; we choose to do it using
+Taylor series.</p>
+<p>Let <span class="math inline">\(x_{i+1}=x_i+h\)</span> and obtain a Taylor’s expansion of <span class="math inline">\(f(x_{i+1})\)</span> about <span class="math inline">\(x_i\)</span>,
+<span class="math display">\[\begin{equation}
+f(x_{i+1})=f(x_i)+h f^{\prime}(x_i)+ {h^2\over 2}f^{\prime\prime}(x_i)+\cdots
+\label{newton}
+\end{equation}\]</span></p>
+<p>An approximation is obtained by truncating the Taylor series
+after two terms:
+<span class="math display">\[f(x_{i+1})\approx f(x_i)+h f^{\prime}(x_i)\]</span>
+Thus this series has an error <span class="math inline">\(O(h^2)\)</span>.</p>
+<p>Ideally <span class="math inline">\(f(x_{i+1})=0\)</span> so that solving for <span class="math inline">\(h\)</span> gives
+<span class="math display">\[ h=-{f(x_i)\over f^\prime(x_i)},\quad\ \ \ {\rm provided}\quad \ \ \ f^\prime(x_i)\ne 0.\]</span>
+Therefore
+<span class="math display" id="eq:taylor">\[\begin{equation}
+x_{i+1}=x_i+h=x_i-{f(x_i)\over f^{\prime}(x_i)},\quad i=0,1,2,\cdots\tag{3.1}
+\end{equation}\]</span>
+which is called Newton’s (or Newton-Raphson’s) iterative formula.</p>
+<div class="alert alert-success">
+<ul>
+<li>Requires the derivative of the function.</li>
+<li>Has quadratic convergence rate. Linear in worst case.</li>
+<li>May not converge if too far from the root.</li>
+<li>Could get caught in basins of attraction with certain sinusoidals .</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="newtons-method-for-systems-of-nonlinear-equations" class="section level2">
+<h2><span class="header-section-number">3.2</span> Newton’s Method for Systems of Nonlinear Equations</h2>
+<p>Newton’s method may also be used to find roots of a system of two or more
+non-linear equations.</p>
+<p>Consider a system of two equations:
+<span class="math display">\[\begin{equation} 
+f(x,y)=0, \qquad \ \ \ \ g(x,y)=0,
+\end{equation}\]</span>
+Using Taylor’s expansion of the two functions near <span class="math inline">\((x,y)\)</span> we have
+<span class="math display">\[\begin{eqnarray}
+f(x+h,y+k)&amp;=&amp; f(x,y) + h{\partial f\over \partial x}+ k{\partial f\over \partial y} +
+{\rm terms\; in}\; h^2,\; k^2,\; hk\\
+g(x+h,y+k)&amp;=&amp; g(x,y) + h{\partial g\over \partial x}+ k{\partial g\over \partial y} +
+{\rm terms\; in}\; h^2,\; k^2,\; hk
+\end{eqnarray}\]</span>
+and if we keep only the first order terms, we are looking for a couple <span class="math inline">\((h,k)\)</span>
+such that:
+<span class="math display">\[\begin{eqnarray}
+f(x+h,y+k)&amp;=&amp;0\approx f(x,y) + h{\partial f\over \partial x}+ k{\partial f\over \partial y} \\
+g(x+h,y+k)&amp;=&amp;0\approx g(x,y) + h{\partial g\over \partial x}+ k{\partial g\over \partial y} 
+\end{eqnarray}\]</span>
+hence it is equivalent to the linear system:
+<span class="math display" id="eq:jac1">\[\begin{eqnarray}
+\left[\begin{array}{ll}
+{\partial f\over\partial x}&amp; {\partial f\over\partial y}\\
+{\partial g\over\partial x}&amp; {\partial g\over\partial y}\end{array}\right]
+\left[\begin{array}{c} h\\k\end{array}\right]=
+-\left[\begin{array}{c} f(x,y)\\g(x,y)\end{array}\right] 
+\tag{3.2}
+\end{eqnarray}\]</span>
+The <span class="math inline">\(2\times 2\)</span> matrix is called the Jacobian matrix (or Jacobian) and is sometimes denoted as:
+<span class="math display">\[
+J(x,y)=\left[\begin{array}{ll}
+{\partial f\over\partial x}&amp; {\partial f\over\partial y}\\
+{\partial g\over\partial x}&amp; {\partial g\over\partial y}\end{array}\right]
+\]</span>
+The couple <span class="math inline">\((h,k)\)</span> is thus
+<span class="math display">\[
+\begin{bmatrix}h\\k\end{bmatrix}=-J^{-1}(x,y)\begin{bmatrix}f(x,y)\\g(x,y)\end{bmatrix}
+\]</span>
+The general Jacobian of a a <span class="math inline">\((n\times n)\)</span> matrix for a system of <span class="math inline">\(n\)</span> equations and
+<span class="math inline">\(n\)</span> variables, <span class="math inline">\((x_1,x_2,\ldots,x_n)\)</span> is immediate:
+<span class="math display">\[
+J=\left[\begin{array}{lll}
+{\partial f_1\over\partial x_1}&amp; {\partial f_1\over\partial x_2},\cdots 
+{\partial f_1\over \partial x_n}\\
+{\partial f_2\over\partial x_1}&amp; {\partial f_2\over\partial x_2}\,\cdots 
+{\partial f_2\over \partial x_n}\\
+\vdots &amp; \ddots\ \ \ \vdots\\
+{\partial f_n\over\partial x_1}&amp; {\partial f_n\over\partial x_2}\,\cdots 
+{\partial f_n\over \partial x_n}
+\end{array}\right]
+\]</span></p>
+<p>If we define <span class="math inline">\(x_{i+1}=x_i+h\)</span> and <span class="math inline">\(y_{i+1}=y_i+k\)</span> then the equation<a href="numerical-solutions-to-nonlinear-equations.html#eq:jac1">(3.2)</a> suggests the iteration formula:
+<span class="math display">\[
+\left[\begin{array}{l}
+x_{i+1}\\ y_{i+1} \end{array}\right]=
+\left[\begin{array}{c} x_i\\y_i\end{array}\right]-
+J^{-1}(x_n,y_n)
+\left[\begin{array}{l}
+f(x_i,y_i)\\ g(x_i,y_i) \end{array}\right]
+\]</span>
+Starting with an initial guess <span class="math inline">\((x_0,y_0)\)</span> and under certain conditions it’s possible to show that this iteration process converges to a root of the system.</p>
+<hr />
+<div id="exercise-3" class="section level4">
+<h4><span class="header-section-number">3.2.0.1</span> Exercise</h4>
+<p>Use Newton’s method to look for a root near <span class="math inline">\(x_0=-0.6,\quad y_0=0.6\)</span>.
+<span class="math display">\[\begin{eqnarray*}
+f(x,y)&amp;=&amp;x^3-3x y^2-1\\
+g(x,y)&amp;=&amp;3x^2y-y^3
+\end{eqnarray*}\]</span></p>
+<p><strong>Answer:</strong> <span class="math inline">\(x^* = [-0.5, \ 0.8660]\)</span></p>
+<hr />
+<div class="sourceCode" id="cb29"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb29-1" data-line-number="1">F   <span class="op">=</span> <span class="kw">lambda</span> x: np.array([x[<span class="dv">0</span>]<span class="op">**</span><span class="dv">3</span> <span class="op">-</span> <span class="dv">3</span><span class="op">*</span>x[<span class="dv">0</span>]<span class="op">*</span>x[<span class="dv">1</span>]<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> <span class="dv">1</span>, </a>
+<a class="sourceLine" id="cb29-2" data-line-number="2">                          <span class="dv">3</span><span class="op">*</span>x[<span class="dv">0</span>]<span class="op">**</span><span class="dv">2</span><span class="op">*</span>x[<span class="dv">1</span>] <span class="op">-</span> x[<span class="dv">1</span>]<span class="op">**</span><span class="dv">3</span>])</a>
+<a class="sourceLine" id="cb29-3" data-line-number="3">J   <span class="op">=</span> <span class="kw">lambda</span> x: np.array([[<span class="dv">3</span><span class="op">*</span>x[<span class="dv">0</span>]<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> <span class="dv">3</span><span class="op">*</span>x[<span class="dv">1</span>]<span class="op">**</span><span class="dv">2</span>, <span class="dv">-6</span><span class="op">*</span>x[<span class="dv">0</span>]<span class="op">*</span>x[<span class="dv">1</span>]], </a>
+<a class="sourceLine" id="cb29-4" data-line-number="4">                          [<span class="dv">6</span><span class="op">*</span>x[<span class="dv">0</span>]<span class="op">*</span>x[<span class="dv">1</span>], <span class="dv">3</span><span class="op">*</span>x[<span class="dv">0</span>]<span class="op">**</span><span class="dv">2</span> <span class="op">-</span> <span class="dv">3</span><span class="op">*</span>x[<span class="dv">1</span>]<span class="op">**</span><span class="dv">2</span>]])</a>
+<a class="sourceLine" id="cb29-5" data-line-number="5">x0     <span class="op">=</span> np.array([<span class="op">-</span>.<span class="dv">6</span>, <span class="fl">.6</span>])</a>
+<a class="sourceLine" id="cb29-6" data-line-number="6">tol    <span class="op">=</span> <span class="fl">1e-6</span> </a>
+<a class="sourceLine" id="cb29-7" data-line-number="7">o1, o2, o3 <span class="op">=</span> newton_system(F, J, x0, tol)</a>
+<a class="sourceLine" id="cb29-8" data-line-number="8"><span class="bu">print</span>(<span class="st">&#39;The final solution of x is:&#39;</span>)</a></code></pre></div>
+<pre><code>## The final solution of x is:</code></pre>
+<div class="sourceCode" id="cb31"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb31-1" data-line-number="1"><span class="bu">print</span>(o1)</a></code></pre></div>
+<pre><code>## [-0.5         0.86602539]</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb33-1" data-line-number="1"><span class="bu">print</span>(<span class="st">&#39;It took&#39;</span>, o2, <span class="st">&#39;iterations&#39;</span>)</a></code></pre></div>
+<pre><code>## It took 4 iterations</code></pre>
+<p><img src="lecture_notes_files/figure-html/unnamed-chunk-28-1.png" /><!-- --></p>
+<hr />
+</div>
+<div id="exercises-4" class="section level3">
+<h3><span class="header-section-number">3.2.1</span> Exercises</h3>
+<ol style="list-style-type: decimal">
+<li>Show that the equation <span class="math inline">\(x=\cos x\)</span> has a solution in the interval
+<span class="math inline">\([0,\pi/2]\)</span>. Use the bisection method to reduce the interval containing the
+solution to a length of 0.2.</li>
+<li>Use the bisection method to solve
+<span class="math display">\[ \; e^{-x}=\ln x,\quad a=1,\quad b=2\]</span></li>
+<li>Apply (i) the bisection method (ii) False Position and (iii) Newton’s
+method to solve each of the following equations to, at least, 6D.
+<span class="math display">\[(a)\; x^2=e^{-x}\quad\quad (b)\; 2x=\tan x,\;\; {\rm near} \quad\ \ \  x=1\]</span></li>
+<li>Make one Newton iteration for each of the following systems:
+<span class="math display">\[(a)\;\;x y^2=y e^x,\quad\ \ x\cos y-1=e^{-y},\quad\ \ \  {\rm near}\quad \ \ \ (0,1)\]</span>
+<span class="math display">\[(b)\;\;f_1(x,y)=x^2-2y^2-1 ,\quad \ \ \ f_2(x,y)=x^3y^2-2,\quad\ \  {\rm near}
+\quad (1.5,1)\]</span></li>
+<li>Briefly explain how bracketing algorithms work to find zeros of one dimensional functions and describe two variations used in practice.</li>
+<li>Is Newton’s Method guaranteed to find the zero of any continuous function that has a zero and for any starting point?</li>
+<li>Given an initial bracket of <span class="math inline">\([0,100]\)</span>, how many steps of Bisection Method are required to reduce the bracket size below 10<span class="math inline">\(^{-15}\)</span>?</li>
+<li>Explain the meaning of the phrase: <em>A convergent numerical method is qualitatively just as good as an analytical solution</em></li>
+<li>Motivate the False-Position Method, why is it generally preferable to the Bisection Method?</li>
+<li>Use Newton’s method to find a solution to the following system:
+<span class="math display">\[\begin{eqnarray}
+v - u^3 = 0, \\
+u^2 + v^2 - 1 =0,
+\end{eqnarray}\]</span>
+given a starting value of <span class="math inline">\((1, 2)\)</span>. Plot the curves along with successive approximations to determine if it is indeed true that the approximations approach the intercept.</li>
+</ol>
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="numerical-integration.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="eigenvalues-and-eigenvectors.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/03-nonlinear_equations.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["lecture_notes.pdf", "lecture_notes.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

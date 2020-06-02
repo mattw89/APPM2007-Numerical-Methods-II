@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 4 Eigenvalues and Eigenvectors | Numerical Methods II APPM2007</title>
+  <meta name="description" content="Course notes for Numerical Analysis II at the University of the Witwatersrand" />
+  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 4 Eigenvalues and Eigenvectors | Numerical Methods II APPM2007" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:image" content="wits_high_def-min.png" />
+  <meta property="og:description" content="Course notes for Numerical Analysis II at the University of the Witwatersrand" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 4 Eigenvalues and Eigenvectors | Numerical Methods II APPM2007" />
+  
+  <meta name="twitter:description" content="Course notes for Numerical Analysis II at the University of the Witwatersrand" />
+  <meta name="twitter:image" content="wits_high_def-min.png" />
+
+<meta name="author" content="Dr Matthew Woolway" />
+
+
+<meta name="date" content="2020-01-15" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="numerical-solutions-to-nonlinear-equations.html"/>
+<link rel="next" href="interpolation.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Numerical Analysis II</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Course Outline</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#course-structure-and-details"><i class="fa fa-check"></i>Course Structure and Details</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#course-assessment"><i class="fa fa-check"></i>Course Assessment</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#course-topics"><i class="fa fa-check"></i>Course Topics</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#hardware-requirements"><i class="fa fa-check"></i>Hardware Requirements</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html"><i class="fa fa-check"></i><b>1</b> Numerical Differentiation</a><ul>
+<li class="chapter" data-level="1.1" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#finite-difference-methods"><i class="fa fa-check"></i><b>1.1</b> Finite Difference Methods</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#approximations-to-fprimex"><i class="fa fa-check"></i><b>1.1.1</b> Approximations to <span class="math inline">\(f^\prime(x)\)</span></a></li>
+<li class="chapter" data-level="1.1.2" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#approximations-to-fprimeprimex"><i class="fa fa-check"></i><b>1.1.2</b> Approximations to <span class="math inline">\(f^{\prime\prime}(x)\)</span></a></li>
+<li class="chapter" data-level="1.1.3" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#errors-in-first-and-second-order"><i class="fa fa-check"></i><b>1.1.3</b> Errors in First and Second Order</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#exercises"><i class="fa fa-check"></i><b>1.2</b> Exercises</a></li>
+<li class="chapter" data-level="1.3" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#richardsons-extrapolation"><i class="fa fa-check"></i><b>1.3</b> Richardson’s Extrapolation</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#example-1"><i class="fa fa-check"></i><b>1.3.1</b> Example</a></li>
+<li class="chapter" data-level="1.3.2" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#exercises-1"><i class="fa fa-check"></i><b>1.3.2</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="numerical-integration.html"><a href="numerical-integration.html"><i class="fa fa-check"></i><b>2</b> Numerical Integration</a><ul>
+<li class="chapter" data-level="2.1" data-path="numerical-integration.html"><a href="numerical-integration.html#quadrature-rules"><i class="fa fa-check"></i><b>2.1</b> Quadrature Rules</a></li>
+<li class="chapter" data-level="2.2" data-path="numerical-integration.html"><a href="numerical-integration.html#newton-cotes-quadrature"><i class="fa fa-check"></i><b>2.2</b> Newton-Cotes Quadrature</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="numerical-integration.html"><a href="numerical-integration.html#trapezoidal-rule"><i class="fa fa-check"></i><b>2.2.1</b> Trapezoidal Rule</a></li>
+<li class="chapter" data-level="2.2.2" data-path="numerical-integration.html"><a href="numerical-integration.html#example-2"><i class="fa fa-check"></i><b>2.2.2</b> Example</a></li>
+<li class="chapter" data-level="2.2.3" data-path="numerical-integration.html"><a href="numerical-integration.html#the-midpoint-method"><i class="fa fa-check"></i><b>2.2.3</b> The Midpoint Method</a></li>
+<li class="chapter" data-level="2.2.4" data-path="numerical-integration.html"><a href="numerical-integration.html#simpsons-rule"><i class="fa fa-check"></i><b>2.2.4</b> Simpson’s Rule</a></li>
+<li class="chapter" data-level="2.2.5" data-path="numerical-integration.html"><a href="numerical-integration.html#convergence-rates"><i class="fa fa-check"></i><b>2.2.5</b> Convergence Rates</a></li>
+<li class="chapter" data-level="2.2.6" data-path="numerical-integration.html"><a href="numerical-integration.html#exercises-2"><i class="fa fa-check"></i><b>2.2.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="numerical-integration.html"><a href="numerical-integration.html#romberg-integration"><i class="fa fa-check"></i><b>2.3</b> Romberg Integration</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="numerical-integration.html"><a href="numerical-integration.html#exercises-3"><i class="fa fa-check"></i><b>2.3.1</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="numerical-integration.html"><a href="numerical-integration.html#double-and-triple-integrals"><i class="fa fa-check"></i><b>2.4</b> Double and Triple Integrals</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="numerical-integration.html"><a href="numerical-integration.html#the-midpoint-method-for-double-integrals"><i class="fa fa-check"></i><b>2.4.1</b> The Midpoint Method for Double Integrals</a></li>
+<li class="chapter" data-level="2.4.2" data-path="numerical-integration.html"><a href="numerical-integration.html#the-midpoint-method-for-triple-integrals"><i class="fa fa-check"></i><b>2.4.2</b> The Midpoint Method for Triple Integrals</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html"><i class="fa fa-check"></i><b>3</b> Numerical Solutions to Nonlinear Equations</a><ul>
+<li class="chapter" data-level="3.1" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#nonlinear-equations-in-one-unknown-fx0"><i class="fa fa-check"></i><b>3.1</b> Nonlinear equations in one unknown: <span class="math inline">\(f(x)=0\)</span></a><ul>
+<li class="chapter" data-level="3.1.1" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#interval-methods"><i class="fa fa-check"></i><b>3.1.1</b> Interval Methods</a></li>
+<li class="chapter" data-level="3.1.2" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#bisection-method"><i class="fa fa-check"></i><b>3.1.2</b> Bisection Method</a></li>
+<li class="chapter" data-level="3.1.3" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#false-position-method-or-regula-falsi"><i class="fa fa-check"></i><b>3.1.3</b> False position method or Regula Falsi</a></li>
+<li class="chapter" data-level="3.1.4" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#fixed-point-methods"><i class="fa fa-check"></i><b>3.1.4</b> Fixed Point Methods</a></li>
+<li class="chapter" data-level="3.1.5" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#newtons-method"><i class="fa fa-check"></i><b>3.1.5</b> Newton’s Method</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#newtons-method-for-systems-of-nonlinear-equations"><i class="fa fa-check"></i><b>3.2</b> Newton’s Method for Systems of Nonlinear Equations</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#exercises-4"><i class="fa fa-check"></i><b>3.2.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="eigenvalues-and-eigenvectors.html"><a href="eigenvalues-and-eigenvectors.html"><i class="fa fa-check"></i><b>4</b> Eigenvalues and Eigenvectors</a><ul>
+<li class="chapter" data-level="4.1" data-path="eigenvalues-and-eigenvectors.html"><a href="eigenvalues-and-eigenvectors.html#the-power-method"><i class="fa fa-check"></i><b>4.1</b> The Power Method</a></li>
+<li class="chapter" data-level="4.2" data-path="eigenvalues-and-eigenvectors.html"><a href="eigenvalues-and-eigenvectors.html#the-inverse-power-method"><i class="fa fa-check"></i><b>4.2</b> The Inverse Power Method</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="eigenvalues-and-eigenvectors.html"><a href="eigenvalues-and-eigenvectors.html#exercises-5"><i class="fa fa-check"></i><b>4.2.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="interpolation.html"><a href="interpolation.html"><i class="fa fa-check"></i><b>5</b> Interpolation</a><ul>
+<li class="chapter" data-level="5.1" data-path="interpolation.html"><a href="interpolation.html#weierstrauss-approximation-theorem"><i class="fa fa-check"></i><b>5.1</b> Weierstrauss Approximation Theorem</a></li>
+<li class="chapter" data-level="5.2" data-path="interpolation.html"><a href="interpolation.html#linear-interpolation"><i class="fa fa-check"></i><b>5.2</b> Linear Interpolation</a></li>
+<li class="chapter" data-level="5.3" data-path="interpolation.html"><a href="interpolation.html#quadratic-interpolation"><i class="fa fa-check"></i><b>5.3</b> Quadratic Interpolation</a></li>
+<li class="chapter" data-level="5.4" data-path="interpolation.html"><a href="interpolation.html#lagrange-interpolating-polynomials"><i class="fa fa-check"></i><b>5.4</b> Lagrange Interpolating Polynomials</a></li>
+<li class="chapter" data-level="5.5" data-path="interpolation.html"><a href="interpolation.html#newtons-divided-differences"><i class="fa fa-check"></i><b>5.5</b> Newton’s Divided Differences</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="interpolation.html"><a href="interpolation.html#errors-of-newtons-interpolating-polynomials"><i class="fa fa-check"></i><b>5.5.1</b> Errors of Newton’s interpolating polynomials</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="interpolation.html"><a href="interpolation.html#cubic-splines-interpolation"><i class="fa fa-check"></i><b>5.6</b> Cubic Splines Interpolation</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="interpolation.html"><a href="interpolation.html#runges-phenomenon"><i class="fa fa-check"></i><b>5.6.1</b> Runge’s Phenomenon</a></li>
+<li class="chapter" data-level="5.6.2" data-path="interpolation.html"><a href="interpolation.html#exercises-6"><i class="fa fa-check"></i><b>5.6.2</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="least-squares.html"><a href="least-squares.html"><i class="fa fa-check"></i><b>6</b> Least Squares</a><ul>
+<li class="chapter" data-level="6.1" data-path="least-squares.html"><a href="least-squares.html#linear-least-squares"><i class="fa fa-check"></i><b>6.1</b> Linear Least Squares</a></li>
+<li class="chapter" data-level="6.2" data-path="least-squares.html"><a href="least-squares.html#polynomial-least-squares"><i class="fa fa-check"></i><b>6.2</b> Polynomial Least Squares</a></li>
+<li class="chapter" data-level="6.3" data-path="least-squares.html"><a href="least-squares.html#least-squares-exponential-fit"><i class="fa fa-check"></i><b>6.3</b> Least Squares Exponential Fit</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="least-squares.html"><a href="least-squares.html#exercises-7"><i class="fa fa-check"></i><b>6.3.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html"><i class="fa fa-check"></i><b>7</b> Ordinary Differentiable Equations (ODEs)</a><ul>
+<li class="chapter" data-level="7.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#initial-value-problems"><i class="fa fa-check"></i><b>7.1</b> Initial Value Problems</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#stability-of-odes"><i class="fa fa-check"></i><b>7.1.1</b> Stability of ODEs</a></li>
+<li class="chapter" data-level="7.1.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#unstable-ode"><i class="fa fa-check"></i><b>7.1.2</b> Unstable ODE</a></li>
+<li class="chapter" data-level="7.1.3" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#stable-ode"><i class="fa fa-check"></i><b>7.1.3</b> Stable ODE</a></li>
+<li class="chapter" data-level="7.1.4" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#neutrally-stable-ode"><i class="fa fa-check"></i><b>7.1.4</b> Neutrally Stable ODE</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#eulers-method"><i class="fa fa-check"></i><b>7.2</b> Euler’s Method</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#error-in-eulers-method"><i class="fa fa-check"></i><b>7.2.1</b> Error in Euler’s Method</a></li>
+<li class="chapter" data-level="7.2.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#example-18"><i class="fa fa-check"></i><b>7.2.2</b> Example</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#modified-eulers-method"><i class="fa fa-check"></i><b>7.3</b> Modified Euler’s Method</a></li>
+<li class="chapter" data-level="7.4" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#runge-kutta-methods"><i class="fa fa-check"></i><b>7.4</b> Runge-Kutta Methods</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#second-order-runge-kutta-method"><i class="fa fa-check"></i><b>7.4.1</b> Second Order Runge-Kutta Method</a></li>
+<li class="chapter" data-level="7.4.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#fourth-order-runge-kutta-method"><i class="fa fa-check"></i><b>7.4.2</b> Fourth Order Runge-Kutta Method</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#multistep-methods"><i class="fa fa-check"></i><b>7.5</b> Multistep Methods</a><ul>
+<li class="chapter" data-level="7.5.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#adam-bashforth-moultonmethod"><i class="fa fa-check"></i><b>7.5.1</b> Adam-Bashforth-MoultonMethod</a></li>
+<li class="chapter" data-level="7.5.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#advantages-of-multistep-methods"><i class="fa fa-check"></i><b>7.5.2</b> Advantages of Multistep Methods</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#systems-of-first-order-odes"><i class="fa fa-check"></i><b>7.6</b> Systems of First Order ODEs</a><ul>
+<li class="chapter" data-level="7.6.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#r-k-method-for-systems"><i class="fa fa-check"></i><b>7.6.1</b> R-K Method for Systems</a></li>
+</ul></li>
+<li class="chapter" data-level="7.7" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#converting-an-nth-order-ode-to-a-system-of-first-order-odes"><i class="fa fa-check"></i><b>7.7</b> Converting an <span class="math inline">\(n^{th}\)</span> Order ODE to a System of First Order ODEs</a><ul>
+<li class="chapter" data-level="7.7.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#exercises-8"><i class="fa fa-check"></i><b>7.7.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">University of the Witwatersrand</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Numerical Methods II APPM2007</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="eigenvalues-and-eigenvectors" class="section level1">
+<h1><span class="header-section-number">Chapter 4</span> Eigenvalues and Eigenvectors</h1>
+<p>Let <span class="math inline">\(\mathbf{A}\)</span> be an <span class="math inline">\(n\times n\)</span> matrix. If we can find a scalar <span class="math inline">\(\lambda\)</span> and a nonzero vector <span class="math inline">\(x\)</span> satisfying
+<span class="math display">\[\begin{equation}
+ \mathbf{A}x=\lambda x\label{eigen1}
+\end{equation}\]</span>
+then <span class="math inline">\(\lambda\)</span> and <span class="math inline">\(x\)</span> are called an <strong>eigenpair</strong> of <span class="math inline">\(\mathbf{A}\)</span>, <span class="math inline">\(\lambda\)</span> being the
+eigenvalue (or a characteristic value) and <span class="math inline">\(x\)</span> the corresponding
+eigenvector. Equation () can be rewritten as:
+<span class="math display" id="eq:eigen2">\[\begin{equation}
+ (\mathbf{A}-\lambda \mathbf{I}) x=0 \;\; ( 0 \;\mbox{null column vector})\tag{4.1}
+\end{equation}\]</span></p>
+<p>The set of homogeneous equation <a href="eigenvalues-and-eigenvectors.html#eq:eigen2">(4.1)</a> admits a non–trivial solution
+if and only if
+<span class="math display">\[
+\det(\mathbf{A}-\lambda \mathbf{I})=|\mathbf{A}-\lambda \mathbf{I}|=0.
+\]</span>
+The determinant <span class="math inline">\(|\mathbf{A}-\lambda \mathbf{I}|\)</span> is an <span class="math inline">\(n^{th}\)</span> degree polynomial in <span class="math inline">\(\lambda\)</span> and is called the <strong>characteristic polynomial</strong> of <span class="math inline">\(\mathbf{A}\)</span>. Thus one way to find the eigenvalues of <span class="math inline">\(\mathbf{A}\)</span> is to obtain its characteristic polynomial and then find the <span class="math inline">\(n\)</span> zeros of this polynomial.</p>
+<p>Although the characteristic polynomial is easy to work, for large values of <span class="math inline">\(n\)</span> finding the roots of the polynomial equations is difficult and time consuming.</p>
+<p>If we are interested in the eigenvalue of largest magnitude, then the <strong>power method</strong> becomes a popular approach.</p>
+<div id="the-power-method" class="section level2">
+<h2><span class="header-section-number">4.1</span> The Power Method</h2>
+<p>The power method, like the Jacobi and the Gauss-Seidel, is an iterative method for approximating the dominant eigenvalue and its associated eigenvector. The main motivation behind the power method is that multiplication by a matrix tends to move vectors towards the dominant eigenvector direction. With slight modifications it can be used to determine the smallest eigenvalue and the intermediate values.</p>
+<p><strong>Note:</strong> The power method works only for <span class="math inline">\(n\times n\)</span> matrices with
+real eigenvalues.</p>
+<p>Let <span class="math inline">\(\mathbf{A}\)</span> be an <span class="math inline">\(m\times m\)</span> matrix and let <span class="math inline">\(\lambda_1,\;\lambda_2,\;\cdots,\;\lambda_m\)</span> be the eigenvalues of <span class="math inline">\(\mathbf{A}\)</span> and <span class="math inline">\(\mathbf{v}_1,\; \mathbf{v}_2,\;\cdots,\; \mathbf{v}_m\)</span> the associated eigenvectors.</p>
+<p><span class="math inline">\(\lambda_1\)</span> is called the <strong>dominant</strong> (largest in magnitude) eigenvalue of <span class="math inline">\(\mathbf{A}\)</span> if:</p>
+<p><span class="math display">\[
+\lvert\lambda_1\rvert &gt; \lvert \lambda_2 \rvert \geq \lvert \lambda_3 \rvert \geq \cdots \geq \lvert \lambda_m \rvert.
+\]</span>
+The eigenvector corresponding to <span class="math inline">\(\lambda_1\)</span> is called the <strong>dominant eigenvector</strong> of <span class="math inline">\(\mathbf{A}\)</span>.</p>
+<p>Let <span class="math inline">\(\mathbf{A}\)</span> have the eigenvalues <span class="math inline">\(2,\;5,\;0,\;-7,\;-2\)</span>. Does <span class="math inline">\(\mathbf{A}\)</span> have a dominant eigenvalue? If so, what is it?</p>
+<hr />
+<p><strong>Solution:</strong>
+Since <span class="math inline">\(\lvert-7\rvert&gt;\lvert5\rvert&gt;\lvert2\rvert\geq \lvert-2\rvert&gt;0\)</span> <span class="math inline">\(\mathbf{A}\)</span> has <span class="math inline">\(\lambda_1=-7\)</span> as its dominant eigenvalue.</p>
+<hr />
+<p>Not every matrix has a dominant eigenvalue. For instance the matrix
+<span class="math display">\[
+\left[\begin{array}{cc} 1&amp; 0\\ 0 &amp; -1\end{array}\right]
+\]</span>
+has eigenvalues <span class="math inline">\(\lambda_1=1\)</span> and <span class="math inline">\(\lambda_2=-1\)</span> and therefore has no dominant eigenvalue.</p>
+<p>The eigenvectors <span class="math inline">\(\mathbf{v}_1,\mathbf{v}_2,\cdots,\mathbf{v}_n\)</span> form a basis of <span class="math inline">\(\mathbb{R}^n\)</span> so that any vector <span class="math inline">\(\mathbf{x}\)</span> can be written as a linear combination of them:
+<span class="math display">\[
+\mathbf{x}=c_1\mathbf{v}_1+c_2\mathbf{v}_2+\cdots+c_n\mathbf{v}_n.
+\]</span>
+Derive the following equations:
+<span class="math display">\[\begin{eqnarray}
+\mathbf{A}\mathbf{x} &amp;=&amp;c_1\mathbf{A}\mathbf{v}_1 +c_2\mathbf{A}\mathbf{v}_2+\cdots+c_n\mathbf{A}\mathbf{v}_n \nonumber\\
+     &amp;=&amp;c_1\lambda_1\mathbf{v}_1 +c_2\lambda_2\mathbf{v}_2+\cdots+c_n\lambda_n\mathbf{v}_n \nonumber\\
+    \mathbf{A}^2\mathbf{x} &amp;=&amp;c_1\lambda_1\mathbf{A}\mathbf{v}_1 +c_2\lambda_2\mathbf{A}\mathbf{v}_2+\cdots+c_n\lambda_n\mathbf{A}\mathbf{v}_n\nonumber\\
+     &amp;=&amp;c_1\lambda_1^2\mathbf{v}_1 +c_2\lambda_2^2\mathbf{v}_2+\cdots+c_n\lambda_n^2\mathbf{v}_n \nonumber
+\end{eqnarray}\]</span></p>
+<p>It can be seen that:
+<span class="math display">\[ 
+\mathbf{A}^m\mathbf{x} =c_1\lambda_1^m\mathbf{v}_1 +c_2\lambda_2^m\mathbf{v}_2+\cdots+c_n\lambda_n^m\mathbf{v}_n
+\]</span>
+If <span class="math inline">\(\lambda_1\)</span> is the largest eigenvalue in magnitude and <span class="math inline">\(m\)</span> is sufficiently large, then we have:
+<span class="math display" id="eq:pw1">\[\begin{eqnarray}
+\mathbf{A}^m\mathbf{x}  &amp;=&amp; \lambda_1^m (c_1\mathbf{v}_1 +c_2\left({\lambda_2\over \lambda_1}\right)^m \mathbf{v}_2+\cdots+ c_n\left({\lambda_n\over \lambda_1}\right)^m\mathbf{v}_n\nonumber\\
+  &amp;=&amp; c_1 \lambda_1^m \mathbf{v}_1 +\text{small corrections} \tag{4.2}
+\end{eqnarray}\]</span>
+When <span class="math inline">\(m\)</span> is sufficiently large, we have:
+<span class="math display">\[\lambda_1=\lim_{m\to\infty} ({\mathbf{A}^{m+1} \mathbf{x})_r\over (\mathbf{A}^m \mathbf{x})_r}\]</span>
+where <span class="math inline">\(r\)</span> denotes the <span class="math inline">\(r\)</span>-th element of a vector.</p>
+<p>One may wish to ask, how to we find approximate eigenvalues? Well, assuming that a matrix <span class="math inline">\(A\)</span> and an approximate eigenvector are known, then what is the best guess for the associated eigenvalue? We can use least squares. Given the eigenvalue equation <span class="math inline">\(x\lambda = Ax\)</span>, where <span class="math inline">\(x\)</span> is an approximate eigenvector and <span class="math inline">\(\lambda\)</span> is unknown. Then the normal equations say that the least squares answer is the solution of <span class="math inline">\(x^Tx\lambda = x^TA\lambda\)</span>, which rewritten gives us:
+<span class="math display">\[\begin{equation}
+\lambda = \dfrac{x^TAx}{x^Tx},
+\end{equation}\]</span>
+known as the <strong>Rayleigh Quotient</strong>. Thus, given an <em>approximate eigenvector</em>, the Rayleigh Quotient will be the best approximate <em>eigenvalue</em>. Applying this to the normalised eigenvector adds an eigenvalue approximation to the Power Method.</p>
+<p>Therefore, the Power Method algorithm may be implemented via:</p>
+<p><span class="math display">\[\begin{eqnarray*}
+\text{Input: an initial vector }\ x_0 \\ 
+    \text{for}&amp;&amp;\ \ \ j = 1,2,..., n\ \text{do} \\
+&amp;&amp;u_{j-1}    = x_{j-1}/||x_{j-1}||_2\\
+&amp;&amp;x_j        = A \times u_{j-1} \\
+&amp;&amp;\lambda_j  = u^T_{j-1} A u_{j-1} \\
+\text{end}&amp;&amp; \\
+u_j = x_j / ||x_j||_2
+\end{eqnarray*}\]</span></p>
+<hr />
+<div id="example-9" class="section level4">
+<h4><span class="header-section-number">4.1.0.1</span> Example</h4>
+<p>Using the power method, find the dominate eigenvalue and vector of the following matrix:
+<span class="math display">\[
+A = \begin{bmatrix} 1 &amp; 3 \\ 2 &amp; 2 \end{bmatrix}.
+\]</span>
+Use a starting value of <span class="math inline">\(x_0 = [-5, 5]\)</span>.</p>
+<p><em>(check this by hand)</em></p>
+<hr />
+<div class="sourceCode" id="cb35"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb35-1" data-line-number="1">A  <span class="op">=</span> np.array([[<span class="dv">1</span>, <span class="dv">3</span>], [<span class="dv">2</span>, <span class="dv">2</span>]])</a>
+<a class="sourceLine" id="cb35-2" data-line-number="2">x0 <span class="op">=</span> np.array([<span class="op">-</span><span class="dv">5</span>, <span class="dv">5</span>])</a>
+<a class="sourceLine" id="cb35-3" data-line-number="3">n  <span class="op">=</span> <span class="dv">15</span></a>
+<a class="sourceLine" id="cb35-4" data-line-number="4"><span class="bu">print</span>(power_method(A, x0, n))</a></code></pre></div>
+<pre><code>## Current lambda value: -0.9999999999999998
+## Current lambda value: 1.0
+## Current lambda value: 3.8
+## Current lambda value: 3.894117647058823
+## Current lambda value: 4.017678708685626
+## Current lambda value: 3.995003093323181
+## Current lambda value: 4.001213545191886
+## Current lambda value: 3.999694377268076
+## Current lambda value: 4.000076266004321
+## Current lambda value: 3.9999809247674634
+## Current lambda value: 4.000004768262443
+## Current lambda value: 3.9999988079002833
+## Current lambda value: 4.0000002980227976
+## Current lambda value: 3.9999999254941665
+## Current lambda value: 4.00000001862645
+## (array([1.        , 0.99999999]), 4.00000001862645)</code></pre>
+<div class="sourceCode" id="cb37"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb37-1" data-line-number="1"><span class="im">from</span> sympy <span class="im">import</span> <span class="op">*</span></a>
+<a class="sourceLine" id="cb37-2" data-line-number="2">A <span class="op">=</span> Matrix([[<span class="dv">1</span>, <span class="dv">3</span>], [<span class="dv">2</span>, <span class="dv">2</span>]])</a>
+<a class="sourceLine" id="cb37-3" data-line-number="3"><span class="bu">print</span>(A.eigenvals())</a></code></pre></div>
+<pre><code>## {4: 1, -1: 1}</code></pre>
+<p><strong>Remark:</strong> If <span class="math inline">\(\mathbf{x}\)</span> is an eigenvector corresponding to some given eigenvalue, then so is <span class="math inline">\(k\mathbf{x}\)</span> for any <span class="math inline">\(k\)</span>. Thus, only the direction of a vector matters. We can choose its length by changing <span class="math inline">\(k\)</span>. Therefore we will seek eigenvectors of length unity, called the normalised eigenvectors.</p>
+<p>The previous pseudocode for power method above can be accomplished by hand with the following:</p>
+<p><em>Step 1:</em></p>
+<p>Let <span class="math inline">\(\mathbf{x}_0\)</span> be an initial guess of the eigenvector corresponding to <span class="math inline">\(\lambda_1\)</span>. Normalise it. Call the result <span class="math inline">\(\mathbf{y}_0\)</span>
+<span class="math display">\[\mathbf{y}_0={\mathbf{x}_0\over \lVert\mathbf{x}_0\rVert}\]</span></p>
+<p><em>Step 2:</em></p>
+<p>Multiply <span class="math inline">\(\mathbf{y}_0\)</span> once by <span class="math inline">\(\mathbf{A}\)</span> to get a new vector. Normalise the result and call it <span class="math inline">\(\mathbf{y}_1\)</span>
+<span class="math display">\[ 
+\mathbf{x}_1=\mathbf{A} \mathbf{y}_0,\ \ \ \ \mathbf{y}_1={\mathbf{x}_1\over \lVert\mathbf{x}_1\rVert}
+\]</span></p>
+<p><em>Step 3:</em></p>
+<p>Multiply <span class="math inline">\(\mathbf{y}_1\)</span> once by <span class="math inline">\(\mathbf{A}\)</span> to get a new vector. Normalise the result and call it <span class="math inline">\(\mathbf{y}_2\)</span>
+<span class="math display">\[ 
+\mathbf{x}_2=\mathbf{A}\mathbf{y}_1,\ \ \ \ \mathbf{y}_2={\mathbf{x}_2\over \lVert\mathbf{x}_2\rVert}
+\]</span>
+We have the iteration formula:
+<span class="math display">\[ 
+\mathbf{x}_i=\mathbf{A} \mathbf{y}_{i-1},\ \ \ \ \mathbf{y}_i={\mathbf{x}_i\over \lVert\mathbf{x}_i\rVert}
+\]</span></p>
+<p>Repeat <span class="math inline">\(m\)</span> times. If <span class="math inline">\(m\)</span> is sufficiently large enough, <span class="math inline">\(\mathbf{y}_{m-1}\)</span> should be approximately equal to <span class="math inline">\(\mathbf{y}_m\)</span> then we stop. Thus <span class="math inline">\(\mathbf{y}_m\)</span> is approximately the normalised eigenvectors of <span class="math inline">\(\mathbf{A}\)</span> corresponding to the dominant eigenvalue <span class="math inline">\(\lambda_1\)</span> and hence:
+<span class="math display">\[
+\mathbf{A} \mathbf{y}_{m-1}\approx \mathbf{A} \mathbf{y}_m=\lambda_1 \mathbf{y}_m,
+\]</span>
+which we can use to read off the eigenvalue.</p>
+<p>The power method will converge if the <strong>initial estimate</strong> of the eigenvector <strong>has a nonzero component</strong> in the direction of the eigenvector corresponding to the dominant eigenvalue. For this reason, starting vector with <strong>all components equal to 1</strong> is usually used in the computations of the power method.</p>
+<hr />
+<p><strong>Exercise:</strong></p>
+<p>Use the power method to estimate the dominant eigenpair of the matrix:
+<span class="math display">\[
+\mathbf{A}=\left[\begin{array}{cc} 1&amp; 2\\3 &amp;2\end{array}\right]
+\]</span>
+to two digits of accuracy.
+Use the initial guess <span class="math inline">\(\mathbf{x}_0=(1,1)^T\)</span>.</p>
+<hr />
+</div>
+</div>
+<div id="the-inverse-power-method" class="section level2">
+<h2><span class="header-section-number">4.2</span> The Inverse Power Method</h2>
+<p>To find the smallest eigenpair we can use the <strong>Inverse Power Method</strong>. If the Power Method is applied to the inverse of the matrix, then the smallest eigenvalue can be found.</p>
+<p>We should try to avoid computing the inverse of <span class="math inline">\(A\)</span> as much as possible, so we may rewrite the application of the Power Method to <span class="math inline">\(A^{-1}\)</span> from:
+<span class="math display">\[
+x_{j + 1} = A^{-1}x_j,
+\]</span>
+to:
+<span class="math display">\[
+Ax_{j + 1} = x_j,
+\]</span>
+and solve for <span class="math inline">\(x_{j + 1}\)</span> using Gaussian Elimination.</p>
+<p>You will cover many further methods to compute eigenvalues and eigenvectors in the third year numerical methods course. Therefore, we will only consider the above two for this course.</p>
+<hr />
+<div id="exercises-5" class="section level3">
+<h3><span class="header-section-number">4.2.1</span> Exercises</h3>
+<ol style="list-style-type: decimal">
+<li>Use the power method to calculate approximations to the dominant eigenpair (if a dominant eigenpair exists). Perform 5 iterations in each case. Use <span class="math inline">\(\ \mathbf{x}_0=[1\;1]^T\)</span>. Check your answers analytically and with Python
+<ol style="list-style-type: decimal">
+<li><span class="math inline">\(\left(\begin{array}{c c} 1&amp; 5\\ 5 &amp; 6\end{array}\right)\)</span></li>
+<li><span class="math inline">\(\left(\begin{array}{cc} 2&amp; 3\\ -2 &amp; 1\end{array} \right)\)</span></li>
+</ol></li>
+<li>Use the inverse power method for find the smallest eigenpair on previous two questions.</li>
+<li>Find the characteristic polynomial and the eigenvalues and eigenvectors of the following matrics:
+<ul>
+<li><p><span class="math display">\[
+  \begin{bmatrix} 3.5 &amp; -1.5 \\ -1.5 &amp; 3.5\end{bmatrix}  
+  \]</span></p></li>
+<li><p><span class="math display">\[
+  \begin{bmatrix} 3.5 &amp; -1.5 \\ -1.5 &amp; 3.5\end{bmatrix}  
+  \]</span></p></li>
+</ul></li>
+</ol>
+
+<hr />
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="numerical-solutions-to-nonlinear-equations.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="interpolation.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/04-eigenvalues_eigenvectors.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["lecture_notes.pdf", "lecture_notes.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

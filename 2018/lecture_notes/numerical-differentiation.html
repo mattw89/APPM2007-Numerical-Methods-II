@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Chapter 1 Numerical Differentiation | Numerical Methods II APPM2007</title>
+  <meta name="description" content="Course notes for Numerical Analysis II at the University of the Witwatersrand" />
+  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Chapter 1 Numerical Differentiation | Numerical Methods II APPM2007" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:image" content="wits_high_def-min.png" />
+  <meta property="og:description" content="Course notes for Numerical Analysis II at the University of the Witwatersrand" />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Chapter 1 Numerical Differentiation | Numerical Methods II APPM2007" />
+  
+  <meta name="twitter:description" content="Course notes for Numerical Analysis II at the University of the Witwatersrand" />
+  <meta name="twitter:image" content="wits_high_def-min.png" />
+
+<meta name="author" content="Dr Matthew Woolway" />
+
+
+<meta name="date" content="2020-01-15" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+<link rel="next" href="numerical-integration.html"/>
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="./">Numerical Analysis II</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Course Outline</a><ul>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#course-structure-and-details"><i class="fa fa-check"></i>Course Structure and Details</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#course-assessment"><i class="fa fa-check"></i>Course Assessment</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#course-topics"><i class="fa fa-check"></i>Course Topics</a></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html#hardware-requirements"><i class="fa fa-check"></i>Hardware Requirements</a></li>
+</ul></li>
+<li class="chapter" data-level="1" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html"><i class="fa fa-check"></i><b>1</b> Numerical Differentiation</a><ul>
+<li class="chapter" data-level="1.1" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#finite-difference-methods"><i class="fa fa-check"></i><b>1.1</b> Finite Difference Methods</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#approximations-to-fprimex"><i class="fa fa-check"></i><b>1.1.1</b> Approximations to <span class="math inline">\(f^\prime(x)\)</span></a></li>
+<li class="chapter" data-level="1.1.2" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#approximations-to-fprimeprimex"><i class="fa fa-check"></i><b>1.1.2</b> Approximations to <span class="math inline">\(f^{\prime\prime}(x)\)</span></a></li>
+<li class="chapter" data-level="1.1.3" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#errors-in-first-and-second-order"><i class="fa fa-check"></i><b>1.1.3</b> Errors in First and Second Order</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#exercises"><i class="fa fa-check"></i><b>1.2</b> Exercises</a></li>
+<li class="chapter" data-level="1.3" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#richardsons-extrapolation"><i class="fa fa-check"></i><b>1.3</b> Richardson’s Extrapolation</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#example-1"><i class="fa fa-check"></i><b>1.3.1</b> Example</a></li>
+<li class="chapter" data-level="1.3.2" data-path="numerical-differentiation.html"><a href="numerical-differentiation.html#exercises-1"><i class="fa fa-check"></i><b>1.3.2</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="numerical-integration.html"><a href="numerical-integration.html"><i class="fa fa-check"></i><b>2</b> Numerical Integration</a><ul>
+<li class="chapter" data-level="2.1" data-path="numerical-integration.html"><a href="numerical-integration.html#quadrature-rules"><i class="fa fa-check"></i><b>2.1</b> Quadrature Rules</a></li>
+<li class="chapter" data-level="2.2" data-path="numerical-integration.html"><a href="numerical-integration.html#newton-cotes-quadrature"><i class="fa fa-check"></i><b>2.2</b> Newton-Cotes Quadrature</a><ul>
+<li class="chapter" data-level="2.2.1" data-path="numerical-integration.html"><a href="numerical-integration.html#trapezoidal-rule"><i class="fa fa-check"></i><b>2.2.1</b> Trapezoidal Rule</a></li>
+<li class="chapter" data-level="2.2.2" data-path="numerical-integration.html"><a href="numerical-integration.html#example-2"><i class="fa fa-check"></i><b>2.2.2</b> Example</a></li>
+<li class="chapter" data-level="2.2.3" data-path="numerical-integration.html"><a href="numerical-integration.html#the-midpoint-method"><i class="fa fa-check"></i><b>2.2.3</b> The Midpoint Method</a></li>
+<li class="chapter" data-level="2.2.4" data-path="numerical-integration.html"><a href="numerical-integration.html#simpsons-rule"><i class="fa fa-check"></i><b>2.2.4</b> Simpson’s Rule</a></li>
+<li class="chapter" data-level="2.2.5" data-path="numerical-integration.html"><a href="numerical-integration.html#convergence-rates"><i class="fa fa-check"></i><b>2.2.5</b> Convergence Rates</a></li>
+<li class="chapter" data-level="2.2.6" data-path="numerical-integration.html"><a href="numerical-integration.html#exercises-2"><i class="fa fa-check"></i><b>2.2.6</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2.3" data-path="numerical-integration.html"><a href="numerical-integration.html#romberg-integration"><i class="fa fa-check"></i><b>2.3</b> Romberg Integration</a><ul>
+<li class="chapter" data-level="2.3.1" data-path="numerical-integration.html"><a href="numerical-integration.html#exercises-3"><i class="fa fa-check"></i><b>2.3.1</b> Exercises</a></li>
+</ul></li>
+<li class="chapter" data-level="2.4" data-path="numerical-integration.html"><a href="numerical-integration.html#double-and-triple-integrals"><i class="fa fa-check"></i><b>2.4</b> Double and Triple Integrals</a><ul>
+<li class="chapter" data-level="2.4.1" data-path="numerical-integration.html"><a href="numerical-integration.html#the-midpoint-method-for-double-integrals"><i class="fa fa-check"></i><b>2.4.1</b> The Midpoint Method for Double Integrals</a></li>
+<li class="chapter" data-level="2.4.2" data-path="numerical-integration.html"><a href="numerical-integration.html#the-midpoint-method-for-triple-integrals"><i class="fa fa-check"></i><b>2.4.2</b> The Midpoint Method for Triple Integrals</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html"><i class="fa fa-check"></i><b>3</b> Numerical Solutions to Nonlinear Equations</a><ul>
+<li class="chapter" data-level="3.1" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#nonlinear-equations-in-one-unknown-fx0"><i class="fa fa-check"></i><b>3.1</b> Nonlinear equations in one unknown: <span class="math inline">\(f(x)=0\)</span></a><ul>
+<li class="chapter" data-level="3.1.1" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#interval-methods"><i class="fa fa-check"></i><b>3.1.1</b> Interval Methods</a></li>
+<li class="chapter" data-level="3.1.2" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#bisection-method"><i class="fa fa-check"></i><b>3.1.2</b> Bisection Method</a></li>
+<li class="chapter" data-level="3.1.3" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#false-position-method-or-regula-falsi"><i class="fa fa-check"></i><b>3.1.3</b> False position method or Regula Falsi</a></li>
+<li class="chapter" data-level="3.1.4" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#fixed-point-methods"><i class="fa fa-check"></i><b>3.1.4</b> Fixed Point Methods</a></li>
+<li class="chapter" data-level="3.1.5" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#newtons-method"><i class="fa fa-check"></i><b>3.1.5</b> Newton’s Method</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#newtons-method-for-systems-of-nonlinear-equations"><i class="fa fa-check"></i><b>3.2</b> Newton’s Method for Systems of Nonlinear Equations</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="numerical-solutions-to-nonlinear-equations.html"><a href="numerical-solutions-to-nonlinear-equations.html#exercises-4"><i class="fa fa-check"></i><b>3.2.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="eigenvalues-and-eigenvectors.html"><a href="eigenvalues-and-eigenvectors.html"><i class="fa fa-check"></i><b>4</b> Eigenvalues and Eigenvectors</a><ul>
+<li class="chapter" data-level="4.1" data-path="eigenvalues-and-eigenvectors.html"><a href="eigenvalues-and-eigenvectors.html#the-power-method"><i class="fa fa-check"></i><b>4.1</b> The Power Method</a></li>
+<li class="chapter" data-level="4.2" data-path="eigenvalues-and-eigenvectors.html"><a href="eigenvalues-and-eigenvectors.html#the-inverse-power-method"><i class="fa fa-check"></i><b>4.2</b> The Inverse Power Method</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="eigenvalues-and-eigenvectors.html"><a href="eigenvalues-and-eigenvectors.html#exercises-5"><i class="fa fa-check"></i><b>4.2.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="interpolation.html"><a href="interpolation.html"><i class="fa fa-check"></i><b>5</b> Interpolation</a><ul>
+<li class="chapter" data-level="5.1" data-path="interpolation.html"><a href="interpolation.html#weierstrauss-approximation-theorem"><i class="fa fa-check"></i><b>5.1</b> Weierstrauss Approximation Theorem</a></li>
+<li class="chapter" data-level="5.2" data-path="interpolation.html"><a href="interpolation.html#linear-interpolation"><i class="fa fa-check"></i><b>5.2</b> Linear Interpolation</a></li>
+<li class="chapter" data-level="5.3" data-path="interpolation.html"><a href="interpolation.html#quadratic-interpolation"><i class="fa fa-check"></i><b>5.3</b> Quadratic Interpolation</a></li>
+<li class="chapter" data-level="5.4" data-path="interpolation.html"><a href="interpolation.html#lagrange-interpolating-polynomials"><i class="fa fa-check"></i><b>5.4</b> Lagrange Interpolating Polynomials</a></li>
+<li class="chapter" data-level="5.5" data-path="interpolation.html"><a href="interpolation.html#newtons-divided-differences"><i class="fa fa-check"></i><b>5.5</b> Newton’s Divided Differences</a><ul>
+<li class="chapter" data-level="5.5.1" data-path="interpolation.html"><a href="interpolation.html#errors-of-newtons-interpolating-polynomials"><i class="fa fa-check"></i><b>5.5.1</b> Errors of Newton’s interpolating polynomials</a></li>
+</ul></li>
+<li class="chapter" data-level="5.6" data-path="interpolation.html"><a href="interpolation.html#cubic-splines-interpolation"><i class="fa fa-check"></i><b>5.6</b> Cubic Splines Interpolation</a><ul>
+<li class="chapter" data-level="5.6.1" data-path="interpolation.html"><a href="interpolation.html#runges-phenomenon"><i class="fa fa-check"></i><b>5.6.1</b> Runge’s Phenomenon</a></li>
+<li class="chapter" data-level="5.6.2" data-path="interpolation.html"><a href="interpolation.html#exercises-6"><i class="fa fa-check"></i><b>5.6.2</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="least-squares.html"><a href="least-squares.html"><i class="fa fa-check"></i><b>6</b> Least Squares</a><ul>
+<li class="chapter" data-level="6.1" data-path="least-squares.html"><a href="least-squares.html#linear-least-squares"><i class="fa fa-check"></i><b>6.1</b> Linear Least Squares</a></li>
+<li class="chapter" data-level="6.2" data-path="least-squares.html"><a href="least-squares.html#polynomial-least-squares"><i class="fa fa-check"></i><b>6.2</b> Polynomial Least Squares</a></li>
+<li class="chapter" data-level="6.3" data-path="least-squares.html"><a href="least-squares.html#least-squares-exponential-fit"><i class="fa fa-check"></i><b>6.3</b> Least Squares Exponential Fit</a><ul>
+<li class="chapter" data-level="6.3.1" data-path="least-squares.html"><a href="least-squares.html#exercises-7"><i class="fa fa-check"></i><b>6.3.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html"><i class="fa fa-check"></i><b>7</b> Ordinary Differentiable Equations (ODEs)</a><ul>
+<li class="chapter" data-level="7.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#initial-value-problems"><i class="fa fa-check"></i><b>7.1</b> Initial Value Problems</a><ul>
+<li class="chapter" data-level="7.1.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#stability-of-odes"><i class="fa fa-check"></i><b>7.1.1</b> Stability of ODEs</a></li>
+<li class="chapter" data-level="7.1.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#unstable-ode"><i class="fa fa-check"></i><b>7.1.2</b> Unstable ODE</a></li>
+<li class="chapter" data-level="7.1.3" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#stable-ode"><i class="fa fa-check"></i><b>7.1.3</b> Stable ODE</a></li>
+<li class="chapter" data-level="7.1.4" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#neutrally-stable-ode"><i class="fa fa-check"></i><b>7.1.4</b> Neutrally Stable ODE</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#eulers-method"><i class="fa fa-check"></i><b>7.2</b> Euler’s Method</a><ul>
+<li class="chapter" data-level="7.2.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#error-in-eulers-method"><i class="fa fa-check"></i><b>7.2.1</b> Error in Euler’s Method</a></li>
+<li class="chapter" data-level="7.2.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#example-18"><i class="fa fa-check"></i><b>7.2.2</b> Example</a></li>
+</ul></li>
+<li class="chapter" data-level="7.3" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#modified-eulers-method"><i class="fa fa-check"></i><b>7.3</b> Modified Euler’s Method</a></li>
+<li class="chapter" data-level="7.4" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#runge-kutta-methods"><i class="fa fa-check"></i><b>7.4</b> Runge-Kutta Methods</a><ul>
+<li class="chapter" data-level="7.4.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#second-order-runge-kutta-method"><i class="fa fa-check"></i><b>7.4.1</b> Second Order Runge-Kutta Method</a></li>
+<li class="chapter" data-level="7.4.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#fourth-order-runge-kutta-method"><i class="fa fa-check"></i><b>7.4.2</b> Fourth Order Runge-Kutta Method</a></li>
+</ul></li>
+<li class="chapter" data-level="7.5" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#multistep-methods"><i class="fa fa-check"></i><b>7.5</b> Multistep Methods</a><ul>
+<li class="chapter" data-level="7.5.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#adam-bashforth-moultonmethod"><i class="fa fa-check"></i><b>7.5.1</b> Adam-Bashforth-MoultonMethod</a></li>
+<li class="chapter" data-level="7.5.2" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#advantages-of-multistep-methods"><i class="fa fa-check"></i><b>7.5.2</b> Advantages of Multistep Methods</a></li>
+</ul></li>
+<li class="chapter" data-level="7.6" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#systems-of-first-order-odes"><i class="fa fa-check"></i><b>7.6</b> Systems of First Order ODEs</a><ul>
+<li class="chapter" data-level="7.6.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#r-k-method-for-systems"><i class="fa fa-check"></i><b>7.6.1</b> R-K Method for Systems</a></li>
+</ul></li>
+<li class="chapter" data-level="7.7" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#converting-an-nth-order-ode-to-a-system-of-first-order-odes"><i class="fa fa-check"></i><b>7.7</b> Converting an <span class="math inline">\(n^{th}\)</span> Order ODE to a System of First Order ODEs</a><ul>
+<li class="chapter" data-level="7.7.1" data-path="ordinary-differentiable-equations-odes.html"><a href="ordinary-differentiable-equations-odes.html#exercises-8"><i class="fa fa-check"></i><b>7.7.1</b> Exercises</a></li>
+</ul></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">University of the Witwatersrand</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Numerical Methods II APPM2007</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="numerical-differentiation" class="section level1">
+<h1><span class="header-section-number">Chapter 1</span> Numerical Differentiation</h1>
+<hr />
+<p>In certain situations it is difficult to work with the actual derivative of a function. In some cases a derivative may fail to exist at a point. Another situation is when dealing with a function represented only by data and no analytic expression. In such situations it is desirable to be able to approximate the derivative from the available information. Presented below are methods used approximate <span class="math inline">\(f&#39;(x).\)</span></p>
+<p>Numerical differentiation is not a particularly accurate process. It suffers from round-off errors (due to machine precision) and errors through interpolation. Therefore, a derivative of a function can never be computed with the same precision as the function itself.</p>
+<div id="finite-difference-methods" class="section level2">
+<h2><span class="header-section-number">1.1</span> Finite Difference Methods</h2>
+<div class="alert alert-info">
+
+<div class="definition">
+<span id="def:unnamed-chunk-6" class="definition"><strong>Definition 1.1  </strong></span>The derivative of <span class="math inline">\(y = f(x)\)</span> is:
+<span class="math display" id="eq:derivative">\[\begin{equation}
+\dfrac{dy}{dx} = f^\prime(x) = \underset{h \rightarrow 0}{\text{lim}}\ \dfrac{f(x + h) - f(x)}{h}.\tag{1.1}
+\end{equation}\]</span>
+</div>
+</div>
+<p>The above definition uses values of <span class="math inline">\(f\)</span> near the point of differentiation, <span class="math inline">\(x\)</span>. To obtain a formula approximating the first derivative, we typically use equally spaced points in the neighbourhood (e.g. <span class="math inline">\(x - h, x, x + h\)</span>, where <span class="math inline">\(h\)</span> is some small positive value) and construct an approximation from these values for the function <span class="math inline">\(f(x)\)</span> at these points.</p>
+<p>This obviously leads to an error caused by the discretisation (<strong>truncation error</strong>). This error will decrease as <span class="math inline">\(h\)</span> decrease, provided that the function <span class="math inline">\(f(x)\)</span> is sufficiently smooth.</p>
+<div id="approximations-to-fprimex" class="section level3">
+<h3><span class="header-section-number">1.1.1</span> Approximations to <span class="math inline">\(f^\prime(x)\)</span></h3>
+<p>Given a smooth function <span class="math inline">\(f: \mathbb{R} \rightarrow \mathbb{R}\)</span>, we wish to approximate its first and second derivatives at a point <span class="math inline">\(x\)</span>. Consider the Taylor series expansions:</p>
+<p><span class="math display" id="eq:taylorplus">\[\begin{equation}
+f(x + h) = f(x) + f^\prime(x)h + \dfrac{f^{\prime\prime}(x)}{2}h^2 + \dfrac{f^{\prime\prime\prime}(x)}{6}h^3 + \ldots, \tag{1.2}
+\end{equation}\]</span>
+and
+<span class="math display" id="eq:taylorminus">\[\begin{equation}
+f(x - h) = f(x) - f^\prime(x)h + \dfrac{f^{\prime\prime}(x)}{2}h^2 - \dfrac{f^{\prime\prime\prime}(x)}{6}h^3 + \ldots.\tag{1.3}
+\end{equation}\]</span>
+Solving for <span class="math inline">\(f^\prime (x)\)</span> in Equation <a href="numerical-differentiation.html#eq:taylorplus">(1.2)</a>, we obtain the <strong>Forward Difference Formula</strong>:
+<span class="math display" id="eq:fdf">\[\begin{equation}
+f^\prime(x) = \dfrac{f(x + h)- f(x)}{h} - \dfrac{f^{\prime\prime}(x)}{2}h + \ldots\ \approx\ \dfrac{f(x + h) - f(x)}{h},\tag{1.4}
+\end{equation}\]</span>
+which gives an approximation that is first-order accurate since the dominant term in the remainder of the series is <span class="math inline">\(\mathcal{O}(h)\)</span>. Here the associated error is <span class="math inline">\(-\frac{h}{2}f^{\prime\prime}(\epsilon)\)</span>.</p>
+<p>Similarly, from Equation <a href="numerical-differentiation.html#eq:taylorminus">(1.3)</a> we derive the <strong>Backward Difference Formula</strong>:
+<span class="math display" id="eq:bdf">\[\begin{equation}
+f^\prime(x) = \dfrac{f(x) - f(x - h)}{h} + \dfrac{f^{\prime\prime}(x)}{2}h + \ldots\ \approx\ \dfrac{f(x) - f(x - h)}{h},\tag{1.5}
+\end{equation}\]</span>
+which is also <span class="math inline">\(\mathcal{O}(h)\)</span>. Here the associated error is <span class="math inline">\(\frac{h}{2}f^{\prime\prime}(\epsilon)\)</span>.</p>
+<p>Now, subtracting Equation <a href="numerical-differentiation.html#eq:taylorminus">(1.3)</a> from Equation <a href="numerical-differentiation.html#eq:taylorplus">(1.2)</a> gives the <strong>Central Difference Formula</strong>:
+<span class="math display" id="eq:cdf">\[\begin{equation}
+f^\prime(x) = \dfrac{f(x + h) - f(x - h)}{2h} - \dfrac{f^{\prime\prime\prime}(x)}{6}h^2 + \ldots \ \approx \ \dfrac{f(x + h) - f(x - h)}{2h},\tag{1.6}
+\end{equation}\]</span>
+which is second order accurate, i.e. <span class="math inline">\(\mathcal{O}(h^2)\)</span>. This approximation is a three-point formula (implying that three points are required to make an approximation). Here the truncation error is <span class="math inline">\(-\frac{h^2}{6}f^{\prime\prime\prime}(\epsilon)\)</span>, where <span class="math inline">\(x - h \leq \epsilon \leq x + h\)</span>.</p>
+</div>
+<div id="approximations-to-fprimeprimex" class="section level3">
+<h3><span class="header-section-number">1.1.2</span> Approximations to <span class="math inline">\(f^{\prime\prime}(x)\)</span></h3>
+<p>Adding Equation <a href="numerical-differentiation.html#eq:taylorminus">(1.3)</a> to Equation <a href="numerical-differentiation.html#eq:taylorplus">(1.2)</a> gives the <strong>Central Difference Formula</strong> for the <strong>second</strong> derivative:
+<span class="math display">\[\begin{equation}
+f^{\prime\prime}(x) = \dfrac{f(x + h) - 2f(x) + f(x - h)}{h^2} - \dfrac{f^{4}(x)}{12}h^2 + \ldots \ \approx \ \dfrac{f(x + h) -2f(x) + f(x - h)}{h^2},
+\end{equation}\]</span>
+which is second order accurate <span class="math inline">\(\mathcal{O}(h^2)\)</span>. The associated truncation error here is <span class="math inline">\(-\frac{h^2}{12}f^{iv}(\epsilon)\)</span>.</p>
+<p>Of course we can keep using function values at further addition points, <span class="math inline">\(x \pm 2h, x \pm 3h, \ldots\)</span> etc. This gives us similar difference formulas but at much higher accuracy, or for high-order derivatives. The downside to these however, is that we require more function values. This may add much higher computational cost depending on the situation.</p>
+<div id="mathematica-demonstration" class="section level4">
+<h4><span class="header-section-number">1.1.2.1</span> Mathematica Demonstration</h4>
+<p><strong>Show Mathematica Demonstration</strong></p>
+<hr />
+</div>
+<div id="example" class="section level4">
+<h4><span class="header-section-number">1.1.2.2</span> Example</h4>
+<p>Compute an approximation to <span class="math inline">\(f^\prime(1)\)</span> for <span class="math inline">\(f(x) = x^2\cos(x)\)</span> using the central difference formula and <span class="math inline">\(h = 0.1, 0.05, 0.025, 0.0125\)</span>.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="im">from</span> math <span class="im">import</span> <span class="op">*</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">cfd <span class="op">=</span> <span class="kw">lambda</span> f, x, h: (f(x <span class="op">+</span> h) <span class="op">-</span> f(x <span class="op">-</span> h))<span class="op">/</span>(<span class="dv">2</span><span class="op">*</span>h)</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">x   <span class="op">=</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">h   <span class="op">=</span> [<span class="fl">0.1</span>, <span class="fl">0.05</span>, <span class="fl">0.025</span>, <span class="fl">0.0125</span>, <span class="fl">0.00625</span>]</a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">f   <span class="op">=</span> <span class="kw">lambda</span> x: (x<span class="op">**</span><span class="dv">2</span>)<span class="op">*</span>cos(x)</a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="cf">for</span> i <span class="kw">in</span> h:</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8">    y <span class="op">=</span> cfd(f, x, i)</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9">    <span class="bu">print</span>(<span class="st">&#39;The derivative at x = 1 with h = </span><span class="sc">{:.4f}</span><span class="st"> is f^1(x) = </span><span class="sc">{:.10f}</span><span class="st">&#39;</span>.<span class="bu">format</span>(i, y))</a>
+<a class="sourceLine" id="cb1-10" data-line-number="10">    </a></code></pre></div>
+<pre><code>## The derivative at x = 1 with h = 0.1000 is f^1(x) = 0.2267361631
+## The derivative at x = 1 with h = 0.0500 is f^1(x) = 0.2360309206
+## The derivative at x = 1 with h = 0.0250 is f^1(x) = 0.2383577415
+## The derivative at x = 1 with h = 0.0125 is f^1(x) = 0.2389396425
+## The derivative at x = 1 with h = 0.0063 is f^1(x) = 0.2390851300</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb3-1" data-line-number="1">tans <span class="op">=</span> <span class="dv">2</span><span class="op">*</span>cos(<span class="dv">1</span>) <span class="op">-</span> sin(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="bu">print</span>(<span class="st">&#39;The true solution at x = 1 is: </span><span class="sc">{:.10}</span><span class="st">&#39;</span>.<span class="bu">format</span>(tans))</a></code></pre></div>
+<pre><code>## The true solution at x = 1 is: 0.2391336269</code></pre>
+</div>
+</div>
+<div id="errors-in-first-and-second-order" class="section level3">
+<h3><span class="header-section-number">1.1.3</span> Errors in First and Second Order</h3>
+<p>How do the relevant errors look with regard to the example above? We can plot the absolute error of the approximations using both approaches compared to the true value. This is illustrated below:</p>
+<p><img src="lecture_notes_files/figure-html/unnamed-chunk-8-1.png" /><!-- --></p>
+<pre><code>## Error Values -  Tabulated</code></pre>
+<pre><code>##          First Order  Second Order  Fourth Order
+## 0.10000     0.153644  1.239746e-02  7.113648e-05
+## 0.01000     0.014252  1.241510e-04  7.130152e-09
+## 0.00100     0.001414  1.241528e-06  8.428813e-13
+## 0.00010     0.000141  1.241594e-08  8.706647e-13
+## 0.00001     0.000014  1.279912e-10  4.941492e-12</code></pre>
+<p>Notice the observed behaviour of the fourth order errors in the plot above. Does this seem expected? While intuitively we expect only the behaviour seem in the first and second orders errors something is causing a loss of accuracy as <span class="math inline">\(h\)</span> decreases with our fourth order approximation. The reason for this is inherent in the approximation formula. At small <span class="math inline">\(h\)</span> the formula has instances of subtracting nearly equal numbers, and along with the loss of significant digits, this is exacerbated by the division of small numbers. This illustrates the effect that machine precision can have on our computations!</p>
+<div class="alert alert-info">
+<p>Optimal Stepsize:</p>
+<p>If <span class="math inline">\(f\)</span> is a function with continuous derivatives up to order 2, then the approximate stepsize <span class="math inline">\(h\)</span> which minimises the total error(truncation + round-off error) of the derivative of <span class="math inline">\(f\)</span> at <span class="math inline">\(x\)</span> is:
+<span class="math display">\[\begin{equation}
+h^* = 2\dfrac{\sqrt{\epsilon^* |f(x)|}}{\sqrt{|f^{\prime\prime}(x)|}}.
+\end{equation}\]</span>
+Here <span class="math inline">\(\epsilon^*\)</span> is the maximum relative error that occurs when real numbers are represented by floating-point numbers and there is no underflow or overflow. I useful rule-of-thumb estimate for <span class="math inline">\(\epsilon^*\)</span> is <span class="math inline">\(7 \times 10^{-17}\)</span>.</p>
+</div>
+<hr />
+</div>
+</div>
+<div id="exercises" class="section level2">
+<h2><span class="header-section-number">1.2</span> Exercises</h2>
+<ol style="list-style-type: decimal">
+<li>Consider the function <span class="math inline">\(f(x) = \sin(x)\)</span>. Using the forward derivative approximation, compute an approximation for <span class="math inline">\(f^\prime(x)\)</span> at <span class="math inline">\(x = 0.5\)</span>. Investigate a gradual decrease in stepsize and determine a rough estimate for an optimal stepsize <span class="math inline">\(h\)</span>, i.e. one which avoids round-off error. Plot the behaviour of these errors at the varying stepsizes. Does your estimation seem reasonable?</li>
+<li>If we increased the number of bits for storing floating-point numbers, i.e. 128-bit precision, can we obtain better numerical approximations to derivatives?</li>
+<li>The approximation <span class="math inline">\(f^\prime(x) \approx \dfrac{f(x + h) - f(x)}{h}\)</span> will give the exact answer (assuming no round-off error) if the function <span class="math inline">\(f\)</span> is linear?</li>
+<li>Use the forward difference formula for <span class="math inline">\(f^\prime(x)\)</span> to find an approximation for <span class="math inline">\(f^\prime(1)\)</span> where <span class="math inline">\(f(x) = \ln(x)\)</span> and <span class="math inline">\(h = 0.1, 0.01, 0.001\)</span>.</li>
+<li>Use the central difference formula for <span class="math inline">\(f^\prime(x)\)</span> to find an approximation for <span class="math inline">\(f^\prime(0)\)</span> where <span class="math inline">\(f(x) = \exp(x)\)</span> and <span class="math inline">\(h = 0.1, 0.01, 0.001\)</span>.</li>
+</ol>
+<hr />
+</div>
+<div id="richardsons-extrapolation" class="section level2">
+<h2><span class="header-section-number">1.3</span> Richardson’s Extrapolation</h2>
+<p>In numerical differentiation and soon to be seen integration, we are computing approximate values according to some stepsize. Clearly we would have an ideal case where the stepsize approaches zero as seen in our demo. However, due to rounding error this is simply not possible. Using nonzero stepsizes however, we may be able to estimate the what the value would be for a stepsize approaching zero. If we compute some value <span class="math inline">\(F\)</span> from some stepsizes <span class="math inline">\(h_i\)</span> and know something of its behaviour of <span class="math inline">\(F\)</span> as <span class="math inline">\(h \rightarrow 0\)</span>, then it may be possible to extrapolate from the known values an approximation of <span class="math inline">\(F\)</span> at <span class="math inline">\(h = 0\)</span>. This extrapolation will be of higher order accuracy than any of the originally used values.</p>
+<p>In summary:</p>
+<blockquote>
+<p><strong>Richardson extrapolation method is a procedure which combines several
+approximations of a certain quantity to yield a more accurate approximation
+of that quantity.</strong></p>
+</blockquote>
+<p>Suppose we are computing some quantity <span class="math inline">\(F\)</span> and assume that the result depends on some stepsize <span class="math inline">\(h\)</span>. Denoting the approximation by <span class="math inline">\(f(h)\)</span>, we have <span class="math inline">\(F = f(h) + E(h)\)</span>, where <span class="math inline">\(E(h)\)</span> represents an error. Richardson’s extrapolation can remove the error provided <span class="math inline">\(E(h) = ch^p\)</span>, where <span class="math inline">\(c\)</span> and <span class="math inline">\(p\)</span> are constants. We start by computing <span class="math inline">\(f(h)\)</span> at some value of <span class="math inline">\(h\)</span>, say <span class="math inline">\(h_1\)</span> giving:
+<span class="math display">\[\begin{equation*}
+F = f(h_1) + ch_1^p,
+\end{equation*}\]</span>
+and another value <span class="math inline">\(h = h_2\)</span>:
+<span class="math display">\[\begin{equation*}
+F = f(h_2) + ch_2^p.
+\end{equation*}\]</span>
+Then solving the above equations for <span class="math inline">\(F\)</span> we get:
+<span class="math display">\[
+F = \dfrac{(h_1/h_2)^pf(h_2) - f(h_1)}{(h_1/h_2)^p - 1},
+\]</span>
+which is the <strong>Richardson’s Extrapolation Formula</strong>. In this course we will only consider half-steps, thus <span class="math inline">\(h_2 = h_1/2\)</span>. This allows us to rewrite our formula as:
+<span class="math display">\[
+F = \dfrac{2^p f(h_1/2) - f(h_1)}{2^p - 1}.
+\]</span>
+Or more specifically, assuming we have some initial approximation <span class="math inline">\(F_n(h)\)</span>, then we can obtain a general <span class="math inline">\(n+1\)</span>th order formula <span class="math inline">\(F_{n+1}(h)\)</span>:
+<span class="math display">\[
+F_{n+1}(h) = \dfrac{2^n F_{n}(h/2) - F_n(h)}{2^n - 1}.
+\]</span>
+To illustrate why this yields a higher order approximation, consider the the second order central difference formula:
+<span class="math display">\[\begin{equation*}
+F_2(h) = f^\prime(x) = \dfrac{f(x + h) - f(x - h)}{2h},
+\end{equation*}\]</span>
+using this extrapolation formula we can get a new formula for <span class="math inline">\(f^\prime(x)\)</span> as:
+<span class="math display">\[\begin{eqnarray*}
+F_4(h) &amp;=&amp; \dfrac{2^2F_2(h/2) - F_2(h)}{2^2 - 1}, \\
+&amp;=&amp; \left[ 4\dfrac{f(x+ h/2) - f(x - h/2)}{h} - \dfrac{f(x+h) - f(x-h)}{2h}\right]/3, \\
+&amp;=&amp; \dfrac{f(x - h) - 8f(x - h/2) + 8f(x+ h/2) - f(x + h)}{6h},
+\end{eqnarray*}\]</span>
+which is the five-point central difference formula which is of order four <span class="math inline">\(\mathcal{O}(h^4)\)</span>.</p>
+<p>In order to apply this strategy, we need only apply a cheap but high order approximation for an array for halving stepsizes in order to extrapolate a much high order accurate approximation. We can do this by building the <strong>Richardson’s Extrapolation Table</strong>. To do this, let us rewrite our formula one last time:
+<span class="math display" id="eq:richardson">\[\begin{equation}
+F_j^i = \dfrac{1}{4^j - 1}\left( 4^jF_{j-1}^{i} - F_{j-1}^{i-1}\right), \ \ \ \ j = 1, 2, \ldots m,\ i = 1, 2, \ldots, n.\tag{1.7}
+\end{equation}\]</span>
+Here <span class="math inline">\(j\)</span> denotes iteration of the extrapolation and <span class="math inline">\(i\)</span> the particular stepsize.</p>
+<p>So if we use our difference formulae to compute our initial approximations <span class="math inline">\(F_1^1, F_1^2, \ldots, T_1^n\)</span> (which we should try to use as higher an order as possible), then we use the above formula to build up the table.</p>
+<hr />
+<div id="example-1" class="section level3">
+<h3><span class="header-section-number">1.3.1</span> Example</h3>
+<p>Build a Richardson’s extrapolation table for <span class="math inline">\(f(x) = x^2\cos(x)\)</span> to evaluate <span class="math inline">\(f^\prime (1)\)</span> for <span class="math inline">\(h = 0.1, 0.05, 0.025, 0.0125\)</span>.</p>
+<p><strong>Solution:</strong></p>
+<p><strong>We have:</strong></p>
+<p><span class="math display">\[\begin{eqnarray*}
+            F_1^1 &amp;=&amp; F_0^2+\dfrac{1}{3}(F_0^2-F_0^1)= \dfrac{1}{3}(4 F_0^2-F_0^1)\\
+            F_1^2 &amp;=&amp; F_0^3+\dfrac{1}{3}(F_0^3-F_0^2)= \dfrac{1}{3}(4 F_0^3-F_0^2)\\
+            F_1^3 &amp;=&amp; F_0^4+\dfrac{1}{3}(F_0^4-F_0^3)= \dfrac{1}{3}(4 F_0^4-F_0^3)\\
+            F_2^1 &amp;=&amp; F_1^2+\dfrac{1}{15}(F_1^2-F_1^1)= \dfrac{1}{15}(16 F_1^2-F_1^1)\\
+            F_2^2 &amp;=&amp; F_1^3+\dfrac{1}{15}(F_1^3-F_1^2)= \dfrac{1}{15}(16 F_1^3-F_1^2)\\
+            F_3^1 &amp;=&amp; F_2^2+\dfrac{1}{63}(F_2^2-F_2^1)= \dfrac{1}{63}(64 F_2^2-F_2^1)
+\end{eqnarray*}\]</span></p>
+<p><strong>In Tabular form:</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><span class="math inline">\(i\)</span></th>
+<th align="left"><span class="math inline">\(h_i\)</span></th>
+<th align="left"><span class="math inline">\(F_0^i\)</span></th>
+<th align="left"><span class="math inline">\(F_1^i\)</span></th>
+<th align="left"><span class="math inline">\(F_2^i\)</span></th>
+<th align="left"><span class="math inline">\(F_3^i\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="left">0.1</td>
+<td align="left">0.226736</td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="left">0.05</td>
+<td align="left">0.236031</td>
+<td align="left">0.239129</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="left">0.025</td>
+<td align="left">0.238358</td>
+<td align="left">0.239133</td>
+<td align="left">0.239134</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">4</td>
+<td align="left">0.0125</td>
+<td align="left">0.238938</td>
+<td align="left">0.239132</td>
+<td align="left">0.239132</td>
+<td align="left">0.239132</td>
+</tr>
+</tbody>
+</table>
+<p><em>Note:</em> The <span class="math inline">\(F_1^i\)</span> values are computed from whatever was used for the initial approximation. In this case, it was the central difference approximation.</p>
+<hr />
+</div>
+<div id="exercises-1" class="section level3">
+<h3><span class="header-section-number">1.3.2</span> Exercises</h3>
+<ol style="list-style-type: decimal">
+<li>Develop a two point backward difference formula for approximating <span class="math inline">\(f^\prime(x)\)</span> including the error term.</li>
+<li>Develop a second order method for approximating <span class="math inline">\(f^\prime(x)\)</span> that only uses the data <span class="math inline">\(f(x - h), f(x)\)</span> and <span class="math inline">\(f(x+ 3h)\)</span>.</li>
+<li>Extrapolate the formula obtained in exercise (2). Then demonstrate the order of this new formula by approximating <span class="math inline">\(f^\prime(\pi/3)\)</span> where <span class="math inline">\(f(x) = \sin(x)\)</span> and <span class="math inline">\(h = 0.1, 0.01\)</span>.</li>
+<li>Use the forward difference formulas and backward difference formulas to determine the missing entries in the following table:</li>
+</ol>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><span class="math inline">\(x\)</span></th>
+<th align="left"><span class="math inline">\(f(x)\)</span></th>
+<th align="left"><span class="math inline">\(f^\prime(x)\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">0.5</td>
+<td align="left">0.4794</td>
+<td align="left">Compute</td>
+</tr>
+<tr class="even">
+<td align="left">0.6</td>
+<td align="left">0.5646</td>
+<td align="left">Compute</td>
+</tr>
+<tr class="odd">
+<td align="left">0.7</td>
+<td align="left">0.6442</td>
+<td align="left">Compute</td>
+</tr>
+</tbody>
+</table>
+<ol start="5" style="list-style-type: decimal">
+<li>Using the times and positions recorded for a moving car below, compute the velocity of the car at all times listed:</li>
+</ol>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Time (<span class="math inline">\(s\)</span>)</th>
+<th align="left">0</th>
+<th align="left">3</th>
+<th align="left">5</th>
+<th align="left">8</th>
+<th align="left">10</th>
+<th align="left">13</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Distance (<span class="math inline">\(m\)</span>)</td>
+<td align="left">0</td>
+<td align="left">225</td>
+<td align="left">383</td>
+<td align="left">623</td>
+<td align="left">742</td>
+<td align="left">993</td>
+</tr>
+</tbody>
+</table>
+<ol start="6" style="list-style-type: decimal">
+<li>Apply Richard’s extrapolation to determine <span class="math inline">\(F_3(h)\)</span>, an approximation to <span class="math inline">\(f^\prime(x)\)</span> for the the following function:
+<span class="math display">\[\begin{equation*}
+f(x) = 2^x\sin(x),\ x_0 = 1.05,\ h = 0.4
+\end{equation*}\]</span></li>
+<li>Use the centred difference formula to approximate the derivative of each of the following functions at the specified location and for the specified size:
+<ul>
+<li><span class="math inline">\(y = \tan x\)</span> at <span class="math inline">\(x = 4, h = 0.1\)</span></li>
+<li><span class="math inline">\(y = \sin(0.5\sqrt{x})\)</span> at <span class="math inline">\(x = 1, h = 0.125\)</span><br />
+</li>
+</ul></li>
+<li>A jet fighter’s position on an aircraft carrier’s runway was timed during landing:
+where <span class="math inline">\(x\)</span> is the distance from the end of the carrier, measured in metres and <span class="math inline">\(t\)</span> is the time in seconds. Estimate the velocity and acceleration for each time point and plot these values accordingly.</li>
+</ol>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><span class="math inline">\(t\)</span></th>
+<th align="left">0</th>
+<th align="left">0.51</th>
+<th align="left">1.03</th>
+<th align="left">1.74</th>
+<th align="left">2.36</th>
+<th align="left">3.24</th>
+<th align="left">3.82</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><span class="math inline">\(x\)</span></td>
+<td align="left">154</td>
+<td align="left">186</td>
+<td align="left">209</td>
+<td align="left">250</td>
+<td align="left">262</td>
+<td align="left">272</td>
+<td align="left">274</td>
+</tr>
+</tbody>
+</table>
+<ol start="9" style="list-style-type: decimal">
+<li>The following data was collected when a large oil tanker was loading. Calculate the flow rate <span class="math inline">\(Q = \dfrac{dV}{dt}\)</span> for each time point.</li>
+</ol>
+<table>
+<thead>
+<tr class="header">
+<th align="left"><span class="math inline">\(t\)</span>, min</th>
+<th align="left">0</th>
+<th align="left">15</th>
+<th align="left">30</th>
+<th align="left">45</th>
+<th align="left">60</th>
+<th align="left">90</th>
+<th align="left">120</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left"><span class="math inline">\(V\)</span>, <span class="math inline">\(10^6\)</span> barrels</td>
+<td align="left">0.5</td>
+<td align="left">0.65</td>
+<td align="left">0.73</td>
+<td align="left">0.88</td>
+<td align="left">1.03</td>
+<td align="left">1.14</td>
+<td align="left">1.30</td>
+</tr>
+</tbody>
+</table>
+<!-----
+# Introduction {#intro}
+
+You can label chapter and section titles using `{#label}` after them, e.g., we can reference Chapter \@ref(intro). If you do not manually label them, there will be automatic labels anyway, e.g., Chapter \@ref(methods).
+
+Figures and tables with captions will be placed in `figure` and `table` environments, respectively.
+
+
+```r
+par(mar = c(4, 4, .1, .1))
+plot(pressure, type = 'b', pch = 19)
+```
+
+<div class="figure" style="text-align: center">
+<img src="lecture_notes_files/figure-html/nice-fig-1.png" alt="Here is a nice figure!" width="80%" />
+<p class="caption">(\#fig:nice-fig)Here is a nice figure!</p>
+</div>
+
+Reference a figure by its code chunk label with the `fig:` prefix, e.g., see Figure \@ref(fig:nice-fig). Similarly, you can reference tables generated from `knitr::kable()`, e.g., see Table \@ref(tab:nice-tab).
+
+
+```r
+knitr::kable(
+  head(iris, 20), caption = 'Here is a nice table!',
+  booktabs = TRUE
+)
+```
+
+
+
+Table: (\#tab:nice-tab)Here is a nice table!
+
+ Sepal.Length   Sepal.Width   Petal.Length   Petal.Width  Species 
+-------------  ------------  -------------  ------------  --------
+          5.1           3.5            1.4           0.2  setosa  
+          4.9           3.0            1.4           0.2  setosa  
+          4.7           3.2            1.3           0.2  setosa  
+          4.6           3.1            1.5           0.2  setosa  
+          5.0           3.6            1.4           0.2  setosa  
+          5.4           3.9            1.7           0.4  setosa  
+          4.6           3.4            1.4           0.3  setosa  
+          5.0           3.4            1.5           0.2  setosa  
+          4.4           2.9            1.4           0.2  setosa  
+          4.9           3.1            1.5           0.1  setosa  
+          5.4           3.7            1.5           0.2  setosa  
+          4.8           3.4            1.6           0.2  setosa  
+          4.8           3.0            1.4           0.1  setosa  
+          4.3           3.0            1.1           0.1  setosa  
+          5.8           4.0            1.2           0.2  setosa  
+          5.7           4.4            1.5           0.4  setosa  
+          5.4           3.9            1.3           0.4  setosa  
+          5.1           3.5            1.4           0.3  setosa  
+          5.7           3.8            1.7           0.3  setosa  
+          5.1           3.8            1.5           0.3  setosa  
+
+You can write citations, too. For example, we are using the **bookdown** package [@R-bookdown] in this sample book, which was built on top of R Markdown and **knitr** [@xie2015]. 
+
+
+----->
+
+</div>
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="numerical-integration.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/rstudio/bookdown-demo/edit/master/01-numerical_differentiation.Rmd",
+"text": "Edit"
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["lecture_notes.pdf", "lecture_notes.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
